@@ -317,7 +317,6 @@ class: center, middle
 # Thank You
 
 ## Contact Information
-[Your contact details here]
 
 ???
 * Thank audience
