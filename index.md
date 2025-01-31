@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bootstrap 4 Github Pages
+title: Index
 ---
 
 Placeholder[.](https://david.spatholt.com) 
