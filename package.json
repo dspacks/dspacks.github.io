@@ -10,6 +10,8 @@
     "ghost:open": "open http://localhost:2368/ghost",
     "export": "bash scripts/export.sh",
     "index-apps": "bash scripts/index-apps.sh",
+    "index-blog": "bash scripts/index-blog.sh",
+    "index-all": "bash scripts/index-apps.sh && bash scripts/index-blog.sh",
     "preview": "npx serve docs -l 4000"
   },
   "devDependencies": {

@@ -90,8 +90,11 @@ cat > "$GALLERY" <<GALEOF
         <ul>
           <li><a href="../index.html">Home</a></li>
           <li><a href="../about/index.html">About</a></li>
+          <li><a href="../research/index.html">Research</a></li>
+          <li><a href="../experience/index.html">Experience</a></li>
           <li><a href="../projects/index.html">Projects</a></li>
           <li><a href="index.html" aria-current="page">Apps</a></li>
+          <li><a href="../blog/index.html">Blog</a></li>
         </ul>
       </nav>
     </div>
@@ -155,8 +158,11 @@ cat >> "$GALLERY" <<GALEOF
         <h4>Site</h4>
         <ul>
           <li><a href="../about/index.html">About</a></li>
+          <li><a href="../research/index.html">Research</a></li>
+          <li><a href="../experience/index.html">Experience</a></li>
           <li><a href="../projects/index.html">Projects</a></li>
           <li><a href="index.html">Mini Apps</a></li>
+          <li><a href="../blog/index.html">Blog</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="GitHub links">

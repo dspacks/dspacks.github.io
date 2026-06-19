@@ -27,6 +27,9 @@ jobs:
       - name: Generate app gallery
         run: bash scripts/index-apps.sh
 
+      - name: Generate blog index
+        run: bash scripts/index-blog.sh
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

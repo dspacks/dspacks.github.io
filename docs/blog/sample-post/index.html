@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ================================================================
+       BLOG POST TEMPLATE
+       ================================================================
+       Copy this folder (docs/blog/my-post-name/) to create a new post.
+       Update the <meta> tags below — they feed the auto-indexer.
+       The blog index at docs/blog/index.html regenerates on every push.
+  -->
+
+  <!-- META: these drive the blog index page + manifest.json -->
+  <meta name="blog:title"   content="Getting Started with This Blog" />
+  <meta name="blog:date"    content="2026-06-18" />
+  <meta name="blog:tags"    content="meta,guide,workflow" />
+  <meta name="blog:excerpt" content="How the blog system works — write in VS Code, git push, and it's live. Template workflow for publishing posts." />
+  <meta name="blog:author"  content="David Spatholt" />
+
+  <meta name="description" content="Getting Started with This Blog — David Spatholt" />
+  <title>Getting Started with This Blog — David Spatholt</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        ☰ Menu
+      </button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../../apps/index.html">Apps</a></li>
+          <li><a href="../index.html">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="page-hero">
+        <div class="wrap">
+          <p style="font-size:.85rem; opacity:.7; margin-bottom:.5rem; font-family:var(--font-mono);">June 18, 2026 &middot; David Spatholt</p>
+          <h1>Getting Started with This Blog</h1>
+          <p>How the blog system works — write in VS Code, git push, it's live.</p>
+        </div>
+      </header>
+
+      <section>
+        <div class="wrap prose">
+
+          <h2>How It Works</h2>
+          <p>
+            This blog is just static HTML files in <code>docs/blog/</code>. Each post is a folder with an
+            <code>index.html</code>. Metadata in <code>&lt;meta&gt;</code> tags drives the auto-indexer,
+            which regenerates the blog landing page and a machine-readable JSON manifest on every
+            <code>git push</code>.
+          </p>
+
+          <h2>Writing a New Post</h2>
+          <ol>
+            <li>
+              <strong>Copy the template:</strong>
+              <pre><code>cp -r docs/blog/sample-post docs/blog/your-post-name</code></pre>
+            </li>
+            <li>
+              <strong>Edit the metadata</strong> in the <code>&lt;head&gt;</code> — title, date, tags, excerpt:
+              <pre><code>&lt;meta name="blog:title" content="Your Title"&gt;
+&lt;meta name="blog:date" content="2026-06-19"&gt;
+&lt;meta name="blog:tags" content="research,python,automation"&gt;
+&lt;meta name="blog:excerpt" content="Short summary shown on blog index"&gt;</code></pre>
+            </li>
+            <li>
+              <strong>Write your content</strong> inside the <code>.prose</code> section. HTML only — no markdown.
+            </li>
+            <li>
+              <strong>Commit and push:</strong>
+              <pre><code>git add docs/blog/your-post-name/
+git commit -m "blog: add your-post-name"
+git push</code></pre>
+            </li>
+          </ol>
+          <p>
+            GitHub Actions automatically runs the blog indexer and deploys. The post appears on
+            the <a href="../index.html">blog landing page</a> within ~20 seconds.
+          </p>
+
+          <h2>Metadata Fields</h2>
+          <table class="pub-table">
+            <thead>
+              <tr>
+                <th>Tag</th>
+                <th>Required</th>
+                <th>Fallback</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>blog:title</code></td><td>Yes</td><td>First &lt;h1&gt; or folder name</td></tr>
+              <tr><td><code>blog:date</code></td><td>Recommended</td><td>Git log date or today</td></tr>
+              <tr><td><code>blog:tags</code></td><td>No</td><td>Omitted</td></tr>
+              <tr><td><code>blog:excerpt</code></td><td>Recommended</td><td>First &lt;p&gt; text</td></tr>
+              <tr><td><code>blog:author</code></td><td>No</td><td>"David Spatholt"</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Layout Tips</h2>
+          <p>
+            Use the <code>.prose</code> class for article body typography. It handles headings,
+            lists, code blocks (<code>&lt;code&gt;</code>), and links with appropriate spacing.
+            For images, use:
+          </p>
+          <pre><code>&lt;figure&gt;
+  &lt;img src="image.png" alt="Description" /&gt;
+  &lt;figcaption&gt;Optional caption&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+          <h2>Local Preview</h2>
+          <pre><code>cd ~/workspace/dspacks-site
+npx serve docs -l 4000
+# Open http://localhost:4000/blog/your-post-name/</code></pre>
+
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Emergency medicine researcher, developer, and builder of random things.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../../apps/index.html">Mini Apps</a></li>
+          <li><a href="../index.html">Blog</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="External links">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://github.com/dspacks">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/dspacks/">LinkedIn</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../../assets/nav.js"></script>
+</body>
+</html>

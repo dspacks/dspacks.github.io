@@ -31,9 +31,11 @@ echo "Rewriting internal URLs: $GHOST_URL → $SITE_URL"
 find "$OUTPUT_DIR" -name "*.html" -type f \
   -exec sed -i "s#$GHOST_URL#$SITE_URL#g" {} \;
 
-# Re-run app indexer after export (in case Ghost pages changed)
+# Re-run app indexer and blog indexer after export
 echo "Regenerating app gallery..."
 bash "$(dirname "$0")/index-apps.sh"
+echo "Regenerating blog index..."
+bash "$(dirname "$0")/index-blog.sh"
 
 echo "Done. Preview with: npm run preview"
 echo "Commit docs/ and push to deploy."
