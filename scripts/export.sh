@@ -7,7 +7,7 @@
 #   - Update SITE_URL before first deploy
 
 GHOST_URL="http://127.0.0.1:2368"
-SITE_URL="https://dspacks.github.io"   # ← update if custom domain changes
+SITE_URL="https://david.spatholt.com"   # ← custom domain
 OUTPUT_DIR="docs"
 
 echo "Cleaning previous export..."

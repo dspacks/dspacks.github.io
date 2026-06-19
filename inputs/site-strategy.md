@@ -86,9 +86,9 @@ dspacks.github.io/
 
 ## Custom Domain Setup
 
-1. In `dspacks.github.io` repo → Settings → Pages → set `davidspatholt.com`
-2. At DNS provider: add CNAME record `davidspatholt.com` → `dspacks.github.io`
-3. Update `scripts/export.sh` SITE_URL to `https://davidspatholt.com`
+1. In `dspacks.github.io` repo → Settings → Pages → set `david.spatholt.com`
+2. At DNS provider: add CNAME record `david.spatholt.com` → `dspacks.github.io`
+3. Update `scripts/export.sh` SITE_URL to `https://david.spatholt.com`
 
 ## Old WordPress Migration
 

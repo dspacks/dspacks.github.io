@@ -1,6 +1,6 @@
 # David Spatholt — Personal Website
 
-Personal site at **davidspatholt.com** — a hub for academic research, software projects, and random LLM-built HTML apps.
+Personal site at **david.spatholt.com** — a hub for academic research, software projects, and random LLM-built HTML apps.
 
 ## Stack
 
@@ -78,4 +78,4 @@ dspacks.github.io/
 
 ## Custom Domain
 
-This repo is configured for `davidspatholt.com`. Add a CNAME record pointing to `dspacks.github.io` in your DNS provider, and set the custom domain in GitHub Pages settings.
+This repo is configured for `david.spatholt.com`. Make sure a CNAME record pointing to `dspacks.github.io` exists at your DNS provider.
