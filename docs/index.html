@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="David Spatholt — Emergency medicine researcher, software developer, and builder of mini apps." />
+  <title>David Spatholt — Research &amp; Development</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        ☰ Menu
+      </button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about/index.html">About</a></li>
+          <li><a href="projects/index.html">Projects</a></li>
+          <li><a href="apps/index.html">Apps</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="home-hero" aria-labelledby="hero-heading">
+      <div class="home-hero-inner">
+        <p class="subtitle">David Spatholt</p>
+        <h1 id="hero-heading">Emergency Medicine Research<br>&amp; Software Development</h1>
+        <p class="tagline">// health services research · operations · LLM-powered tools</p>
+        <div class="btn-group">
+          <a href="about/index.html" class="btn btn--primary">About Me</a>
+          <a href="projects/index.html" class="btn btn--ghost">Projects</a>
+          <a href="apps/index.html" class="btn btn--ghost">Mini Apps</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I Do -->
+    <section aria-labelledby="work-heading">
+      <div class="wrap">
+        <div style="max-width:var(--max-w); margin:0 auto;">
+          <p class="section-label">What I Do</p>
+          <h2 class="section-heading" id="work-heading">Research Operations &amp; Tool Building</h2>
+          <hr class="rule" aria-hidden="true" />
+          <div class="card-grid">
+            <article class="card">
+              <h3>Health Services Research</h3>
+              <p>Strategic operations and data management in emergency medicine — supporting grant-funded research on pain, addiction, trauma recovery, and health equity at Ohio State.</p>
+            </article>
+            <article class="card">
+              <h3>Dashboard &amp; Automation</h3>
+              <p>Building real-time monitoring dashboards, automated grant radars, and LLM-enhanced data pipelines that turn noise into actionable intelligence.</p>
+            </article>
+            <article class="card">
+              <h3>Mini Apps &amp; Prototypes</h3>
+              <p>Rapidly prototyping interactive tools with LLMs — from schedulers to analytics. All open source and collected in the app gallery.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section class="bg-alt" aria-labelledby="projects-heading">
+      <div class="wrap">
+        <div style="max-width:var(--max-w); margin:0 auto;">
+          <p class="section-label">Featured Work</p>
+          <h2 class="section-heading" id="projects-heading">Selected Projects</h2>
+          <hr class="rule" aria-hidden="true" />
+          <div class="card-grid">
+            <article class="card">
+              <span class="card-date">2025–2026</span>
+              <h3><a href="https://github.com/dspacks/healthnow-radar">HealthNow Opportunity Radar</a></h3>
+              <p>Automated grant and funding opportunity monitoring with LLM enrichment, scheduling, and a live dashboard.</p>
+            </article>
+            <article class="card">
+              <span class="card-date">2025–2026</span>
+              <h3><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler 2026</a></h3>
+              <p>Nurse scheduling system with OR-Tools CP-SAT optimization, MS Shifts Excel round-trip, and interactive Colab UI.</p>
+            </article>
+            <article class="card">
+              <span class="card-date">2025–2026</span>
+              <h3><a href="https://github.com/dspacks/sectograph-watchface">Sectograph Watchface</a></h3>
+              <p>Calendar visualization Pebble watchface (PbT2) with AppMessage phone sync and ICS support. Multiple platform targets.</p>
+            </article>
+            <article class="card">
+              <span class="card-date">2026</span>
+              <h3><a href="https://github.com/dspacks/simmer-enrollment-sim">Enrollment Simulation</a></h3>
+              <p>Discrete event simulation of university enrollment using R and the simmer package.</p>
+            </article>
+            <article class="card">
+              <span class="card-date">2026</span>
+              <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer">Littlefield Phase 2 Analyzer</a></h3>
+              <p>Colab notebook for simulation analysis — demand, bottleneck detection, EOQ/ROP, contract selection, and exit strategy.</p>
+            </article>
+          </div>
+          <p class="mt-2"><a href="projects/index.html" class="btn btn--accent">View All Projects</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Gallery Callout -->
+    <section aria-labelledby="apps-cta">
+      <div class="wrap">
+        <div style="max-width:600px; margin:0 auto; text-align:center;">
+          <h2 class="section-heading" id="apps-cta">Random HTML Apps</h2>
+          <hr class="rule" style="margin:0 auto 2rem;" aria-hidden="true" />
+          <p style="margin-bottom:2rem; color:var(--c-text-muted);">
+            A growing collection of single-page HTML tools and toys built with Gemini, Claude, and other LLMs.
+            Push a file, the gallery updates itself.
+          </p>
+          <a href="apps/index.html" class="btn btn--accent">Browse the App Gallery</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Emergency medicine researcher, developer, and builder of random things.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="about/index.html">About</a></li>
+          <li><a href="projects/index.html">Projects</a></li>
+          <li><a href="apps/index.html">Mini Apps</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="GitHub links">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/dspacks">dspacks</a></li>
+          <li><a href="https://github.com/dspacks/healthnow-radar">HealthNow Radar</a></li>
+          <li><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler</a></li>
+          <li><a href="https://github.com/dspacks/sectograph-watchface">Sectograph</a></li>
+          <li><a href="https://github.com/dspacks">more &rarr;</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>David Spatholt &mdash; The Ohio State University</p>
+    </div>
+  </footer>
+
+  <script src="assets/nav.js"></script>
+</body>
+</html>

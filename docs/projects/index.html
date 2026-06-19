@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Projects by David Spatholt — health services research, dashboards, scheduling, and LLM tools" />
+  <title>Projects — David Spatholt</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        ☰ Menu
+      </button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about/index.html">About</a></li>
+          <li><a href="index.html" aria-current="page">Projects</a></li>
+          <li><a href="../apps/index.html">Apps</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <h1>Projects</h1>
+        <p>Open-source work, research tools, and things I've built</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="project-list">
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/healthnow-radar">HealthNow Opportunity Radar</a></h3>
+            <div class="meta">Python · Flask · LLM enrichment · Cron · Dashboard</div>
+            <p>Automated grant and funding opportunity monitoring system. Scrapes funding sources, enriches with LLM analysis, and presents results on a live dashboard. Includes scheduling, webhook subscriptions, and email delivery.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler 2026</a></h3>
+            <div class="meta">Python · OR-Tools CP-SAT · Colab · Excel round-trip</div>
+            <p>Nurse scheduling system with constraint-based optimization. Features MS Shifts Excel round-trip, interactive Colab UI with ipywidgets, shift coverage enforcement, and ML integration hooks.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/sectograph-watchface">Sectograph Pebble Watchface</a></h3>
+            <div class="meta">C · Pebble SDK · JavaScript · 5 platforms</div>
+            <p>Calendar visualization for Pebble smartwatches. Phone-side ICS parsing via PebbleKit JS + AppMessage. Supports Aplite, Basalt, Chalk, Emery, and Dipper platforms.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer">Littlefield Phase 2 Analyzer</a></h3>
+            <div class="meta">Python · Colab · Pandas · Simulation</div>
+            <p>Self-contained Google Colab notebook for Littlefield simulation analysis. Demand forecasting, bottleneck detection, EOQ/ROP inventory optimization, contract selection, 2-way job splitting, and exit strategy.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer-v2">Littlefield Phase 2 Analyzer v2</a></h3>
+            <div class="meta">Python · Colab · Enhanced UX</div>
+            <p>Updated version with improved dashboard, refined capacity analysis, and better visualization of machine utilization across stations.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/simmer-enrollment-sim">Enrollment Simulation</a></h3>
+            <div class="meta">R · simmer · Discrete Event Simulation</div>
+            <p>University enrollment process modeled as a discrete event simulation using the simmer R package. Analyzes bottlenecks and flow times in student registration.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/blogwatcher">Blogwatcher (via Hermes)</a></h3>
+            <div class="meta">RSS · Cron · AI Summarization</div>
+            <p>Monitor blogs and RSS/Atom feeds with automated AI-powered summaries and delivery to chat platforms.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/hermes_brain">Hermes Brain Vault</a></h3>
+            <div class="meta">Obsidian · LLM Wiki · Research Notes</div>
+            <p>Personal knowledge management vault for research notes, concepts, people, and project documentation, integrated with Hermes Agent.</p>
+          </div>
+
+          <div class="project-item">
+            <h3><a href="https://github.com/dspacks/rdd_orch">RDD Orchestration</a></h3>
+            <div class="meta">Python · AI orchestration · Data documentation</div>
+            <p>AI-powered orchestration of research data documentation workflows — automating metadata extraction and study documentation.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Emergency medicine researcher, developer, and builder of random things.</p>
+      </div>
+      <nav class="footer-col" aria-label="GitHub links">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/dspacks">dspacks</a></li>
+          <li><a href="https://github.com/dspacks/healthnow-radar">HealthNow Radar</a></li>
+          <li><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler</a></li>
+          <li><a href="https://github.com/dspacks/sectograph-watchface">Sectograph</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../about/index.html">About</a></li>
+          <li><a href="index.html">Projects</a></li>
+          <li><a href="../apps/index.html">Mini Apps</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../assets/nav.js"></script>
+</body>
+</html>

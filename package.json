@@ -1,5 +1,21 @@
 {
-  "dependencies": {
-    "bootstrap": "^5.3.3"
+  "name": "dspacks-personal-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "David Spatholt — Personal site with Ghost CMS and auto-indexed app gallery",
+  "scripts": {
+    "ghost:install": "ghost install local --dir ghost --no-setup-linux-user",
+    "ghost:start": "ghost start --dir ghost",
+    "ghost:stop": "ghost stop --dir ghost",
+    "ghost:open": "open http://localhost:2368/ghost",
+    "export": "bash scripts/export.sh",
+    "index-apps": "bash scripts/index-apps.sh",
+    "preview": "npx serve docs -l 4000"
+  },
+  "devDependencies": {
+    "ghost-cli": "^1.26.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

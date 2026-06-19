@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="app:name" content="Time Since Calculator" />
+  <meta name="app:description" content="A simple tool that calculates how long ago a given date was — in years, months, days, hours, and minutes." />
+  <meta name="app:tags" content="tool,utility,gemini" />
+  <meta name="app:date" content="2026-06-18" />
+  <title>Time Since Calculator</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    .app-body {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .app-body input {
+      font-size: 1.2rem;
+      padding: .6rem 1rem;
+      border: 2px solid var(--c-border);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
+    }
+    .app-body input:focus {
+      outline: none;
+      border-color: var(--c-accent);
+    }
+    .result {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-accent);
+      min-height: 3rem;
+      font-family: var(--font-mono);
+    }
+    .app-note {
+      font-size: .85rem;
+      color: var(--c-text-muted);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        ☰ Menu
+      </button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../apps/index.html">Apps</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="app-body">
+      <h1>Time Since Calculator</h1>
+      <p style="margin-bottom: 2rem; color: var(--c-text-muted);">Pick a date to see how long ago it was.</p>
+      <input type="date" id="datepicker" value="2026-01-01" />
+      <div class="result" id="result"></div>
+      <p class="app-note">Built with Gemini — drop an HTML file in docs/apps/ and it's indexed automatically.</p>
+    </div>
+  </main>
+
+  <script>
+    function calc() {
+      var d = new Date(document.getElementById('datepicker').value);
+      var now = new Date();
+      var diff = now - d;
+      if (diff < 0) { document.getElementById('result').textContent = 'That date is in the future!'; return; }
+      var sec = Math.floor(diff / 1000);
+      var min = Math.floor(sec / 60); sec %= 60;
+      var hr  = Math.floor(min / 60); min %= 60;
+      var day = Math.floor(hr  / 24); hr  %= 24;
+      var yr  = Math.floor(day / 365); day %= 365;
+      var mo  = Math.floor(day / 30);  day %= 30;
+      var parts = [];
+      if (yr) parts.push(yr + 'y');
+      if (mo) parts.push(mo + 'mo');
+      parts.push(day + 'd ' + hr + 'h ' + min + 'm');
+      document.getElementById('result').textContent = parts.join(' ');
+    }
+    document.getElementById('datepicker').addEventListener('change', calc);
+    calc();
+  </script>
+</body>
+</html>

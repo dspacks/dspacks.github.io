@@ -1,5 +1,17 @@
-_site
-.sass-cache
-.jekyll-metadata
-node_modules
-Gemfile.lock
+# Ghost local installation (never commit)
+ghost/
+
+# Node dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
+
+# Ghost content backups
+ghost-backup*.json

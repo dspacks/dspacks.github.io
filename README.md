@@ -1,21 +1,81 @@
+# David Spatholt — Personal Website
 
-# Boostrap 4 Github Pages
+Personal site at **davidspatholt.com** — a hub for academic research, software projects, and random LLM-built HTML apps.
 
-[![Github-sponsors](https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/nicolas-van)
+## Stack
 
-A [Bootstrap 5](https://getbootstrap.com/) template project for [Github Pages](https://pages.github.com/) and [Jekyll](https://jekyllrb.com/).
+| Layer | Tool |
+|---|---|
+| Static site | Hand-built HTML/CSS (in `docs/`) |
+| Optional CMS | Ghost (runs locally, exports to `docs/`) |
+| App gallery | Auto-indexed from `docs/apps/` |
+| Hosting | GitHub Pages (serves `docs/`) |
+| CI/CD | GitHub Actions (auto-deploys on push) |
 
-* A full Bootstrap 5 theme usable both on Github Pages and with a standalone Jekyll.
-* Recompiles Bootstrap from SCSS files, which allows to customize Bootstrap's variables and use Bootstrap themes.
-* Full support of Bootstrap's JavaScript plugins.
-* Supports all features of Github Pages and Jekyll.
+## Quick Start — Direct HTML Editing
 
-[See the website for demonstration and documentation](https://nicolas-van.github.io/bootstrap-4-github-pages/).
+```bash
+# 1. Edit any file in docs/
+# 2. Preview locally:
+npx serve docs -l 4000
+# 3. Deploy:
+git add docs/
+git commit -m "content: describe change"
+git push
+```
 
-## Contribution
+## Pushing a New HTML App (the key workflow)
 
-[See the contribution guide.](./CONTRIBUTING.md)
+1. Create `docs/apps/your-app-name/index.html`
+2. Include metadata in `<head>` (auto-indexed):
+   ```html
+   <meta name="app:name" content="My App">
+   <meta name="app:description" content="What it does">
+   <meta name="app:tags" content="gemini,tool,visualization">
+   <meta name="app:date" content="2026-06-18">
+   ```
+3. Commit and push. GitHub Actions auto-generates the gallery page.
 
-## License
+## Ghost CMS (optional)
 
-[See the license file.](./LICENSE.md)
+```bash
+npm install
+npm run ghost:install    # one-time
+npm run ghost:start      # http://localhost:2368/ghost
+# Write content, then:
+npm run export            # Ghost → docs/
+git add docs/ && git commit -m "content: ..." && git push
+```
+
+## Repo Structure
+
+```
+dspacks.github.io/
+├── .github/workflows/
+│   └── deploy.yml              # GitHub Pages deploy
+├── docs/
+│   ├── .nojekyll               # Blocks Jekyll interference
+│   ├── assets/
+│   │   ├── style.css           # Design system
+│   │   └── nav.js              # Navigation
+│   ├── index.html              # Homepage
+│   ├── about/index.html        # Bio, CV, interests
+│   ├── projects/index.html     # Major projects
+│   ├── blog/...                # Ghost-exported or hand-written
+│   ├── apps/
+│   │   ├── index.html          # Auto-generated gallery ← THE HUB
+│   │   ├── manifest.json       # Machine-readable index
+│   │   └── app-name/           # Individual apps
+│   │       └── index.html
+│   └── ...other pages
+├── inputs/                     # Strategy docs (not deployed)
+├── scripts/
+│   ├── export.sh               # Ghost → docs/ via wget
+│   └── index-apps.sh           # Scan apps/ → generate gallery + manifest
+├── package.json
+└── README.md
+```
+
+## Custom Domain
+
+This repo is configured for `davidspatholt.com`. Add a CNAME record pointing to `dspacks.github.io` in your DNS provider, and set the custom domain in GitHub Pages settings.
