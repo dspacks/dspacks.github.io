@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacity and Constraint Management Interactive Lab</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .latex-font {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 py-6 px-6 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">Capacity &amp; Constraint Management</h1>
+                <p class="text-slate-400 text-sm mt-1">Interactive teaching tool for MBA Operations Management; adjust parameters to verify results.</p>
+            </div>
+            <div class="text-xs bg-slate-800 text-slate-300 px-3 py-2 rounded border border-slate-700 self-start md:self-auto">
+                <span class="font-semibold">Course:</span> MBA 6233 Asynchronous Lecture Companion
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 flex space-x-8 overflow-x-auto">
+            <button onclick="switchTab('concepts')" id="tab-concepts" class="py-4 px-1 border-b-2 border-slate-900 font-medium text-sm text-slate-900 whitespace-nowrap focus:outline-none">
+                Core Concepts
+            </button>
+            <button onclick="switchTab('example1')" id="tab-example1" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none">
+                1. Copy Center (Machine Needs)
+            </button>
+            <button onclick="switchTab('example2')" id="tab-example2" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none">
+                2. Car Wash (Product Mix)
+            </button>
+            <button onclick="switchTab('example3')" id="tab-example3" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap focus:outline-none">
+                3. Assembly Line Balancing
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-6">
+
+        <!-- CORE CONCEPTS TAB -->
+        <section id="content-concepts" class="space-y-6">
+            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Foundational Rules of Operations Management</h2>
+                <p class="text-slate-600 mb-6">This section covers core principles; these rules apply to all manufacturing and service settings.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-slate-100 p-4 rounded-lg bg-slate-50">
+                        <h3 class="font-bold text-slate-900 mb-2">Capacity Cushion</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Operations managers maintain a safety buffer; this is often a percentage of total time. This buffer helps manage unexpected demand; it covers machine maintenance and worker absences.
+                        </p>
+                    </div>
+                    
+                    <div class="border border-slate-100 p-4 rounded-lg bg-slate-50">
+                        <h3 class="font-bold text-slate-900 mb-2">Bottleneck Identification</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            The bottleneck is the step with the longest processing time; it has the lowest output rate per hour. This single step limits the output of the entire system; improving other steps does not increase total output.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-100 p-4 rounded-lg bg-slate-50">
+                        <h3 class="font-bold text-slate-900 mb-2">Long-Term vs. Short-Term Decisions</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Long-term decisions involve buying buildings or large machines; short-term decisions focus on finding and resolving immediate work blockages.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-100 p-4 rounded-lg bg-slate-50">
+                        <h3 class="font-bold text-slate-900 mb-2">Line Balancing</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Balancing an assembly line involves matching work step times to a target rate; this matches production to customer demand; it minimizes idle time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Quick Navigation Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold bg-slate-100 text-slate-800 px-2.5 py-1 rounded">Problem 1</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-2 mb-2">Copy Center Machine Needs</h3>
+                        <p class="text-xs text-slate-600">Determine how many copiers are needed to satisfy demand for two clients; include setup and cushions.</p>
+                    </div>
+                    <button onclick="switchTab('example1')" class="mt-4 text-sm font-medium text-slate-950 hover:text-slate-800 flex items-center gap-1 self-start">
+                        Open Lab &rarr;
+                    </button>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold bg-slate-100 text-slate-800 px-2.5 py-1 rounded">Problem 2</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-2 mb-2">Car Wash Flow Analysis</h3>
+                        <p class="text-xs text-slate-600">Analyze bottlenecks and capacities under standard and deluxe paths; study a variable product mix.</p>
+                    </div>
+                    <button onclick="switchTab('example2')" class="mt-4 text-sm font-medium text-slate-950 hover:text-slate-800 flex items-center gap-1 self-start">
+                        Open Lab &rarr;
+                    </button>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold bg-slate-100 text-slate-800 px-2.5 py-1 rounded">Problem 3</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-2 mb-2">Radio Assembly Balancing</h3>
+                        <p class="text-xs text-slate-600">Calculate cycle times; find the theoretical minimum number of stations; evaluate balance efficiency.</p>
+                    </div>
+                    <button onclick="switchTab('example3')" class="mt-4 text-sm font-medium text-slate-950 hover:text-slate-800 flex items-center gap-1 self-start">
+                        Open Lab &rarr;
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EXAMPLE 1: COPY CENTER TAB -->
+        <section id="content-example1" class="hidden space-y-6">
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-lg border border-slate-200 shadow-sm space-y-5">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">Input Parameters</h2>
+                        <p class="text-xs text-slate-500">Update values to see change in required machine calculations.</p>
+                    </div>
+
+                    <!-- Client X Section -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900">Client X Parameters</h3>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Annual Demand (D_x)</label>
+                            <input type="number" id="ex1-dx" value="2000" min="100" max="100000" step="100" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-0.5">Proc. Time (p_x hrs)</label>
+                                <input type="number" id="ex1-px" value="0.5" min="0.01" max="10" step="0.05" oninput="calculateEx1()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-0.5 font-sans">Setup Time (s_x hrs)</label>
+                                <input type="number" id="ex1-sx" value="0.25" min="0.01" max="10" step="0.05" oninput="calculateEx1()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Lot Size (Q_x)</label>
+                            <input type="number" id="ex1-qx" value="20" min="1" max="1000" step="1" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Client Y Section -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900">Client Y Parameters</h3>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Annual Demand (D_y)</label>
+                            <input type="number" id="ex1-dy" value="6000" min="100" max="100000" step="100" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-0.5">Proc. Time (p_y hrs)</label>
+                                <input type="number" id="ex1-py" value="0.7" min="0.01" max="10" step="0.05" oninput="calculateEx1()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-600 mb-0.5">Setup Time (s_y hrs)</label>
+                                <input type="number" id="ex1-sy" value="0.4" min="0.01" max="10" step="0.05" oninput="calculateEx1()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Lot Size (Q_y)</label>
+                            <input type="number" id="ex1-qy" value="30" min="1" max="1000" step="1" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- System Section -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900">System Constants</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Operating Days</label>
+                                <input type="number" id="ex1-days" value="250" min="1" max="365" step="1" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Shift Length (hrs)</label>
+                                <input type="number" id="ex1-shift" value="8" min="1" max="24" step="1" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Capacity Cushion (%)</label>
+                            <input type="number" id="ex1-cushion" value="15" min="0" max="99" step="1" oninput="calculateEx1()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Panel -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Results Card -->
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                        <h2 class="text-xl font-bold text-slate-900 mb-4">Calculated Machine Requirements</h2>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Client X Hours</span>
+                                <span id="ex1-res-x-hrs" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Client Y Hours</span>
+                                <span id="ex1-res-y-hrs" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Total Hours Required</span>
+                                <span id="ex1-res-total-hrs" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-900 text-white rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-400">Total Copiers Needed</span>
+                                <span id="ex1-res-final-copiers" class="text-xl font-extrabold">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Mathematical Derivation -->
+                        <div class="space-y-4 border-t border-slate-100 pt-4 text-sm text-slate-600">
+                            <h3 class="font-bold text-slate-900">Step-by-Step Derivation</h3>
+                            
+                            <div>
+                                <p class="font-semibold text-slate-800">1. Calculate Client X Workload Time:</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex1-step1-math">
+                                    Total = (D_x * p_x) + ((D_x / Q_x) * s_x)
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-slate-800">2. Calculate Client Y Workload Time:</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex1-step2-math">
+                                    Total = (D_y * p_y) + ((D_y / Q_y) * s_y)
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-slate-800">3. Calculate Effective Available Time per Machine:</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex1-step3-math">
+                                    Available = N * (1 - Cushion)
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-slate-800">4. Solve for Number of Copiers (M):</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex1-step4-math">
+                                    M = Total Hours / Available Hours
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedagogical Note -->
+                    <div class="bg-slate-900 text-slate-300 p-5 rounded-lg border border-slate-800">
+                        <h3 class="font-bold text-white mb-2">MBA Discussion Point: Decimals and Overtime</h3>
+                        <p class="text-xs leading-relaxed space-y-2">
+                            The division results in a fraction of a machine. Because the business cannot buy a fraction of a machine; it must round up. 
+                            If the fraction is very small; managers may choose to pay overtime to current staff or shorten the cushion instead of purchasing an expensive piece of equipment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EXAMPLE 2: CAR WASH TAB -->
+        <section id="content-example2" class="hidden space-y-6">
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-lg border border-slate-200 shadow-sm space-y-5">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">Car Wash Parameters</h2>
+                        <p class="text-xs text-slate-500">Change station times and product mix to check for bottleneck shifts.</p>
+                    </div>
+
+                    <!-- Station Times Section -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900">Station Task Times (Minutes)</h3>
+                        
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase mb-2">Shared Entry</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[11px] text-slate-600 mb-0.5">Station A1 (Entry 1)</label>
+                                    <input type="number" id="ex2-a1" value="5" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] text-slate-600 mb-0.5">Station A2 (Entry 2)</label>
+                                    <input type="number" id="ex2-a2" value="6" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase mb-2">Standard Branch</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[11px] text-slate-600 mb-0.5">Station A3 (Wash)</label>
+                                    <input type="number" id="ex2-a3" value="12" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] text-slate-600 mb-0.5">Station A4 (Dry)</label>
+                                    <input type="number" id="ex2-a4" value="15" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase mb-2">Deluxe Branch</span>
+                            <div class="grid grid-cols-3 gap-1">
+                                <div>
+                                    <label class="block text-[10px] text-slate-600 mb-0.5">Station A5 (Pre)</label>
+                                    <input type="number" id="ex2-a5" value="5" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-1.5 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-600 mb-0.5">Station A6 (Det)</label>
+                                    <input type="number" id="ex2-a6" value="20" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-1.5 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-600 mb-0.5">Station A7 (Wax)</label>
+                                    <input type="number" id="ex2-a7" value="12" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-1.5 py-1 focus:border-slate-900 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase mb-2">Shared Exit</span>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-0.5">Station A8 (Inspect)</label>
+                                <input type="number" id="ex2-a8" value="10" min="1" max="60" oninput="calculateEx2()" class="w-full text-xs border border-slate-300 rounded px-2 py-1 focus:border-slate-900 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Mix Section -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-sm font-bold text-slate-900">Product Mix</h3>
+                            <span id="ex2-mix-display" class="text-xs bg-slate-100 px-2 py-0.5 rounded font-mono font-bold">60% Std / 40% Del</span>
+                        </div>
+                        <input type="range" id="ex2-mix-slider" min="0" max="100" value="60" oninput="updateMixSlider()" class="w-full accent-slate-900">
+                        <p class="text-[11px] text-slate-500">Drag to change the share of Standard versus Deluxe wash orders entering the flow.</p>
+                    </div>
+                </div>
+
+                <!-- Analysis Panel -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Flow Visualization Grid -->
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                        <h2 class="text-lg font-bold text-slate-900 mb-3">Process Diagram &amp; Bottlenecks</h2>
+                        <p class="text-xs text-slate-500 mb-5">Calculated workloads of each step under the current mix. Highlight indicates individual line bottlenecks.</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Visual flow tracks -->
+                            <div class="grid grid-cols-1 md:grid-cols-8 gap-2 text-center text-xs text-white">
+                                <!-- Entry Shared -->
+                                <div id="card-a1" class="bg-slate-700 p-2.5 rounded border border-slate-800">
+                                    <div class="font-bold">Station A1</div>
+                                    <div class="text-[10px] text-slate-300">Shared Entry</div>
+                                    <div id="val-a1" class="text-lg font-extrabold mt-1">5m</div>
+                                </div>
+                                <div id="card-a2" class="bg-slate-700 p-2.5 rounded border border-slate-800">
+                                    <div class="font-bold">Station A2</div>
+                                    <div class="text-[10px] text-slate-300">Shared Entry</div>
+                                    <div id="val-a2" class="text-lg font-extrabold mt-1">6m</div>
+                                </div>
+
+                                <!-- Standard Track -->
+                                <div class="md:col-span-2 border border-slate-200 rounded p-1.5 flex flex-col gap-1 text-slate-800 bg-slate-50">
+                                    <div class="text-[9px] uppercase tracking-wider font-semibold text-slate-500">Standard Branch</div>
+                                    <div class="grid grid-cols-2 gap-1 flex-grow">
+                                        <div id="card-a3" class="bg-slate-200 p-1.5 rounded text-slate-800 border border-slate-300">
+                                            <div class="font-semibold text-[10px]">A3</div>
+                                            <div id="val-a3" class="text-sm font-bold">12m</div>
+                                        </div>
+                                        <div id="card-a4" class="bg-slate-200 p-1.5 rounded text-slate-800 border border-slate-300">
+                                            <div class="font-semibold text-[10px]">A4 (Dry)</div>
+                                            <div id="val-a4" class="text-sm font-bold">15m</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Deluxe Track -->
+                                <div class="md:col-span-3 border border-slate-200 rounded p-1.5 flex flex-col gap-1 text-slate-800 bg-slate-50">
+                                    <div class="text-[9px] uppercase tracking-wider font-semibold text-slate-500">Deluxe Branch</div>
+                                    <div class="grid grid-cols-3 gap-1 flex-grow">
+                                        <div id="card-a5" class="bg-slate-200 p-1 rounded text-slate-800 border border-slate-300">
+                                            <div class="font-semibold text-[9px]">A5</div>
+                                            <div id="val-a5" class="text-xs font-bold">5m</div>
+                                        </div>
+                                        <div id="card-a6" class="bg-slate-200 p-1 rounded text-slate-800 border border-slate-300">
+                                            <div class="font-semibold text-[9px]">A6 (Det)</div>
+                                            <div id="val-a6" class="text-xs font-bold">20m</div>
+                                        </div>
+                                        <div id="card-a7" class="bg-slate-200 p-1 rounded text-slate-800 border border-slate-300">
+                                            <div class="font-semibold text-[9px]">A7</div>
+                                            <div id="val-a7" class="text-xs font-bold">12m</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exit Shared -->
+                                <div id="card-a8" class="bg-slate-700 p-2.5 rounded border border-slate-800">
+                                    <div class="font-bold">Station A8</div>
+                                    <div class="text-[10px] text-slate-300">Shared Exit</div>
+                                    <div id="val-a8" class="text-lg font-extrabold mt-1">10m</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Capacities Card -->
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm space-y-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Comparison of Capacity Methods</h2>
+                            <p class="text-xs text-slate-500">Observe how the two methodologies arrive at completely different system capacities.</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Method A -->
+                            <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wide">Method A</span>
+                                <h3 class="font-bold text-slate-900 mt-1">Weighted Line Capacities</h3>
+                                <p class="text-xs text-slate-600 mt-1">Weighted average of the capacities computed for isolated lines.</p>
+                                
+                                <div class="mt-4 space-y-2 text-xs">
+                                    <div class="flex justify-between">
+                                        <span>Standard Line Bottleneck:</span>
+                                        <span id="ex2-res-std-btn" class="font-semibold">-</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Standard Capacity:</span>
+                                        <span id="ex2-res-std-cap" class="font-semibold">-</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Deluxe Line Bottleneck:</span>
+                                        <span id="ex2-res-del-btn" class="font-semibold">-</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Deluxe Capacity:</span>
+                                        <span id="ex2-res-del-cap" class="font-semibold">-</span>
+                                    </div>
+                                    <div class="flex justify-between border-t border-slate-200 pt-2 font-bold text-slate-900">
+                                        <span>Method A System Capacity:</span>
+                                        <span id="ex2-res-cap-a" class="text-sm">-</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Method B -->
+                            <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wide">Method B (Correct Approach)</span>
+                                <h3 class="font-bold text-slate-900 mt-1">Shared Workload Method</h3>
+                                <p class="text-xs text-slate-600 mt-1">Calculates the true average minutes of work spent at each station per customer.</p>
+                                
+                                <div class="mt-4 space-y-2 text-xs">
+                                    <div class="flex justify-between">
+                                        <span>Max Workload Station:</span>
+                                        <span id="ex2-res-mix-btn" class="font-semibold text-red-600">-</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Highest Average Workload:</span>
+                                        <span id="ex2-res-mix-workload" class="font-semibold">-</span>
+                                    </div>
+                                    <div class="flex justify-between border-t border-slate-200 pt-2 font-bold text-slate-900">
+                                        <span>Method B System Capacity:</span>
+                                        <span id="ex2-res-cap-b" class="text-sm text-green-700">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bar Graph Representation of Workloads -->
+                        <div class="border-t border-slate-100 pt-4">
+                            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Workloads at Max System Capacity (Minutes of Work Per Hour)</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A1 (Shared Entry)</span>
+                                        <span id="bar-label-a1" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a1" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A2 (Shared Entry)</span>
+                                        <span id="bar-label-a2" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a2" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A3 (Standard Wash)</span>
+                                        <span id="bar-label-a3" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a3" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A4 (Standard Dry)</span>
+                                        <span id="bar-label-a4" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a4" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A5 (Deluxe Prep)</span>
+                                        <span id="bar-label-a5" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a5" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A6 (Deluxe Detail)</span>
+                                        <span id="bar-label-a6" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a6" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A7 (Deluxe Wax)</span>
+                                        <span id="bar-label-a7" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a7" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>A8 (Shared Exit)</span>
+                                        <span id="bar-label-a8" class="font-mono">0 mins</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2">
+                                        <div id="bar-width-a8" class="bg-slate-600 h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-2">When a station is fully utilized; it works 60 minutes per hour. This indicates the absolute bottleneck of the system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EXAMPLE 3: LINE BALANCING TAB -->
+        <section id="content-example3" class="hidden space-y-6">
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-lg border border-slate-200 shadow-sm space-y-5">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">Line Balancing Inputs</h2>
+                        <p class="text-xs text-slate-500">Control parameters for the Big Broadcaster assembly line.</p>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Weekly Target Demand (r)</label>
+                            <input type="number" id="ex3-demand" value="2400" min="100" max="20000" step="100" oninput="calculateEx3()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Total Operating Hours/Week</label>
+                            <input type="number" id="ex3-hours" value="40" min="1" max="168" step="1" oninput="calculateEx3()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Total Task Time (seconds)</label>
+                            <input type="number" id="ex3-tasktime" value="244" min="10" max="10000" step="1" oninput="calculateEx3()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Actual Design Workstations (n)</label>
+                            <input type="number" id="ex3-stations" value="5" min="1" max="50" step="1" oninput="calculateEx3()" class="w-full text-sm border border-slate-300 rounded px-2.5 py-1.5 focus:border-slate-900 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Panel -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Key Balances Metrics Card -->
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                        <h2 class="text-xl font-bold text-slate-900 mb-4">Calculated Line Metrics</h2>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Target Cycle Time</span>
+                                <span id="ex3-res-ct" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Theoretical Min Stations</span>
+                                <span id="ex3-res-tm" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-50 border border-slate-100 rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-500">Total Idle Time</span>
+                                <span id="ex3-res-idle" class="text-lg font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="p-3 bg-slate-900 text-white rounded">
+                                <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-400">Line Efficiency</span>
+                                <span id="ex3-res-efficiency" class="text-xl font-extrabold">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Graphical Representation of Efficiency -->
+                        <div class="border-t border-slate-100 pt-4 space-y-4">
+                            <h3 class="text-sm font-bold text-slate-900">Calculated Station Block Efficiency</h3>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-grow bg-slate-100 rounded-full h-4">
+                                    <div id="ex3-progress-bar" class="bg-slate-900 h-4 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <span id="ex3-progress-label" class="text-sm font-mono font-bold text-slate-900">0%</span>
+                            </div>
+                        </div>
+
+                        <!-- Formula Displays -->
+                        <div class="space-y-4 border-t border-slate-100 pt-4 text-sm text-slate-600">
+                            <h3 class="font-bold text-slate-900">Mathematical Steps Used</h3>
+                            
+                            <div>
+                                <p class="font-semibold text-slate-800">1. Cycle Time (C):</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex3-step1-math">
+                                    C = Available Time / Demand
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-slate-800">2. Theoretical Minimum Stations (TM):</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex3-step2-math">
+                                    TM = Total Task Time / Cycle Time
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-slate-800">3. Process Efficiency (E):</p>
+                                <p class="font-mono text-xs bg-slate-50 p-2 rounded mt-1 border border-slate-100" id="ex3-step3-math">
+                                    E = Total Task Time / (Actual Stations * Cycle Time)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 px-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto space-y-2">
+            <p>Developed for MBA Classroom Instruction; verify formulas and assignments against official class resources.</p>
+            <p class="text-[10px]">Ohio State University MBA Course Companion Tool</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        // Tab switching utility
+        function switchTab(tabId) {
+            // Hide all tab screens
+            document.getElementById('content-concepts').classList.add('hidden');
+            document.getElementById('content-example1').classList.add('hidden');
+            document.getElementById('content-example2').classList.add('hidden');
+            document.getElementById('content-example3').classList.add('hidden');
+
+            // Reset tab selectors styles
+            const tabs = ['concepts', 'example1', 'example2', 'example3'];
+            tabs.forEach(t => {
+                const button = document.getElementById('tab-' + t);
+                button.classList.remove('border-slate-900', 'text-slate-900');
+                button.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            // Show active tab screen
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+
+            // Set active styles
+            const activeButton = document.getElementById('tab-' + tabId);
+            activeButton.classList.remove('border-transparent', 'text-slate-500');
+            activeButton.classList.add('border-slate-900', 'text-slate-900');
+
+            // Trigger updates if necessary
+            if (tabId === 'example1') calculateEx1();
+            if (tabId === 'example2') calculateEx2();
+            if (tabId === 'example3') calculateEx3();
+        }
+
+        // --- Example 1: Copy Center Logic ---
+        function calculateEx1() {
+            // Fetch values
+            const dx = parseFloat(document.getElementById('ex1-dx').value) || 0;
+            const px = parseFloat(document.getElementById('ex1-px').value) || 0;
+            const sx = parseFloat(document.getElementById('ex1-sx').value) || 0;
+            const qx = parseFloat(document.getElementById('ex1-qx').value) || 1;
+
+            const dy = parseFloat(document.getElementById('ex1-dy').value) || 0;
+            const py = parseFloat(document.getElementById('ex1-py').value) || 0;
+            const sy = parseFloat(document.getElementById('ex1-sy').value) || 0;
+            const qy = parseFloat(document.getElementById('ex1-qy').value) || 1;
+
+            const days = parseFloat(document.getElementById('ex1-days').value) || 0;
+            const shift = parseFloat(document.getElementById('ex1-shift').value) || 0;
+            const cushion = parseFloat(document.getElementById('ex1-cushion').value) || 0;
+
+            // Compute values
+            const xHrs = (dx * px) + ((dx / qx) * sx);
+            const yHrs = (dy * py) + ((dy / qy) * sy);
+            const totalHrs = xHrs + yHrs;
+            
+            const rawN = days * shift;
+            const effectiveN = rawN * (1 - (cushion / 100));
+            const machines = totalHrs / effectiveN;
+            const roundedMachines = Math.ceil(machines);
+
+            // Print outputs
+            document.getElementById('ex1-res-x-hrs').innerText = xHrs.toFixed(2) + ' hrs';
+            document.getElementById('ex1-res-y-hrs').innerText = yHrs.toFixed(2) + ' hrs';
+            document.getElementById('ex1-res-total-hrs').innerText = totalHrs.toFixed(2) + ' hrs';
+            document.getElementById('ex1-res-final-copiers').innerText = roundedMachines + ' (' + machines.toFixed(2) + ')';
+
+            // Print formulas
+            document.getElementById('ex1-step1-math').innerText = 
+                `Total X Hours = (${dx} * ${px}) + ((${dx} / ${qx}) * ${sx}) = ${xHrs.toFixed(2)} hours`;
+            document.getElementById('ex1-step2-math').innerText = 
+                `Total Y Hours = (${dy} * ${py}) + ((${dy} / ${qy}) * ${sy}) = ${yHrs.toFixed(2)} hours`;
+            document.getElementById('ex1-step3-math').innerText = 
+                `Effective Time per Copier = (${days} * ${shift}) * (1 - ${cushion / 100}) = ${effectiveN.toFixed(2)} hours`;
+            document.getElementById('ex1-step4-math').innerText = 
+                `Copiers Required = ${totalHrs.toFixed(2)} / ${effectiveN.toFixed(2)} = ${machines.toFixed(2)} => Round to ${roundedMachines} copiers`;
+        }
+
+        // --- Example 2: Car Wash Logic ---
+        function updateMixSlider() {
+            const val = document.getElementById('ex2-mix-slider').value;
+            document.getElementById('ex2-mix-display').innerText = val + '% Std / ' + (100 - val) + '% Del';
+            calculateEx2();
+        }
+
+        function calculateEx2() {
+            // Fetch station values
+            const a1 = parseFloat(document.getElementById('ex2-a1').value) || 0;
+            const a2 = parseFloat(document.getElementById('ex2-a2').value) || 0;
+            const a3 = parseFloat(document.getElementById('ex2-a3').value) || 0;
+            const a4 = parseFloat(document.getElementById('ex2-a4').value) || 0;
+            const a5 = parseFloat(document.getElementById('ex2-a5').value) || 0;
+            const a6 = parseFloat(document.getElementById('ex2-a6').value) || 0;
+            const a7 = parseFloat(document.getElementById('ex2-a7').value) || 0;
+            const a8 = parseFloat(document.getElementById('ex2-a8').value) || 0;
+
+            const slider = parseFloat(document.getElementById('ex2-mix-slider').value);
+            const pStd = slider / 100;
+            const pDel = (100 - slider) / 100;
+
+            // Set dynamic visual values
+            document.getElementById('val-a1').innerText = a1 + 'm';
+            document.getElementById('val-a2').innerText = a2 + 'm';
+            document.getElementById('val-a3').innerText = a3 + 'm';
+            document.getElementById('val-a4').innerText = a4 + 'm';
+            document.getElementById('val-a5').innerText = a5 + 'm';
+            document.getElementById('val-a6').innerText = a6 + 'm';
+            document.getElementById('val-a7').innerText = a7 + 'm';
+            document.getElementById('val-a8').innerText = a8 + 'm';
+
+            // Find individual bottlenecks
+            // Standard: A1, A2, A3, A4, A8
+            const stdTimes = [a1, a2, a3, a4, a8];
+            const maxStdTime = Math.max(...stdTimes);
+            const stdCap = 60 / maxStdTime;
+
+            // Deluxe: A1, A2, A5, A6, A7, A8
+            const delTimes = [a1, a2, a5, a6, a7, a8];
+            const maxDelTime = Math.max(...delTimes);
+            const delCap = 60 / maxDelTime;
+
+            // Print Method A results
+            document.getElementById('ex2-res-std-btn').innerText = 'Max of ' + stdTimes.join(', ') + ' = ' + maxStdTime + ' mins';
+            document.getElementById('ex2-res-std-cap').innerText = stdCap.toFixed(2) + ' cars/hr';
+            document.getElementById('ex2-res-del-btn').innerText = 'Max of ' + delTimes.join(', ') + ' = ' + maxDelTime + ' mins';
+            document.getElementById('ex2-res-del-cap').innerText = delCap.toFixed(2) + ' cars/hr';
+
+            const methodACap = (pStd * stdCap) + (pDel * delCap);
+            document.getElementById('ex2-res-cap-a').innerText = methodACap.toFixed(2) + ' cars/hr';
+
+            // Print Method B results (Shared Workloads)
+            const wl1 = 1.0 * a1;
+            const wl2 = 1.0 * a2;
+            const wl3 = pStd * a3;
+            const wl4 = pStd * a4;
+            const wl5 = pDel * a5;
+            const wl6 = pDel * a6;
+            const wl7 = pDel * a7;
+            const wl8 = 1.0 * a8;
+
+            const workloads = [
+                { id: 'A1', val: wl1, cardId: 'card-a1' },
+                { id: 'A2', val: wl2, cardId: 'card-a2' },
+                { id: 'A3', val: wl3, cardId: 'card-a3' },
+                { id: 'A4', val: wl4, cardId: 'card-a4' },
+                { id: 'A5', val: wl5, cardId: 'card-a5' },
+                { id: 'A6', val: wl6, cardId: 'card-a6' },
+                { id: 'A7', val: wl7, cardId: 'card-a7' },
+                { id: 'A8', val: wl8, cardId: 'card-a8' }
+            ];
+
+            let maxWL = workloads[0];
+            workloads.forEach(wl => {
+                if (wl.val > maxWL.val) {
+                    maxWL = wl;
+                }
+            });
+
+            // Set visual card border colors for highlights
+            workloads.forEach(wl => {
+                const element = document.getElementById(wl.cardId);
+                if (wl.id === maxWL.id) {
+                    element.className = "bg-red-900 border-2 border-red-500 p-2.5 rounded text-white shadow-md transform scale-105 transition duration-300";
+                } else {
+                    if (['A1', 'A2', 'A8'].includes(wl.id)) {
+                        element.className = "bg-slate-700 p-2.5 rounded border border-slate-800 text-white";
+                    } else {
+                        element.className = "bg-slate-200 p-2.5 rounded text-slate-800 border border-slate-300";
+                    }
+                }
+            });
+
+            const methodBCap = 60 / maxWL.val;
+            document.getElementById('ex2-res-mix-btn').innerText = 'Station ' + maxWL.id;
+            document.getElementById('ex2-res-mix-workload').innerText = maxWL.val.toFixed(2) + ' mins average';
+            document.getElementById('ex2-res-cap-b').innerText = methodBCap.toFixed(2) + ' cars/hr';
+
+            // Workloads graph calculations
+            // At the maximum system capacity of Method B, let's see how many minutes of actual work each station performs per hour.
+            // Formula: Capacity * Workload_at_station
+            workloads.forEach(wl => {
+                const minPerHour = methodBCap * wl.val;
+                const percentage = (minPerHour / 60) * 100;
+                
+                document.getElementById('bar-label-' + wl.id.toLowerCase()).innerText = minPerHour.toFixed(1) + ' mins worked/hr';
+                document.getElementById('bar-width-' + wl.id.toLowerCase()).style.width = percentage.toFixed(1) + '%';
+            });
+        }
+
+        // --- Example 3: Assembly Line Balancing Logic ---
+        function calculateEx3() {
+            const r = parseFloat(document.getElementById('ex3-demand').value) || 1;
+            const hours = parseFloat(document.getElementById('ex3-hours').value) || 1;
+            const tasktime = parseFloat(document.getElementById('ex3-tasktime').value) || 0;
+            const stations = parseFloat(document.getElementById('ex3-stations').value) || 1;
+
+            const totalSeconds = hours * 3600;
+            const cycleTime = totalSeconds / r;
+
+            const tm = tasktime / cycleTime;
+            const roundedTM = Math.ceil(tm);
+
+            const efficiency = (tasktime / (stations * cycleTime)) * 100;
+            const idle = (stations * cycleTime) - tasktime;
+
+            document.getElementById('ex3-res-ct').innerText = cycleTime.toFixed(1) + ' sec/unit';
+            document.getElementById('ex3-res-tm').innerText = roundedTM + ' (' + tm.toFixed(2) + ')';
+            document.getElementById('ex3-res-idle').innerText = idle.toFixed(1) + ' sec/unit';
+            document.getElementById('ex3-res-efficiency').innerText = efficiency.toFixed(1) + '%';
+
+            // Update graphs
+            document.getElementById('ex3-progress-bar').style.width = efficiency.toFixed(1) + '%';
+            document.getElementById('ex3-progress-label').innerText = efficiency.toFixed(1) + '%';
+
+            // Print Step-by-Step formula math
+            document.getElementById('ex3-step1-math').innerText = 
+                `C = (${hours} hrs * 3600 sec) / ${r} units = ${cycleTime.toFixed(1)} seconds per unit`;
+            document.getElementById('ex3-step2-math').innerText = 
+                `TM = ${tasktime} sec / ${cycleTime.toFixed(1)} sec = ${tm.toFixed(2)} stations => Round up to ${roundedTM}`;
+            document.getElementById('ex3-step3-math').innerText = 
+                `Efficiency = ${tasktime} / (${stations} stations * ${cycleTime.toFixed(1)}) = ${efficiency.toFixed(1)}%`;
+        }
+
+        // Initialize state
+        window.onload = function() {
+            calculateEx1();
+            calculateEx2();
+            calculateEx3();
+        }
+    </script>
+</body>
+</html>
