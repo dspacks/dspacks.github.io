@@ -160,7 +160,7 @@ cat >> "$GALLERY" <<GALEOF
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="../index.html" class="site-logo">David <strong>Spatholt</strong></a>
-        <p>Emergency medicine researcher, developer, and builder of random things.</p>
+        Program management, systems thinking, and clinical research operations.
       </div>
       <nav class="footer-col" aria-label="Quick links">
         <h4>Site</h4>
