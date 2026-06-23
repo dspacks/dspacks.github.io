@@ -416,6 +416,24 @@ section + section { padding-top: 0; }
 .project-entry p { font-size: .9375rem; color: var(--c-text-muted); }
 .project-entry ul { font-size: .9375rem; }
 
+/* --- Draft / Template Visibility --------------------------- */
+/*
+  Apply these classes or data attributes to any page section, card,
+  or nav item that should stay hidden while the content is still a
+  template, placeholder, or unreleased draft.
+*/
+.is-template,
+.is-placeholder,
+.is-draft,
+[data-status="template"],
+[data-status="placeholder"],
+[data-status="draft"],
+[data-visibility="template"],
+[data-visibility="placeholder"],
+[data-visibility="draft"] {
+  display: none !important;
+}
+
 /* --- Section: alternating bg ------------------------------ */
 .bg-alt  { background: var(--c-bg-alt); }
 .bg-navy {
