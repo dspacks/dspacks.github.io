@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="app:name" content="Sectograph Watch Face" />
+  <meta name="app:description" content="A 24-hour circular calendar watchface for Pebble/Rebble watches — designed to turn your day into a glanceable visual schedule." />
+  <meta name="app:tags" content="watchface,pebble,rebble,calendar,productivity,health-tech" />
+  <meta name="app:date" content="2026-06-23" />
+  <title>Sectograph Watch Face</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    .hero-kicker {
+      display: inline-block;
+      padding: .35rem .7rem;
+      border: 1px solid var(--c-border);
+      border-radius: 999px;
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+      margin-bottom: 1rem;
+    }
+    .app-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .metric {
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      padding: 1rem;
+      background: var(--c-bg-alt);
+    }
+    .metric .label {
+      display: block;
+      color: var(--c-text-muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+    .metric .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .app-panel {
+      max-width: var(--content-w);
+      margin: 0 auto;
+    }
+    .app-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin: 1rem 0 0;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .35rem .65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--c-border);
+      color: var(--c-text-muted);
+      font-size: .8rem;
+    }
+    .feature-list {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+    .feature-list li { margin-bottom: .5rem; }
+    .status-box {
+      border-left: 4px solid var(--c-accent);
+      padding: 1rem 1.1rem;
+      background: rgba(255,255,255,.03);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰ Menu</button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../index.html">Apps</a></li>
+          <li><a href="../../blog/index.html">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="app-panel">
+          <span class="hero-kicker">Shipping App / Watchface</span>
+          <h1>Sectograph Watch Face</h1>
+          <p>A 24-hour circular calendar watchface for Pebble/Rebble that turns your day into a glanceable visual schedule.</p>
+          <div class="app-badges" aria-label="App badges">
+            <span class="badge">Pebble / Rebble</span>
+            <span class="badge">Watchface</span>
+            <span class="badge">Native C</span>
+            <span class="badge">Calendar Visualization</span>
+            <span class="badge">Private Beta</span>
+          </div>
+          <div class="btn-group" style="margin-top:1.25rem;">
+            <a href="../index.html" class="btn btn--primary">Back to Apps</a>
+            <a href="../../projects/index.html" class="btn btn--ghost">See project work</a>
+          </div>
+
+          <div class="app-metrics" role="list" aria-label="App summary metrics">
+            <div class="metric" role="listitem">
+              <span class="label">What it does</span>
+              <span class="value">Turns your calendar into a 24-hour dial</span>
+            </div>
+            <div class="metric" role="listitem">
+              <span class="label">Platforms</span>
+              <span class="value">5 Pebble hardware targets</span>
+            </div>
+            <div class="metric" role="listitem">
+              <span class="label">Core stack</span>
+              <span class="value">C + PebbleKit JS + Clay</span>
+            </div>
+            <div class="metric" role="listitem">
+              <span class="label">Status</span>
+              <span class="value">Private beta / store-ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="about-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Overview</p>
+          <h2 class="section-heading" id="about-heading">Calendar awareness at a glance</h2>
+          <hr class="rule" aria-hidden="true" />
+          <p>
+            Sectograph is a watchface built for people who live in meetings, appointments, shifts, and
+            structured days. It represents the day as a circular 24-hour dial and renders calendar events
+            as colored arcs, so you can see time blocks, overlaps, and how the rest of the day flows — all
+            without opening your phone.
+          </p>
+          <p>
+            The design is intentionally simple: the dial is the story. Event sectors, a current-time hand,
+            and legible date/battery complications keep the watchface readable at a glance while still
+            conveying real schedule density.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-alt" aria-labelledby="features-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Features</p>
+          <h2 class="section-heading" id="features-heading">What ships in the current build</h2>
+          <hr class="rule" aria-hidden="true" />
+          <ul class="feature-list">
+            <li>24-hour circular dial for an at-a-glance view of the day</li>
+            <li>Colored event sectors to show timed calendar blocks</li>
+            <li>All-day event ring along the outer edge</li>
+            <li>Current-time hand for instant orientation</li>
+            <li>Color themes and settings via Clay</li>
+            <li>Support for five Pebble hardware targets: Emery, Basalt, Chalk, Diorite, and Aplite</li>
+          </ul>
+
+          <div class="status-box" style="margin-top:1.5rem;">
+            <strong>Status notes:</strong> The core watchface is in private beta. Calendar sync via ICS,
+            weather, rain shading, and companion browsing features are in progress and may be rolled out as
+            future updates.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Why it matters</p>
+          <h2 class="section-heading" id="why-heading">A productivity tool for structured days</h2>
+          <hr class="rule" aria-hidden="true" />
+          <p>
+            Sectograph is the first product in my app-store lineup because it sits at the intersection of
+            design, systems thinking, and utility. It’s a practical, visual way to understand the day — a
+            good fit for people who want their watch to surface information without demanding attention.
+          </p>
+          <p>
+            More products will follow this same pattern: lightweight, useful, and built with an LLM-assisted
+            workflow that keeps shipping fast while still preserving quality and iteration.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-alt" aria-labelledby="platforms-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Platforms</p>
+          <h2 class="section-heading" id="platforms-heading">Supported devices</h2>
+          <hr class="rule" aria-hidden="true" />
+          <div class="card-grid">
+            <article class="card"><h3>Emery</h3><p>Pebble Time 2 / dev target</p></article>
+            <article class="card"><h3>Basalt</h3><p>Pebble Time / Time Steel</p></article>
+            <article class="card"><h3>Chalk</h3><p>Pebble Time Round</p></article>
+            <article class="card"><h3>Diorite</h3><p>Pebble 2</p></article>
+            <article class="card"><h3>Aplite</h3><p>Original Pebble / Steel</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Program management, systems thinking, and clinical research operations.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../index.html">Apps</a></li>
+          <li><a href="../../blog/index.html">Blog</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="App pages">
+        <h4>Apps</h4>
+        <ul>
+          <li><a href="index.html">Sectograph</a></li>
+          <li><a href="../time-since/index.html">Time Since Calculator</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../../assets/nav.js"></script>
+</body>
+</html>
