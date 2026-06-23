@@ -13,9 +13,7 @@
   <header class="site-header" role="banner">
     <div class="site-header-inner">
       <a href="../index.html" class="site-logo">David <strong>Spatholt</strong></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
-        ☰ Menu
-      </button>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰ Menu</button>
       <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
         <ul>
           <li><a href="../index.html">Home</a></li>
@@ -34,68 +32,130 @@
     <section class="page-hero">
       <div class="wrap">
         <h1>Projects</h1>
-        <p>Open-source work, research tools, and things I've built</p>
+        <p>Open-source work, research tools, and things I’ve built</p>
       </div>
     </section>
 
-    <section>
+    <section class="bg-alt" aria-labelledby="featured-heading">
       <div class="wrap">
-        <div class="project-list">
+        <div style="max-width:var(--max-w); margin:0 auto;">
+          <p class="section-label">Featured Work</p>
+          <h2 class="section-heading" id="featured-heading">Selected projects in a card view</h2>
+          <hr class="rule" aria-hidden="true" />
 
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/healthnow-radar">HealthNow Opportunity Radar</a></h3>
-            <div class="meta">Python · Flask · LLM enrichment · Cron · Dashboard</div>
-            <p>Automated grant and funding opportunity monitoring system. Scrapes funding sources, enriches with LLM analysis, and presents results on a live dashboard. Includes scheduling, webhook subscriptions, and email delivery.</p>
+          <div class="card-grid">
+            <article class="card">
+              <span class="card-date">2026</span>
+              <h3><a href="https://github.com/dspacks/healthnow-radar">HealthNow Opportunity Radar</a></h3>
+              <p>Automated grant and funding opportunity monitoring system. Scrapes funding sources, enriches with LLM analysis, and presents results on a live dashboard.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Python</span>
+                <span class="tag tag--gray">Flask</span>
+                <span class="tag tag--gray">LLM enrichment</span>
+                <span class="tag tag--gray">cron</span>
+              </div>
+              <a href="https://github.com/dspacks/healthnow-radar" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2026</span>
+              <h3><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler 2026</a></h3>
+              <p>Nurse scheduling system with constraint-based optimization. Includes Excel round-trip, interactive Colab UI, and shift coverage enforcement.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Python</span>
+                <span class="tag tag--gray">OR-Tools</span>
+                <span class="tag tag--gray">Colab</span>
+                <span class="tag tag--gray">Excel</span>
+              </div>
+              <a href="https://github.com/dspacks/hn_scheduler" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2026</span>
+              <h3><a href="../apps/sectograph/index.html">Sectograph Watch Face</a></h3>
+              <p>Calendar visualization watchface for Pebble/Rebble. Turns the day into a 24-hour circular dial with event sectors and current-time hand.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">C</span>
+                <span class="tag tag--gray">Pebble SDK</span>
+                <span class="tag tag--gray">JavaScript</span>
+                <span class="tag tag--gray">watchface</span>
+              </div>
+              <a href="../apps/sectograph/index.html" class="read-more">Product page &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2025</span>
+              <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer">Littlefield Phase 2 Analyzer</a></h3>
+              <p>Self-contained Google Colab notebook for Littlefield simulation analysis, bottleneck detection, inventory optimization, and exit strategy planning.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Python</span>
+                <span class="tag tag--gray">Colab</span>
+                <span class="tag tag--gray">Pandas</span>
+                <span class="tag tag--gray">simulation</span>
+              </div>
+              <a href="https://github.com/dspacks/littlefield-phase2-analyzer" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2025</span>
+              <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer-v2">Littlefield Phase 2 Analyzer v2</a></h3>
+              <p>Updated version with improved dashboard, refined capacity analysis, and better visualization of machine utilization across stations.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Python</span>
+                <span class="tag tag--gray">Colab</span>
+                <span class="tag tag--gray">dashboard</span>
+              </div>
+              <a href="https://github.com/dspacks/littlefield-phase2-analyzer-v2" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2025</span>
+              <h3><a href="https://github.com/dspacks/simmer-enrollment-sim">Enrollment Simulation</a></h3>
+              <p>University enrollment process modeled as a discrete event simulation using the simmer R package. Analyzes bottlenecks and flow times.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">R</span>
+                <span class="tag tag--gray">simmer</span>
+                <span class="tag tag--gray">DES</span>
+              </div>
+              <a href="https://github.com/dspacks/simmer-enrollment-sim" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2025</span>
+              <h3><a href="https://github.com/dspacks/blogwatcher">Blogwatcher (via Hermes)</a></h3>
+              <p>Monitor blogs and RSS/Atom feeds with automated AI-powered summaries and delivery to chat platforms.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">RSS</span>
+                <span class="tag tag--gray">cron</span>
+                <span class="tag tag--gray">AI summarization</span>
+              </div>
+              <a href="https://github.com/dspacks/blogwatcher" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2024</span>
+              <h3><a href="https://github.com/dspacks/hermes_brain">Hermes Brain Vault</a></h3>
+              <p>Personal knowledge management vault for research notes, concepts, people, and project documentation, integrated with Hermes Agent.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Obsidian</span>
+                <span class="tag tag--gray">LLM wiki</span>
+                <span class="tag tag--gray">knowledge base</span>
+              </div>
+              <a href="https://github.com/dspacks/hermes_brain" class="read-more">GitHub &rarr;</a>
+            </article>
+
+            <article class="card">
+              <span class="card-date">2024</span>
+              <h3><a href="https://github.com/dspacks/rdd_orch">RDD Orchestration</a></h3>
+              <p>AI-powered orchestration of research data documentation workflows — automating metadata extraction and study documentation.</p>
+              <div class="card-tags">
+                <span class="tag tag--gray">Python</span>
+                <span class="tag tag--gray">orchestration</span>
+                <span class="tag tag--gray">documentation</span>
+              </div>
+              <a href="https://github.com/dspacks/rdd_orch" class="read-more">GitHub &rarr;</a>
+            </article>
           </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/hn_scheduler">HN Scheduler 2026</a></h3>
-            <div class="meta">Python · OR-Tools CP-SAT · Colab · Excel round-trip</div>
-            <p>Nurse scheduling system with constraint-based optimization. Features MS Shifts Excel round-trip, interactive Colab UI with ipywidgets, shift coverage enforcement, and ML integration hooks.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="../apps/sectograph/index.html">Sectograph Watch Face</a></h3>
-            <div class="meta">C · Pebble SDK · JavaScript · 5 platforms</div>
-            <p>Calendar visualization watchface for Pebble/Rebble. Turns the day into a 24-hour circular dial with event sectors, all-day ring support, and current-time hand.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer">Littlefield Phase 2 Analyzer</a></h3>
-            <div class="meta">Python · Colab · Pandas · Simulation</div>
-            <p>Self-contained Google Colab notebook for Littlefield simulation analysis. Demand forecasting, bottleneck detection, EOQ/ROP inventory optimization, contract selection, 2-way job splitting, and exit strategy.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/littlefield-phase2-analyzer-v2">Littlefield Phase 2 Analyzer v2</a></h3>
-            <div class="meta">Python · Colab · Enhanced UX</div>
-            <p>Updated version with improved dashboard, refined capacity analysis, and better visualization of machine utilization across stations.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/simmer-enrollment-sim">Enrollment Simulation</a></h3>
-            <div class="meta">R · simmer · Discrete Event Simulation</div>
-            <p>University enrollment process modeled as a discrete event simulation using the simmer R package. Analyzes bottlenecks and flow times in student registration.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/blogwatcher">Blogwatcher (via Hermes)</a></h3>
-            <div class="meta">RSS · Cron · AI Summarization</div>
-            <p>Monitor blogs and RSS/Atom feeds with automated AI-powered summaries and delivery to chat platforms.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/hermes_brain">Hermes Brain Vault</a></h3>
-            <div class="meta">Obsidian · LLM Wiki · Research Notes</div>
-            <p>Personal knowledge management vault for research notes, concepts, people, and project documentation, integrated with Hermes Agent.</p>
-          </div>
-
-          <div class="project-item">
-            <h3><a href="https://github.com/dspacks/rdd_orch">RDD Orchestration</a></h3>
-            <div class="meta">Python · AI orchestration · Data documentation</div>
-            <p>AI-powered orchestration of research data documentation workflows — automating metadata extraction and study documentation.</p>
-          </div>
-
         </div>
       </div>
     </section>
@@ -105,12 +165,13 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="../index.html" class="site-logo">David <strong>Spatholt</strong></a>
-        Program management, systems thinking, and clinical research operations.
+        <p>Program management, systems thinking, and clinical research operations.</p>
       </div>
       <nav class="footer-col" aria-label="App pages">
         <h4>Apps</h4>
         <ul>
           <li><a href="../apps/sectograph/index.html">Sectograph</a></li>
+          <li><a href="../apps/index.html">Mini Apps</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Site links">
