@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="app:name" content="App Name Here" />
+  <meta name="app:description" content="Short product description for a shipping app or watchface." />
+  <meta name="app:tags" content="tag1,tag2,tag3" />
+  <meta name="app:date" content="YYYY-MM-DD" />
+  <title>App Name Here</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    .app-panel { max-width: var(--content-w); margin: 0 auto; }
+    .hero-kicker {
+      display: inline-block; padding: .35rem .7rem; border: 1px solid var(--c-border);
+      border-radius: 999px; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase;
+      color: var(--c-text-muted); margin-bottom: 1rem;
+    }
+    .app-badges, .app-links, .app-metrics {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+    }
+    .badge, .metric, .link-pill {
+      border: 1px solid var(--c-border); border-radius: 999px; padding: .45rem .7rem;
+      background: rgba(255,255,255,.04); color: var(--c-text-muted); font-size: .85rem;
+    }
+    .metric { border-radius: 12px; padding: 1rem; min-width: 180px; background: var(--c-bg-alt); }
+    .metric .label { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .3rem; }
+    .metric .value { font-size: 1rem; font-weight: 700; color: var(--c-text); }
+    .app-screenshot {
+      width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; border-radius: 22px;
+      border: 1px solid var(--c-border); box-shadow: 0 20px 50px rgba(0,0,0,.28);
+    }
+    .screenshot-frame { display:flex; justify-content:center; padding: 1rem 0; }
+    .feature-list { margin: 0; padding-left: 1.2rem; }
+    .feature-list li { margin-bottom: .5rem; }
+    .status-box {
+      border-left: 4px solid var(--c-accent); padding: 1rem 1.1rem; background: rgba(255,255,255,.03);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰ Menu</button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../index.html">Apps</a></li>
+          <li><a href="../../blog/index.html">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="app-panel">
+          <span class="hero-kicker">Shipping App / Watchface</span>
+          <h1>App Name Here</h1>
+          <p>One-sentence summary of what the product does and why it matters.</p>
+          <div class="app-badges" aria-label="App badges">
+            <span class="badge">Platform</span>
+            <span class="badge">Category</span>
+            <span class="badge">Stack</span>
+          </div>
+          <div class="btn-group" style="margin-top:1.25rem;">
+            <a href="../index.html" class="btn btn--primary">Back to Apps</a>
+            <a href="../../projects/index.html" class="btn btn--ghost">See project work</a>
+          </div>
+          <div class="app-metrics" role="list" aria-label="App summary metrics" style="margin-top:1.5rem;">
+            <div class="metric" role="listitem"><span class="label">What it does</span><span class="value">Short metric</span></div>
+            <div class="metric" role="listitem"><span class="label">Platform</span><span class="value">Short metric</span></div>
+            <div class="metric" role="listitem"><span class="label">Stack</span><span class="value">Short metric</span></div>
+            <div class="metric" role="listitem"><span class="label">Status</span><span class="value">Short metric</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="screenshot-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Screenshot</p>
+          <h2 class="section-heading" id="screenshot-heading">Add your best product image here</h2>
+          <hr class="rule" aria-hidden="true" />
+          <div class="screenshot-frame">
+            <img src="./app-screenshot.png" alt="App screenshot" class="app-screenshot" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-alt" aria-labelledby="overview-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Overview</p>
+          <h2 class="section-heading" id="overview-heading">What the product is</h2>
+          <hr class="rule" aria-hidden="true" />
+          <p>Describe the product, the user problem, and the context in plain English.</p>
+          <p>Keep this page concise: enough to explain the value, not a changelog.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="features-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Features</p>
+          <h2 class="section-heading" id="features-heading">What ships in the current build</h2>
+          <hr class="rule" aria-hidden="true" />
+          <ul class="feature-list">
+            <li>Feature one</li>
+            <li>Feature two</li>
+            <li>Feature three</li>
+          </ul>
+          <div class="status-box" style="margin-top:1.5rem;">
+            <strong>Status notes:</strong> Explain current release state, beta/public availability, and any caveats.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Program management, systems thinking, and clinical research operations.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../index.html">Apps</a></li>
+          <li><a href="../../blog/index.html">Blog</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="App pages">
+        <h4>Apps</h4>
+        <ul>
+          <li><a href="../sectograph/index.html">Sectograph</a></li>
+          <li><a href="../time-since/index.html">Time Since Calculator</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../../assets/nav.js"></script>
+</body>
+</html>

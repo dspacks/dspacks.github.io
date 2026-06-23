@@ -76,6 +76,20 @@
       background: rgba(255,255,255,.03);
       border-radius: 8px;
     }
+    .screenshot-frame {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    .app-screenshot {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid var(--c-border);
+      box-shadow: 0 24px 48px rgba(0,0,0,.32);
+    }
   </style>
 </head>
 <body>
@@ -135,6 +149,19 @@
               <span class="label">Status</span>
               <span class="value">Private beta / store-ready</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="screenshot-heading">
+      <div class="wrap">
+        <div class="app-panel">
+          <p class="section-label">Screenshot</p>
+          <h2 class="section-heading" id="screenshot-heading">A glanceable schedule on your wrist</h2>
+          <hr class="rule" aria-hidden="true" />
+          <div class="screenshot-frame">
+            <img src="sectograph-screenshot.png" alt="Sectograph watch face showing a circular 24-hour calendar dial" class="app-screenshot" />
           </div>
         </div>
       </div>
