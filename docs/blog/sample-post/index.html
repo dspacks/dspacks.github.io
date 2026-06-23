@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ================================================================
-       BLOG POST TEMPLATE
-       ================================================================
-       Copy this folder (docs/blog/my-post-name/) to create a new post.
-       Update the <meta> tags below — they feed the auto-indexer.
-       The blog index at docs/blog/index.html regenerates on every push.
-  -->
-
-  <!-- META: these drive the blog index page + manifest.json -->
   <meta name="blog:title"   content="Getting Started with This Blog" />
   <meta name="blog:date"    content="2026-06-18" />
   <meta name="blog:tags"    content="meta,guide,workflow" />
   <meta name="blog:excerpt" content="How the blog system works — write in VS Code, git push, and it's live. Template workflow for publishing posts." />
   <meta name="blog:author"  content="David Spatholt" />
-
   <meta name="description" content="Getting Started with This Blog — David Spatholt" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>Getting Started with This Blog — David Spatholt</title>
   <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    .is-template-note {
+      display: inline-block;
+      margin: 1rem 0 0;
+      padding: .3rem .6rem;
+      border-radius: 999px;
+      background: var(--c-bg-alt);
+      color: var(--c-text-muted);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
-<body>
+<body class="is-template" data-status="template">
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <header class="site-header" role="banner">

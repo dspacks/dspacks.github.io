@@ -31,6 +31,11 @@ for post_dir in "$BLOG_DIR"/*/; do
   html_file="${post_dir}index.html"
   [ -f "$html_file" ] || continue
 
+  # Skip hidden drafts/templates/noindex pages
+  if grep -qE 'class="[^"]*(is-template|is-placeholder|is-draft)|data-(status|visibility)="(template|placeholder|draft)"|name="robots"\s+content="noindex' "$html_file"; then
+    continue
+  fi
+
   # Extract metadata from <meta> tags
   meta_title=$(grep -oP '<meta\s+name="blog:title"\s+content="([^"]*)"' "$html_file" | sed 's/.*content="\([^"]*\)".*/\1/')
   meta_date=$(grep -oP '<meta\s+name="blog:date"\s+content="([^"]*)"' "$html_file" | sed 's/.*content="\([^"]*\)".*/\1/')

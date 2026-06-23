@@ -26,9 +26,15 @@ for app_dir in "$APPS_DIR"/*/; do
   [ -d "$app_dir" ] || continue
   app_name=$(basename "$app_dir")
   [ "$app_name" = "assets" ] && continue  # skip shared assets if any
+  [ "$app_name" = "template" ] && continue # skip the starter template page
 
   html_file="${app_dir}index.html"
   [ -f "$html_file" ] || continue
+
+  # Skip hidden drafts/templates/noindex pages
+  if grep -qE 'class="[^"]*(is-template|is-placeholder|is-draft)|data-(status|visibility)="(template|placeholder|draft)"|name="robots"\s+content="noindex' "$html_file"; then
+    continue
+  fi
 
   # Extract metadata from <meta> tags
   meta_name=$(grep -oP '<meta\s+name="app:name"\s+content="([^"]*)"' "$html_file" | sed 's/.*content="\([^"]*\)".*/\1/')
