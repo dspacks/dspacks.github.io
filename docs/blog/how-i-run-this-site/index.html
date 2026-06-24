@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="blog:title" content="How I Run This Site with Ghost, GitHub Pages, and LLMs" />
+  <meta name="blog:date" content="2026-06-24" />
+  <meta name="blog:tags" content="ghost,github-pages,llm,workflow,automation" />
+  <meta name="blog:excerpt" content="The publishing stack behind this site: Ghost for drafting, GitHub Pages for delivery, and LLMs for building, polishing, and indexing mini apps." />
+  <meta name="blog:author" content="David Spatholt" />
+  <meta name="description" content="How I Run This Site with Ghost, GitHub Pages, and LLMs — David Spatholt" />
+  <title>How I Run This Site with Ghost, GitHub Pages, and LLMs — David Spatholt</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰ Menu</button>
+      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../../apps/index.html">Apps</a></li>
+          <li><a href="../index.html" aria-current="page">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="page-hero">
+        <div class="wrap">
+          <p style="font-size:.85rem; opacity:.7; margin-bottom:.5rem; font-family:var(--font-mono);">June 24, 2026 &middot; David Spatholt</p>
+          <h1>How I Run This Site with Ghost, GitHub Pages, and LLMs</h1>
+          <p>The stack is simple on purpose: Ghost for drafting, GitHub Pages for delivery, and git-controlled HTML for everything else.</p>
+        </div>
+      </header>
+
+      <section>
+        <div class="wrap prose">
+          <h2>The short version</h2>
+          <p>
+            I wanted a site that could hold a normal portfolio, a blog, and a growing pile of small HTML apps without turning into a maintenance project.
+            The answer was to keep the public site static, keep the content in git, and let a few scripts do the repetitive work.
+          </p>
+          <p>
+            I also wanted a workflow that works well with LLMs. I use them to draft pages, generate small tools, tighten copy, and update indexes — but
+            the repo still stays in charge. If it is not committed, it does not ship.
+          </p>
+
+          <h2>What lives where</h2>
+          <table class="pub-table">
+            <thead>
+              <tr>
+                <th>Piece</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Ghost</strong></td><td>Drafting and long-form publishing for blog posts or CMS-managed pages</td></tr>
+              <tr><td><strong>docs/</strong></td><td>Live GitHub Pages output, including the home page, projects, apps, and blog</td></tr>
+              <tr><td><strong>scripts/export.sh</strong></td><td>Crawls local Ghost and exports it into static files under <code>docs/</code></td></tr>
+              <tr><td><strong>scripts/index-apps.sh</strong></td><td>Scans <code>docs/apps/</code> and regenerates the app gallery + manifest</td></tr>
+              <tr><td><strong>scripts/index-blog.sh</strong></td><td>Regenerates the blog landing page + manifest from post folders</td></tr>
+              <tr><td><strong>LLMs</strong></td><td>Drafting, editing, app generation, and content cleanup</td></tr>
+            </tbody>
+          </table>
+
+          <h2>The publishing flow</h2>
+          <ol>
+            <li>Write or revise the content locally.</li>
+            <li>For a blog post, work in Ghost or create a folder under <code>docs/blog/</code>.</li>
+            <li>For a mini app, create a folder under <code>docs/apps/&lt;name&gt;/</code> with an <code>index.html</code>.</li>
+            <li>Run the indexers so the gallery and blog landing page stay in sync.</li>
+            <li>Commit, push, and let GitHub Pages deploy the result.</li>
+          </ol>
+          <p>
+            The key point is that I do not hand-edit a central index every time I add something. The repo discovers it for me.
+          </p>
+
+          <h2>How the app gallery works</h2>
+          <p>
+            The app gallery is the part that makes this useful for random HTML tools. I can ask an LLM to build a single-file app, drop it in
+            <code>docs/apps/some-tool/index.html</code>, and the gallery picks it up automatically.
+          </p>
+          <p>
+            Each app can declare metadata in the head:
+          </p>
+          <pre><code>&lt;meta name="app:name" content="My Tool" /&gt;
+&lt;meta name="app:description" content="Short summary" /&gt;
+&lt;meta name="app:tags" content="gemini,html,utility" /&gt;
+&lt;meta name="app:date" content="2026-06-24" /&gt;</code></pre>
+          <p>
+            The generator reads those tags, builds the gallery card, and writes a manifest. That means the site can grow by addition instead of
+            by constant curation.
+          </p>
+
+          <h2>How I keep drafts out of the way</h2>
+          <p>
+            I also have a hidden-content convention now, because starter pages and placeholders are easy to accidentally publish.
+            Anything marked as a template, draft, or placeholder gets excluded from the generated indexes.
+          </p>
+          <pre><code>&lt;body class="is-template" data-status="template"&gt;
+&lt;meta name="robots" content="noindex, nofollow" /&gt;</code></pre>
+          <p>
+            That lets me keep starter content in the repo without making it visible on the live site.
+          </p>
+
+          <h2>LLMs as co-managers, not autopilots</h2>
+          <p>
+            I use LLMs in three ways:
+          </p>
+          <ul>
+            <li><strong>Drafting:</strong> turning rough notes into a publishable page</li>
+            <li><strong>Transformation:</strong> converting an idea into a working HTML app or product page</li>
+            <li><strong>Maintenance:</strong> updating galleries, metadata, contrast, copy, and layout details</li>
+          </ul>
+          <p>
+            But the important constraint is that git is still the source of truth. The model can suggest structure, but the repo decides what is live.
+          </p>
+
+          <h2>Why this setup works for me</h2>
+          <p>
+            I do not want a heavyweight CMS for everything, and I do not want a pile of one-off documents that drift out of sync.
+            This setup gives me a clean division:
+          </p>
+          <ul>
+            <li><strong>Ghost</strong> for writing</li>
+            <li><strong>GitHub Pages</strong> for publishing</li>
+            <li><strong>Scripts</strong> for indexing and export</li>
+            <li><strong>LLMs</strong> for accelerating the boring parts</li>
+          </ul>
+          <p>
+            It is simple enough to keep moving, but structured enough that I can add weird little tools without breaking the site.
+          </p>
+
+          <h2>Recent proof that it works</h2>
+          <p>
+            The best example is <a href="../../apps/sectograph/index.html">Sectograph</a>. It started as a watchface project, moved through a product-style page,
+            and is now published in the Pebble app store. That path was only practical because the site stack makes publishing cheap.
+          </p>
+          <p>
+            The site can support a normal portfolio, a shipping app page, a blog post, and a random HTML experiment — all from the same repo.
+          </p>
+
+          <h2>What I still want to improve</h2>
+          <p>
+            The next step is probably better cross-linking: a dedicated index for drafts, a stronger way to surface app release notes, and a better migration path
+            for older WordPress content from my backup.
+          </p>
+          <p>
+            But the core idea is already working: keep the public site static, keep the content in git, and let LLMs help without taking control.
+          </p>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../../index.html" class="site-logo">David <strong>Spatholt</strong></a>
+        <p>Emergency medicine researcher, developer, and builder of random things.</p>
+      </div>
+      <nav class="footer-col" aria-label="Site links">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../research/index.html">Research</a></li>
+          <li><a href="../../experience/index.html">Experience</a></li>
+          <li><a href="../../projects/index.html">Projects</a></li>
+          <li><a href="../../apps/index.html">Mini Apps</a></li>
+          <li><a href="../index.html">Blog</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="External links">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://github.com/dspacks">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/dspacks/">LinkedIn</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../../assets/nav.js"></script>
+</body>
+</html>

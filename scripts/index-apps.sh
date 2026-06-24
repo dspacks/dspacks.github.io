@@ -32,7 +32,7 @@ for app_dir in "$APPS_DIR"/*/; do
   [ -f "$html_file" ] || continue
 
   # Skip hidden drafts/templates/noindex pages
-  if grep -qE 'class="[^"]*(is-template|is-placeholder|is-draft)|data-(status|visibility)="(template|placeholder|draft)"|name="robots"\s+content="noindex' "$html_file"; then
+  if grep -qE '^[[:space:]]*<body[^>]*class="[^"]*(is-template|is-placeholder|is-draft)|^[[:space:]]*<body[^>]*data-(status|visibility)="(template|placeholder|draft)"|^[[:space:]]*<meta[^>]*name="robots"[^>]*content="noindex' "$html_file"; then
     continue
   fi
 

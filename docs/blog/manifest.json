@@ -1,2 +1,3 @@
 [
+  {"slug":"how-i-run-this-site","title":"How I Run This Site with Ghost, GitHub Pages, and LLMs","date":"2026-06-24","tags":"ghost,github-pages,llm,workflow,automation","excerpt":"The publishing stack behind this site: Ghost for drafting, GitHub Pages for delivery, and LLMs for building, polishing, and indexing mini apps.","author":"David Spatholt"}
 ]
