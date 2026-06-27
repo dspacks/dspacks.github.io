@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIIT Walking Timer</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Using the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for button transitions and focus states */
+        .btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-4 max-w-md w-full">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">HIIT Walking Timer</h1>
+            <p class="text-gray-500 mb-6">5 sets of 3 min intense & 3 min slow walk</p>
+
+            <!-- Timer Display -->
+            <div class="timer-display my-8">
+                <p id="phase" class="text-xl md:text-2xl font-bold text-blue-600 mb-2">Ready to Start</p>
+                <p id="time" class="text-7xl md:text-8xl font-black text-gray-900 tracking-tighter">03:00</p>
+                <p id="sets" class="text-lg md:text-xl text-gray-600 mt-2">Set 1 of 5</p>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls grid grid-cols-2 gap-4">
+                <button id="startBtn" class="btn col-span-2 bg-green-500 text-white font-bold py-3 px-4 rounded-lg shadow-md">Start</button>
+                <button id="stopBtn" class="btn bg-red-500 text-white font-bold py-3 px-4 rounded-lg shadow-md" disabled>Stop</button>
+                <button id="resetBtn" class="btn bg-gray-500 text-white font-bold py-3 px-4 rounded-lg shadow-md" disabled>Reset</button>
+            </div>
+             <p id="status" class="text-sm text-gray-400 mt-6 h-4"></p>
+        </div>
+    </div>
+    
+    <!-- Hidden audio element for the silent loop trick -->
+    <audio id="silentAudio" loop>
+        <!-- A tiny, silent WAV file encoded in Base64 -->
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- UI Element References ---
+        const phaseDisplay = document.getElementById('phase');
+        const timeDisplay = document.getElementById('time');
+        const setsDisplay = document.getElementById('sets');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const statusDisplay = document.getElementById('status');
+        const silentAudio = document.getElementById('silentAudio');
+
+
+        let timerWorker;
+
+        // --- MANIFEST.JSON (for PWA) ---
+        // Create the manifest content as a string. This allows the app to be "installed" on a home screen.
+        const manifestContent = JSON.stringify({
+            "name": "HIIT Walking Timer",
+            "short_name": "HIIT Timer",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#f3f4f6",
+            "theme_color": "#4ade80",
+            "icons": [{
+                "src": "https://placehold.co/192x192/4ade80/ffffff?text=HIIT",
+                "sizes": "192x192",
+                "type": "image/png"
+            }, {
+                "src": "https://placehold.co/512x512/4ade80/ffffff?text=HIIT",
+                "sizes": "512x512",
+                "type": "image/png"
+            }]
+        });
+        // Create a Blob from the string
+        const manifestBlob = new Blob([manifestContent], { type: 'application/json' });
+        // Create a URL for the Blob
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        // Create a <link> element and add it to the <head>
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = manifestURL;
+        document.head.appendChild(manifestLink);
+        statusDisplay.textContent = 'Manifest loaded.';
+
+        // --- TIMER-WORKER.JS (for background timer) ---
+        // The worker script is kept as a string to maintain a single-file structure.
+        const timerWorkerScript = `
+            let interval;
+            let running = false;
+            let intensePhase = true;
+            let timeRemaining = 180; // 3 minutes in seconds
+            let currentSet = 1;
+            const totalSets = 5;
+
+            // This function is called every second by setInterval
+            function updateTimer() {
+                if (!running) return;
+
+                timeRemaining--;
+
+                // Check if the current interval (3 minutes) has ended
+                if (timeRemaining < 0) {
+                    // Send a message to the main thread to trigger a notification and vibration
+                    sendNotificationRequest({
+                        title: 'Interval Complete!',
+                        body: intensePhase ? 'Time for a slow walk.' : 'Time to walk intensely!'
+                    });
+
+                    // Switch the phase (intense -> slow, or slow -> intense)
+                    intensePhase = !intensePhase;
+                    timeRemaining = 180; // Reset timer to 3 minutes
+
+                    // If the new phase is 'intense', it means a full set (intense + slow) has completed.
+                    if (intensePhase) {
+                        currentSet++;
+                    }
+
+                    // Check if all 5 sets are complete
+                    if (currentSet > totalSets) {
+                        running = false;
+                        clearInterval(interval);
+                        sendNotificationRequest({
+                            title: 'Workout Finished!',
+                            body: 'Great job! You completed all 5 sets.'
+                        });
+                        // Post a final state to the UI to show completion
+                        postState(true); 
+                        return;
+                    }
+                }
+                // Send the current state back to the main page for UI updates
+                postState(false);
+            }
+
+            // Sends the current timer state to the main UI thread
+            function postState(isComplete) {
+                const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                self.postMessage({
+                    type: 'update',
+                    phase: running ? (intensePhase ? 'Intense Walk' : 'Slow Walk') : 'Paused',
+                    minutes: minutes,
+                    seconds: seconds,
+                    set: currentSet > totalSets ? totalSets : currentSet,
+                    running: running,
+                    isComplete: isComplete
+                });
+            }
+
+            // Sends a message to the main thread to request a notification.
+            function sendNotificationRequest(notificationData) {
+                self.postMessage({ type: 'notify', data: notificationData });
+            }
+
+            // Handles commands ('start', 'stop', 'reset') from the main UI thread
+            self.onmessage = function(e) {
+                const { command } = e.data;
+                if (command === 'start') {
+                    if (!running) {
+                        running = true;
+                        interval = setInterval(updateTimer, 1000);
+                        postState(false); // Send initial state immediately
+                    }
+                } else if (command === 'stop') {
+                    if (running) {
+                        running = false;
+                        clearInterval(interval);
+                        postState(false);
+                    }
+                } else if (command === 'reset') {
+                    running = false;
+                    clearInterval(interval);
+                    intensePhase = true;
+                    timeRemaining = 180;
+                    currentSet = 1;
+                    postState(false);
+                }
+            };
+        `;
+        // Create a Blob and a local URL for the worker script
+        const timerWorkerBlob = new Blob([timerWorkerScript], { type: 'application/javascript' });
+        const timerWorkerURL = URL.createObjectURL(timerWorkerBlob);
+        
+        // Initialize the worker
+        if (window.Worker) {
+            timerWorker = new Worker(timerWorkerURL);
+            statusDisplay.textContent = 'Timer worker initialized.';
+        } else {
+            // Fallback for browsers that don't support Web Workers
+            statusDisplay.textContent = 'Web Workers not supported.';
+            startBtn.disabled = true;
+            resetBtn.disabled = true;
+        }
+
+        // --- EVENT LISTENERS & HANDLERS ---
+
+        // Listen for messages from the timer worker
+        if (timerWorker) {
+            timerWorker.onmessage = function(e) {
+                const { type, data, ...updateData } = e.data;
+
+                // Handle 'notify' messages from the worker
+                if (type === 'notify') {
+                    const { title, body } = data;
+                    
+                    // Vibrate the phone with a more noticeable pattern
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate([500, 200, 500]);
+                    }
+
+                    // Show a desktop notification, if permission is granted
+                    if (Notification.permission === 'granted') {
+                        new Notification(title, {
+                            body: body,
+                            icon: 'https://placehold.co/192x192/4ade80/ffffff?text=HIIT',
+                        });
+                    }
+                }
+                // Handle 'update' messages for the UI
+                else if (type === 'update') {
+                    const { phase, minutes, seconds, set, running, isComplete } = updateData;
+                    
+                    if (isComplete) {
+                       phaseDisplay.textContent = "Workout Finished!";
+                       timeDisplay.textContent = "Done!";
+                    } else {
+                       phaseDisplay.textContent = phase;
+                       timeDisplay.textContent = `${minutes}:${seconds}`;
+                    }
+
+                    setsDisplay.textContent = `Set ${set} of 5`;
+
+                    // Update button states based on whether the timer is running
+                    startBtn.disabled = running;
+                    stopBtn.disabled = !running;
+                    resetBtn.disabled = running;
+                }
+            };
+        }
+
+        // --- Button Controls ---
+
+        startBtn.addEventListener('click', () => {
+             // Play the silent audio to keep the app alive in the background.
+             // This must be done in response to a user action (the click).
+            silentAudio.play().catch(e => console.error("Audio play failed:", e));
+
+            // Request permission for notifications on the first start. This is required by browsers.
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                }
+                // Send 'start' command to the worker
+                timerWorker.postMessage({ command: 'start' });
+            });
+        });
+
+        stopBtn.addEventListener('click', () => {
+            silentAudio.pause(); // Stop the silent audio
+            timerWorker.postMessage({ command: 'stop' });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            silentAudio.pause(); // Stop the silent audio
+            timerWorker.postMessage({ command: 'reset' });
+            // Reset UI immediately for a responsive feel
+            phaseDisplay.textContent = 'Ready to Start';
+            timeDisplay.textContent = '03:00';
+            setsDisplay.textContent = 'Set 1 of 5';
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            resetBtn.disabled = true;
+        });
+
+    });
+    </script>
+</body>
+</html>

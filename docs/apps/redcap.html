@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What REDCap Question Type Are You?</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">What REDCap Question Type Are You?</h1>
+        <div id="quiz" class="bg-white rounded-lg shadow-md p-6">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+        <div id="result" class="mt-8 bg-white rounded-lg shadow-md p-6 hidden">
+            <h2 class="text-2xl font-bold mb-4">Your Result:</h2>
+            <p id="resultText" class="text-xl"></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "How do you prefer to express yourself?",
+                answers: [
+                    { text: "In great detail", type: "text" },
+                    { text: "With a simple yes or no", type: "radio" },
+                    { text: "By selecting from a list of options", type: "dropdown" },
+                    { text: "With numbers and measurements", type: "number" }
+                ]
+            },
+            {
+                question: "How do you approach decision-making?",
+                answers: [
+                    { text: "I weigh multiple factors", type: "checkbox" },
+                    { text: "I prefer clear-cut choices", type: "radio" },
+                    { text: "I like to have a range of options", type: "dropdown" },
+                    { text: "I rely on precise calculations", type: "calc" }
+                ]
+            },
+            {
+                question: "How do you organize your thoughts?",
+                answers: [
+                    { text: "In a structured, hierarchical manner", type: "matrix" },
+                    { text: "With free-flowing ideas", type: "text" },
+                    { text: "By categorizing information", type: "dropdown" },
+                    { text: "Using timelines and schedules", type: "datetime" }
+                ]
+            },
+            {
+                question: "How do you prefer to answer questions?",
+                answers: [
+                    { text: "With a simple true or false", type: "yesno" },
+                    { text: "By choosing from predefined options", type: "radio" },
+                    { text: "With detailed explanations", type: "text" },
+                    { text: "By ranking or rating items", type: "slider" }
+                ]
+            }
+        ];
+
+        const resultDescriptions = {
+            text: "You're a Text Box! You love expressing yourself in detail and don't like to be confined by predefined options. Your thoughts flow freely, and you appreciate the opportunity to explain things thoroughly.",
+            radio: "You're a Radio Button! You prefer clear-cut choices and don't mind making quick decisions. You're efficient and straightforward in your approach to problems.",
+            dropdown: "You're a Dropdown List! You enjoy having a range of options to choose from, but you also appreciate organization and structure. You're adaptable and can handle various situations with ease.",
+            number: "You're a Number Input! You have a analytical mind and prefer working with precise values. You're great at quantifying information and dealing with measurable data.",
+            checkbox: "You're a Checkbox! You're a multitasker who can juggle multiple factors at once. You're thorough and like to consider all aspects before making a decision.",
+            calc: "You're a Calculated Field! You have a logical mind and enjoy working with formulas and computations. You're excellent at deriving insights from complex data.",
+            matrix: "You're a Matrix Field! You excel at organizing complex information in a structured manner. You can handle multi-dimensional data and see patterns where others might not.",
+            datetime: "You're a Date/Time Field! You're punctual and well-organized, with a great sense of timing. You understand the importance of when things happen, not just what happens.",
+            yesno: "You're a Yes/No Field! You're decisive and don't get bogged down in unnecessary details. You can quickly assess situations and make clear choices.",
+            slider: "You're a Slider! You understand that many things in life aren't just black and white. You're good at assessing degrees and nuances in various situations."
+        };
+
+        let currentQuestion = 0;
+        let scores = {};
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz');
+            const question = questions[currentQuestion];
+            
+            let html = `<h2 class="text-xl font-bold mb-4">${question.question}</h2>`;
+            question.answers.forEach((answer, index) => {
+                html += `
+                    <div class="mb-2">
+                        <input type="radio" id="q${currentQuestion}a${index}" name="q${currentQuestion}" value="${answer.type}" class="mr-2">
+                        <label for="q${currentQuestion}a${index}">${answer.text}</label>
+                    </div>
+                `;
+            });
+            html += `<button onclick="nextQuestion()" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>`;
+            
+            quizContainer.innerHTML = html;
+        }
+
+        function nextQuestion() {
+            const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selectedAnswer) {
+                const answerType = selectedAnswer.value;
+                scores[answerType] = (scores[answerType] || 0) + 1;
+                
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            } else {
+                alert("Please select an answer!");
+            }
+        }
+
+        function showResult() {
+            const quizContainer = document.getElementById('quiz');
+            const resultContainer = document.getElementById('result');
+            const resultText = document.getElementById('resultText');
+
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+
+            const maxScore = Math.max(...Object.values(scores));
+            const result = Object.keys(scores).find(key => scores[key] === maxScore);
+
+            resultText.innerHTML = resultDescriptions[result];
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>

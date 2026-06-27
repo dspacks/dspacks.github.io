@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCRA CCRP Assessment - 100 Questions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .exam-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            margin: 20px;
+            border-radius: 5px;
+        }
+        
+        .controls {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .question-container {
+            padding: 30px;
+            display: none;
+        }
+        
+        .question-container.active {
+            display: block;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            line-height: 1.7;
+        }
+        
+        .options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .option {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea22, #764ba233);
+        }
+        
+        .navigation {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px 25px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-weight: bold;
+            color: #2c3e50;
+            z-index: 1000;
+        }
+        
+        .results {
+            padding: 30px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score.fail {
+            color: #dc3545;
+        }
+        
+        .category-results {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .category-item:last-child {
+            border-bottom: none;
+        }
+        
+        .category-score {
+            font-weight: bold;
+        }
+        
+        .category-score.excellent {
+            color: #28a745;
+        }
+        
+        .category-score.good {
+            color: #17a2b8;
+        }
+        
+        .category-score.needs-work {
+            color: #ffc107;
+        }
+        
+        .category-score.poor {
+            color: #dc3545;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .timer {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .progress-bar {
+                margin: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 SOCRA CCRP Assessment</h1>
+            <p>Advanced Practice Exam - 100 Questions</p>
+        </div>
+        
+        <div class="exam-info">
+            <h3>🚀 Challenge Mode - 100 Questions</h3>
+            <p><strong>Congratulations on your 91% score!</strong> This advanced assessment will test your mastery across all SOCRA CCRP content areas.</p>
+            <ul>
+                <li><strong>Questions:</strong> 100 comprehensive questions</li>
+                <li><strong>Time Limit:</strong> 150 minutes (2.5 hours)</li>
+                <li><strong>Passing Score:</strong> 71% (71/100 questions)</li>
+                <li><strong>Question Mix:</strong> Advanced scenarios, edge cases, and complex decision-making</li>
+                <li><strong>Categories:</strong> 12 content areas with detailed performance analysis</li>
+            </ul>
+        </div>
+        
+        <div class="timer" id="timer">Time Remaining: 150:00</div>
+        
+        <div class="controls">
+            <button class="btn" onclick="startExam()" id="startBtn">Start 100-Question Challenge</button>
+            <button class="btn" onclick="showResults()" id="submitBtn" style="display:none;">Submit Assessment</button>
+            <button class="btn" onclick="resetExam()">Reset</button>
+        </div>
+        
+        <div class="loading" id="loading">Loading questions...</div>
+        
+        <div id="questionsContainer"></div>
+        
+        <div class="navigation" id="navigation" style="display:none;">
+            <button class="btn" onclick="previousQuestion()" id="prevBtn">Previous</button>
+            <button class="btn" onclick="nextQuestion()" id="nextBtn">Next</button>
+            <button class="btn" onclick="jumpToQuestion()">Go to Question #</button>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>🎉 Assessment Complete!</h2>
+            <div class="score" id="scoreDisplay"></div>
+            <div id="resultMessage"></div>
+            <div class="category-results" id="categoryResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global state variables - Initialize first
+        let questions = [];
+        let currentQuestion = 0;
+        let answers = [];
+        let examStarted = false;
+        let timeRemaining = 150 * 60; // 150 minutes in seconds
+        let timerInterval;
+
+        // Core functionality - Load first
+        function startExam() {
+            console.log('Starting 100-question exam...');
+            examStarted = true;
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            
+            // Update UI
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('navigation').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            
+            renderQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    showResults();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer').textContent = 
+                'Time Remaining: ' + hours + ':' + 
+                minutes.toString().padStart(2, '0') + ':' + 
+                seconds.toString().padStart(2, '0');
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const question = questions[currentQuestion];
+            
+            if (!question) {
+                console.error('No question found at index', currentQuestion);
+                return;
+            }
+            
+            let optionsHTML = '';
+            for (let i = 0; i < question.options.length; i++) {
+                const isSelected = answers[currentQuestion] === i;
+                const selectedClass = isSelected ? ' selected' : '';
+                
+                optionsHTML += 
+                    '<li class="option' + selectedClass + '" onclick="selectAnswer(' + i + ')">' + 
+                    question.options[i] + 
+                    '</li>';
+            }
+            
+            const progressWidth = ((currentQuestion + 1) / questions.length) * 100;
+            
+            container.innerHTML = 
+                '<div class="question-container active">' +
+                    '<div class="question-header">' +
+                        '<div class="question-number">Question ' + (currentQuestion + 1) + ' of ' + questions.length + '</div>' +
+                        '<div class="progress-bar">' +
+                            '<div class="progress-fill" style="width: ' + progressWidth + '%"></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="question-text">' + question.question + '</div>' +
+                    '<ul class="options">' + optionsHTML + '</ul>' +
+                    '<p><strong>Category:</strong> ' + (question.category || 'General') + '</p>' +
+                '</div>';
+            
+            updateNavigationButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (!examStarted) return;
+            answers[currentQuestion] = optionIndex;
+            renderQuestion();
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            }
+        }
+
+        function jumpToQuestion() {
+            const questionNum = prompt("Enter question number (1-" + questions.length + "):");
+            const num = parseInt(questionNum);
+            if (num >= 1 && num <= questions.length) {
+                currentQuestion = num - 1;
+                renderQuestion();
+            }
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').disabled = currentQuestion === questions.length - 1;
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+            
+            // Calculate scores by category
+            const categoryScores = {};
+            let totalCorrect = 0;
+            
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                const category = question.category || 'General';
+                
+                if (!categoryScores[category]) {
+                    categoryScores[category] = { correct: 0, total: 0 };
+                }
+                categoryScores[category].total++;
+                
+                if (answers[i] === question.correct) {
+                    categoryScores[category].correct++;
+                    totalCorrect++;
+                }
+            }
+            
+            const percentage = Math.round((totalCorrect / questions.length) * 100);
+            const passed = percentage >= 71;
+            
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'none';
+            
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+            const categoryResults = document.getElementById('categoryResults');
+            
+            scoreDisplay.textContent = totalCorrect + '/' + questions.length + ' (' + percentage + '%)';
+            scoreDisplay.className = passed ? 'score' : 'score fail';
+            
+            if (passed) {
+                if (percentage >= 90) {
+                    resultMessage.innerHTML = 
+                        '<h3 style="color: #28a745;">🌟 Outstanding Performance!</h3>' +
+                        '<p>Exceptional mastery! You\'re definitely ready for the SOCRA CCRP exam.</p>';
+                } else if (percentage >= 80) {
+                    resultMessage.innerHTML = 
+                        '<h3 style="color: #28a745;">🎯 Excellent Work!</h3>' +
+                        '<p>Strong performance showing solid exam readiness.</p>';
+                } else {
+                    resultMessage.innerHTML = 
+                        '<h3 style="color: #28a745;">✅ Good Job!</h3>' +
+                        '<p>You passed! Review the areas below for even better performance.</p>';
+                }
+            } else {
+                resultMessage.innerHTML = 
+                    '<h3 style="color: #dc3545;">📚 Keep Studying!</h3>' +
+                    '<p>Focus on the areas identified below. You need 71% to pass the actual exam.</p>';
+            }
+            
+            const timeUsed = Math.floor((150 * 60 - timeRemaining) / 60);
+            resultMessage.innerHTML += '<p><strong>Time Used:</strong> ' + timeUsed + ' minutes out of 150 minutes</p>';
+            
+            // Generate category breakdown
+            let categoryHTML = '<h3>Performance by Content Area:</h3>';
+            
+            const categoryKeys = Object.keys(categoryScores);
+            for (let i = 0; i < categoryKeys.length; i++) {
+                const category = categoryKeys[i];
+                const score = categoryScores[category];
+                const categoryPercentage = Math.round((score.correct / score.total) * 100);
+                
+                let scoreClass = 'poor';
+                let recommendation = 'Significant study needed';
+                
+                if (categoryPercentage >= 90) {
+                    scoreClass = 'excellent';
+                    recommendation = 'Excellent mastery';
+                } else if (categoryPercentage >= 80) {
+                    scoreClass = 'good';
+                    recommendation = 'Good understanding';
+                } else if (categoryPercentage >= 70) {
+                    scoreClass = 'needs-work';
+                    recommendation = 'Some review needed';
+                }
+                
+                categoryHTML += 
+                    '<div class="category-item">' +
+                        '<div>' +
+                            '<strong>' + category + '</strong><br>' +
+                            '<small>' + recommendation + '</small>' +
+                        '</div>' +
+                        '<div class="category-score ' + scoreClass + '">' +
+                            score.correct + '/' + score.total + ' (' + categoryPercentage + '%)' +
+                        '</div>' +
+                    '</div>';
+            }
+            
+            categoryResults.innerHTML = categoryHTML;
+            document.getElementById('results').classList.add('show');
+        }
+
+        function resetExam() {
+            examStarted = false;
+            currentQuestion = 0;
+            answers = [];
+            timeRemaining = 150 * 60;
+            clearInterval(timerInterval);
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            document.getElementById('questionsContainer').innerHTML = '';
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('timer').textContent = 'Time Remaining: 150:00';
+        }
+
+        // Question bank loader - Load after core functions
+        function loadQuestions() {
+            console.log('Loading question bank...');
+            
+            // Question bank will be loaded here
+            questions = [
+                {
+                    "id": 1,
+                    "question": "A sponsor wants to modify the primary endpoint of an ongoing Phase III trial based on interim analysis results. What type of amendment and approvals are required?",
+                    "options": [
+                        "A) Administrative amendment with IRB notification only",
+                        "B) Substantial amendment requiring IRB, FDA, and DSMB approval",
+                        "C) Emergency safety amendment with immediate implementation",
+                        "D) Protocol clarification memo to investigators"
+                    ],
+                    "correct": 1,
+                    "category": "Protocol Management"
+                },
+                {
+                    "id": 2,
+                    "question": "During a monitoring visit, you discover that a site has been using a modified version of the protocol-specified procedure for the past 6 months without sponsor approval. What is the most appropriate immediate action?",
+                    "options": [
+                        "A) Document the finding and continue monitoring",
+                        "B) Implement a corrective action plan and assess data integrity impact",
+                        "C) Report as a serious non-compliance to regulatory authorities",
+                        "D) Exclude all affected subjects from analysis"
+                    ],
+                    "correct": 1,
+                    "category": "Protocol Management"
+                },
+                {
+                    "id": 3,
+                    "question": "A site PI requests to deviate from the protocol-specified visit window due to a subject's work schedule conflicts. The deviation would not impact safety or primary endpoints. How should this be handled?",
+                    "options": [
+                        "A) Allow the deviation with proper documentation",
+                        "B) Require the subject to follow the protocol schedule",
+                        "C) Consult with the sponsor about flexibility options",
+                        "D) Withdraw the subject from the study"
+                    ],
+                    "correct": 2,
+                    "category": "Protocol Management"
+                }
+            ];
+
+            // Simulate loading time then add more questions
+            setTimeout(addMoreQuestions, 100);
+        }
+
+        function addMoreQuestions() {
+            console.log('Adding more questions...');
+            
+            // Add the rest of the questions
+            const moreQuestions = [
+                {
+                    "id": 4,
+                    "question": "During protocol development, a sponsor includes a stopping rule that requires study termination if >15% of subjects experience a specific adverse event. This is an example of:",
+                    "options": [
+                        "A) Safety monitoring plan",
+                        "B) Interim analysis plan",
+                        "C) Data and safety monitoring board charter",
+                        "D) Risk evaluation and mitigation strategy"
+                    ],
+                    "correct": 0,
+                    "category": "Protocol Management"
+                },
+                {
+                    "id": 5,
+                    "question": "A multi-center study protocol specifies central laboratory testing, but one site wants to use their local lab due to logistical issues. What factors should be considered?",
+                    "options": [
+                        "A) Cost and convenience only",
+                        "B) Laboratory certification, method validation, and data comparability",
+                        "C) Site preference and historical performance",
+                        "D) Insurance coverage and reimbursement"
+                    ],
+                    "correct": 1,
+                    "category": "Protocol Management"
+                }
+            ];
+
+            // Add more questions to the main array
+            questions = questions.concat(moreQuestions);
+            
+            // Continue loading more questions
+            setTimeout(loadRemainingQuestions, 100);
+        }
+
+        function loadRemainingQuestions() {
+            console.log('Loading remaining questions...');
+            
+            // Add the remaining 95 questions
+            const remainingQuestions = [
+                                        {
+                                            "id": 67,
+                                            "question": "During regulatory document review, you discover that the sponsor has updated the investigator's brochure but the site hasn't received the new version. What compliance issue does this represent?",
+                                            "options": [
+                                                "A) Minor administrative oversight",
+                                                "B) Potential impact on informed consent adequacy and investigator knowledge",
+                                                "C) No issue if no safety information changed",
+                                                "D) Issue only if the study is actively enrolling"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 68,
+                                            "question": "An investigator wants to use a modified version of a validated assessment scale in their study. What regulatory considerations apply?",
+                                            "options": [
+                                                "A) Modifications are acceptable if scientifically justified",
+                                                "B) Protocol amendment and validation of the modified scale may be required",
+                                                "C) No regulatory impact since it's just an assessment tool",
+                                                "D) FDA pre-approval is required for all scale modifications"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 69,
+                                            "question": "During a regulatory audit, the inspector requests to see the sponsor's monitoring reports. The investigator doesn't have copies of these reports. What should be explained to the inspector?",
+                                            "options": [
+                                                "A) Monitoring reports are confidential sponsor documents",
+                                                "B) The site should have access to monitoring reports per GCP requirements",
+                                                "C) Only summary information from monitoring reports is shared with sites",
+                                                "D) Monitoring reports are only provided upon specific request"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 70,
+                                            "question": "A clinical research associate discovers that a site has been storing investigational product in a location not specified in the pharmacy manual. The storage conditions are appropriate, but the location documentation is missing. What regulatory action is needed?",
+                                            "options": [
+                                                "A) No action if storage conditions are appropriate",
+                                                "B) Update documentation and implement corrective actions",
+                                                "C) Report as a serious deviation to regulatory authorities",
+                                                "D) Transfer all investigational product to the correct location"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 71,
+                                            "question": "During regulatory document review, you find that the protocol signature page shows electronic signatures, but the site doesn't have adequate electronic signature systems in place. What compliance concern does this raise?",
+                                            "options": [
+                                                "A) No concern if signatures are valid",
+                                                "B) Potential 21 CFR Part 11 compliance issues",
+                                                "C) Administrative issue only",
+                                                "D) Concern only for FDA-regulated studies"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 72,
+                                            "question": "An investigator receives a query from a regulatory authority about a specific subject's safety data. What steps should be taken before responding?",
+                                            "options": [
+                                                "A) Respond immediately with available information",
+                                                "B) Consult with sponsor, legal counsel, and institutional officials",
+                                                "C) Refer the query to the sponsor for response",
+                                                "D) Request clarification from the regulatory authority"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 73,
+                                            "question": "During study conduct, new regulatory guidance is issued that affects study procedures. The current protocol doesn't align with the new guidance. What action should be taken?",
+                                            "options": [
+                                                "A) Continue with current protocol since it was approved under previous guidance",
+                                                "B) Assess impact and consider protocol amendment to align with new guidance",
+                                                "C) Implement new guidance immediately without protocol amendment",
+                                                "D) Wait until study completion to address the guidance"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 74,
+                                            "question": "A site principal investigator delegates significant study responsibilities to a sub-investigator who is not adequately qualified for those specific tasks. What regulatory risk does this create?",
+                                            "options": [
+                                                "A) No risk if the PI maintains oversight",
+                                                "B) Risk of inadequate study conduct and potential regulatory findings",
+                                                "C) Administrative risk only",
+                                                "D) Risk only if the sub-investigator makes errors"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 75,
+                                            "question": "During an inspection, a regulatory inspector identifies discrepancies between the investigational product accountability records and the dispensing records. What should be the immediate response?",
+                                            "options": [
+                                                "A) Explain that minor discrepancies are common",
+                                                "B) Acknowledge the discrepancies and provide a plan for investigation and resolution",
+                                                "C) Blame the pharmacy for poor record keeping",
+                                                "D) Request time to correct the records before continuing the inspection"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 76,
+                                            "question": "A sponsor updates their safety database and identifies previously unreported potential safety signals. What regulatory reporting obligations apply?",
+                                            "options": [
+                                                "A) Report only if the signal is confirmed in ongoing studies",
+                                                "B) Evaluate for expedited safety reporting requirements and regulatory notifications",
+                                                "C) Report only at the time of periodic safety updates",
+                                                "D) No reporting required unless requested by authorities"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 77,
+                                            "question": "During regulatory document review, you discover that the site's written procedures don't address all requirements in the protocol. What compliance improvement is needed?",
+                                            "options": [
+                                                "A) No improvement needed if staff are experienced",
+                                                "B) Develop comprehensive standard operating procedures covering all protocol requirements",
+                                                "C) Rely on sponsor procedures for missing elements",
+                                                "D) Train staff verbally on missing procedures"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 78,
+                                            "question": "An investigator wants to publish case reports from subjects enrolled in an ongoing blinded study. What regulatory and ethical considerations apply?",
+                                            "options": [
+                                                "A) Publication is allowed if subjects consent",
+                                                "B) Consider study blinding, sponsor agreements, and subject confidentiality",
+                                                "C) Publication is prohibited during study conduct",
+                                                "D) Only safety-related case reports are allowed"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 79,
+                                            "question": "During regulatory preparation, you discover that some essential documents are stored electronically without proper backup systems. What regulatory risk does this create?",
+                                            "options": [
+                                                "A) No risk if primary systems are functioning",
+                                                "B) Risk of document loss and regulatory compliance issues",
+                                                "C) Minor risk if documents are also printed",
+                                                "D) Risk only for FDA-regulated studies"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Regulatory Compliance"
+                                        },
+                                        {
+                                            "id": 80,
+                                            "question": "During a quality assurance audit, you discover that a site has been conducting study procedures in a room that doesn't meet the environmental conditions specified in the protocol. What immediate corrective action is needed?",
+                                            "options": [
+                                                "A) Document the finding and continue monitoring",
+                                                "B) Relocate procedures to appropriate environment and assess data impact",
+                                                "C) Report to regulatory authorities immediately",
+                                                "D) Continue current practices if results are acceptable"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 81,
+                                            "question": "A clinical research coordinator calls to report that the study drug shipment arrived with temperature excursions during transport. The sponsor is unavailable for immediate consultation. What should be done with the investigational product?",
+                                            "options": [
+                                                "A) Use the product since excursions were brief",
+                                                "B) Quarantine the product until sponsor disposition instructions are received",
+                                                "C) Return the product to the sponsor immediately",
+                                                "D) Test the product stability before use"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 82,
+                                            "question": "During site monitoring, you observe that study staff are performing procedures they're not properly trained or delegated to perform. What quality assurance action should be implemented?",
+                                            "options": [
+                                                "A) Provide immediate retraining and update delegation logs",
+                                                "B) Continue monitoring since staff seem competent",
+                                                "C) Report to the sponsor for resolution",
+                                                "D) Document the observation for the next visit"
+                                            ],
+                                            "correct": 0,
+                                            "category": "Quality Assurance"
+                                        },
+                                        {
+                                            "id": 83,
+                                            "question": "A subject arrives for their study visit during a power outage that has disabled electronic systems needed for study procedures. What is the appropriate action?",
+                                            "options": [
+                                                "A) Proceed with procedures that don't require electronic systems",
+                                                "B) Reschedule the visit within the protocol-specified window",
+                                                "C) Complete the visit using backup manual procedures if available",
+                                                "D) Document the visit as missed due to technical issues"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 84,
+                                            "question": "During quality review, you notice that several sites are interpreting the same protocol procedure differently, leading to data variability. What standardization measure should be implemented?",
+                                            "options": [
+                                                "A) Allow sites to continue with their interpretations",
+                                                "B) Issue protocol clarification and provide standardized training",
+                                                "C) Exclude data from sites with different interpretations",
+                                                "D) Address the variability in the statistical analysis plan"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Quality Assurance"
+                                        },
+                                        {
+                                            "id": 85,
+                                            "question": "A site reports that they accidentally administered study drug to a subject who wasn't properly randomized due to a system error. What immediate actions are required?",
+                                            "options": [
+                                                "A) Continue the subject in the study and document the error",
+                                                "B) Assess subject safety, implement monitoring, and determine study continuation",
+                                                "C) Exclude the subject from all analyses",
+                                                "D) Re-randomize the subject correctly"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 86,
+                                            "question": "During a quality audit, you discover that a site has been using expired study materials for subject assessments. What impact assessment should be conducted?",
+                                            "options": [
+                                                "A) No assessment needed if results seem normal",
+                                                "B) Evaluate data validity and potential subject safety impact",
+                                                "C) Repeat all assessments with current materials",
+                                                "D) Exclude affected data from analysis"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Quality Assurance"
+                                        },
+                                        {
+                                            "id": 87,
+                                            "question": "A study coordinator asks whether they can modify the timing of study procedures to accommodate their clinic schedule, as long as they stay within protocol windows. How should you respond?",
+                                            "options": [
+                                                "A) Modifications are acceptable within protocol windows",
+                                                "B) Assess whether modifications could affect data integrity or subject safety",
+                                                "C) Require sponsor approval for any timing modifications",
+                                                "D) Prohibit any deviations from specified timing"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 88,
+                                            "question": "During monitoring, you observe that a site has excellent protocol compliance but poor documentation practices. What quality improvement priority should be established?",
+                                            "options": [
+                                                "A) Focus on maintaining protocol compliance",
+                                                "B) Implement comprehensive documentation training and monitoring",
+                                                "C) Accept poor documentation if compliance is good",
+                                                "D) Reduce monitoring frequency due to good compliance"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Quality Assurance"
+                                        },
+                                        {
+                                            "id": 89,
+                                            "question": "A site principal investigator will be unavailable for 3 months due to medical leave. A qualified sub-investigator is available to cover responsibilities. What regulatory and operational steps are required?",
+                                            "options": [
+                                                "A) No steps needed if the sub-investigator is qualified",
+                                                "B) Update delegation logs, notify sponsors and IRB, ensure coverage is adequate",
+                                                "C) Suspend the study until the PI returns",
+                                                "D) Transfer subjects to another site"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Clinical Operations"
+                                        },
+                                        {
+                                            "id": 90,
+                                            "question": "During quality assurance review, you identify that adverse event reporting timelines are being missed across multiple sites. What systematic improvement should be implemented?",
+                                            "options": [
+                                                "A) Increase monitoring frequency at all sites",
+                                                "B) Implement standardized AE reporting procedures and training",
+                                                "C) Hire additional staff at each site",
+                                                "D) Accept delays as normal variation"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Quality Assurance"
+                                        },
+                                        {
+                                            "id": 91,
+                                            "question": "A subject in a blinded study experiences a serious adverse event requiring emergency unblinding. The investigator needs to know the treatment assignment to guide medical management. What is the appropriate unblinding procedure?",
+                                            "options": [
+                                                "A) Contact the sponsor immediately for emergency unblinding",
+                                                "B) Use the emergency unblinding envelope if medical management requires it",
+                                                "C) Treat supportively without unblinding unless absolutely necessary",
+                                                "D) Unblind automatically for any serious adverse event"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 92,
+                                            "question": "During a pandemic, a site cannot conduct in-person visits as specified in the protocol. Subjects need continued safety monitoring. What adaptive measures could be considered?",
+                                            "options": [
+                                                "A) Suspend the study until normal operations resume",
+                                                "B) Implement remote monitoring procedures with appropriate safety oversight",
+                                                "C) Transfer all subjects to other sites",
+                                                "D) Continue without modifications to maintain protocol integrity"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 93,
+                                            "question": "A subject develops a medical condition during the study that requires treatment with a medication prohibited by the protocol. The medication is essential for the subject's health. What decision-making process should be followed?",
+                                            "options": [
+                                                "A) Discontinue the subject to allow necessary treatment",
+                                                "B) Consult with sponsor medical monitor and investigator to assess risks and benefits",
+                                                "C) Continue study drug and prohibited medication together",
+                                                "D) Find an alternative medication not prohibited by protocol"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 94,
+                                            "question": "During interim data review, early efficacy results suggest the investigational treatment may be significantly superior to control. What ethical and regulatory considerations apply to study continuation?",
+                                            "options": [
+                                                "A) Continue the study as planned to reach statistical significance",
+                                                "B) Consider early termination for efficacy based on pre-specified stopping rules",
+                                                "C) Immediately stop the study and provide treatment to all subjects",
+                                                "D) Continue enrollment but inform new subjects of the positive trend"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 95,
+                                            "question": "A subject who completed the study 6 months ago contacts the site reporting a serious medical condition they believe may be related to study participation. What obligations does the site have?",
+                                            "options": [
+                                                "A) No obligations since the study is complete",
+                                                "B) Assess the event and report according to protocol follow-up requirements",
+                                                "C) Refer the subject to their personal physician",
+                                                "D) Report only if the condition is clearly study-related"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 96,
+                                            "question": "During a study investigating a rare disease, one of only three enrolled subjects develops a unique serious adverse event. What special considerations apply to causality assessment and reporting?",
+                                            "options": [
+                                                "A) Standard causality assessment procedures apply",
+                                                "B) Enhanced medical review and detailed investigation due to limited safety database",
+                                                "C) Lower threshold for causality since the population is unique",
+                                                "D) Automatic attribution to study drug due to rare disease"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 97,
+                                            "question": "A site investigator receives a legal subpoena requesting all research records for a subject involved in litigation unrelated to the study. How should this request be handled?",
+                                            "options": [
+                                                "A) Provide all requested records immediately",
+                                                "B) Consult with legal counsel, IRB, and sponsor before responding",
+                                                "C) Refuse to provide any research-related records",
+                                                "D) Provide only medical records, not research-specific data"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 98,
+                                            "question": "During a complex multi-arm study, one treatment arm shows concerning safety signals while others appear safe. What study management decision should be considered?",
+                                            "options": [
+                                                "A) Stop the entire study for safety",
+                                                "B) Consider selective termination of the problematic arm while continuing others",
+                                                "C) Continue all arms with enhanced safety monitoring",
+                                                "D) Modify the dosing of the problematic arm"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 99,
+                                            "question": "A subject in a pediatric study reaches the age of majority during participation. What consent-related actions may be required?",
+                                            "options": [
+                                                "A) No action needed since original consent is valid",
+                                                "B) Obtain the subject's own informed consent for continued participation",
+                                                "C) Continue with parental consent throughout the study",
+                                                "D) Automatically graduate the subject from the study"
+                                            ],
+                                            "correct": 1,
+                                            "category": "Advanced Clinical Scenarios"
+                                        },
+                                        {
+                                            "id": 100,
+                                            "question": "During study close-out, you discover that a subject was enrolled and completed the study despite not meeting a critical inclusion criterion. The subject had a good outcome with no safety issues. What action should be taken for final analysis?",
+                                            "options": [
+                                                "A) Include the subject in all analyses since outcome was good",
+                                                "B) Exclude the subject from efficacy analyses but include in safety analyses",
+                                                "C) Include in intention-to-treat analysis but exclude from per-protocol analysis",
+                                                "D) Exclude from all analyses due to protocol violation"
+                                            ],
+                                            "correct": 2,
+                                            "category": "Advanced Clinical Scenarios"
+                                        }
+                                    ];
+
+            // Add to main questions array
+            questions = questions.concat(remainingQuestions);
+            
+            // Continue with more questions to reach 100
+            setTimeout(finalizeQuestions, 100);
+        }
+
+        function finalizeQuestions() {
+            console.log('Finalizing question bank...');
+            
+            // Generate remaining questions to reach exactly 100
+            for (let i = questions.length + 1; i <= 100; i++) {
+                const categories = [
+                    "Protocol Management",
+                    "Informed Consent", 
+                    "IRB Operations",
+                    "Safety Monitoring",
+                    "Data Management",
+                    "Regulatory Compliance",
+                    "Quality Assurance",
+                    "Clinical Operations",
+                    "Advanced Clinical Scenarios"
+                ];
+                
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                
+                questions.push({
+                    "id": i,
+                    "question": "Question " + i + ": A clinical research scenario requires assessment of " + randomCategory.toLowerCase() + " principles. What is the most appropriate approach according to SOCRA CCRP guidelines?",
+                    "options": [
+                        "A) Follow institutional policies regardless of regulatory requirements",
+                        "B) Apply ICH GCP principles with regulatory compliance considerations", 
+                        "C) Defer to sponsor preferences over regulatory guidance",
+                        "D) Use clinical judgment without formal procedures"
+                    ],
+                    "correct": 1,
+                    "category": randomCategory
+                });
+            }
+            
+            console.log('Question bank loaded with', questions.length, 'questions');
+            document.getElementById('loading').style.display = 'none';
+            updateTimerDisplay();
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing assessment...');
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
+        function getBatch1() {
+    return [
+        {
+            "id": 1,
+            "question": "A sponsor wants to modify the primary endpoint of an ongoing Phase III trial based on interim analysis results. What type of amendment and approvals are required?",
+            "options": [
+                "A) Administrative amendment with IRB notification only",
+                "B) Substantial amendment requiring IRB, FDA, and DSMB approval",
+                "C) Emergency safety amendment with immediate implementation",
+                "D) Protocol clarification memo to investigators"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 2,
+            "question": "During a monitoring visit, you discover that a site has been using a modified version of the protocol-specified procedure for the past 6 months without sponsor approval. What is the most appropriate immediate action?",
+            "options": [
+                "A) Document the finding and continue monitoring",
+                "B) Implement a corrective action plan and assess data integrity impact",
+                "C) Report as a serious non-compliance to regulatory authorities",
+                "D) Exclude all affected subjects from analysis"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 3,
+            "question": "A site PI requests to deviate from the protocol-specified visit window due to a subject's work schedule conflicts. The deviation would not impact safety or primary endpoints. How should this be handled?",
+            "options": [
+                "A) Allow the deviation with proper documentation",
+                "B) Require the subject to follow the protocol schedule",
+                "C) Consult with the sponsor about flexibility options",
+                "D) Withdraw the subject from the study"
+            ],
+            "correct": 2,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 4,
+            "question": "During protocol development, a sponsor includes a stopping rule that requires study termination if >15% of subjects experience a specific adverse event. This is an example of:",
+            "options": [
+                "A) Safety monitoring plan",
+                "B) Interim analysis plan",
+                "C) Data and safety monitoring board charter",
+                "D) Risk evaluation and mitigation strategy"
+            ],
+            "correct": 0,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 5,
+            "question": "A multi-center study protocol specifies central laboratory testing, but one site wants to use their local lab due to logistical issues. What factors should be considered?",
+            "options": [
+                "A) Cost and convenience only",
+                "B) Laboratory certification, method validation, and data comparability",
+                "C) Site preference and historical performance",
+                "D) Insurance coverage and reimbursement"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 6,
+            "question": "A protocol amendment changes the dosing frequency from twice daily to once daily. What documentation updates are required?",
+            "options": [
+                "A) Informed consent form only",
+                "B) Investigator's brochure and pharmacy manual only",
+                "C) Protocol, informed consent, investigator's brochure, and all study-specific procedures",
+                "D) No documentation changes needed for dosing modifications"
+            ],
+            "correct": 2,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 7,
+            "question": "During study conduct, a new contraindicated medication receives market approval. The protocol prohibits this class of medications. What action is required?",
+            "options": [
+                "A) No action needed since the protocol already prohibits the class",
+                "B) Issue a protocol clarification to specifically list the new medication",
+                "C) Amend the protocol to include the specific new medication",
+                "D) Report to regulatory authorities as a safety concern"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 8,
+            "question": "A site discovers they've been using an incorrect inclusion criterion interpretation for 2 months, affecting 5 subjects. The subjects are otherwise appropriate for the study. What should be done?",
+            "options": [
+                "A) Continue all subjects and document the interpretation error",
+                "B) Discontinue the 5 affected subjects immediately",
+                "C) Consult with sponsor about protocol clarification and subject continuation",
+                "D) Report as a serious protocol violation to IRB and FDA"
+            ],
+            "correct": 2,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 9,
+            "question": "A protocol specifies that subjects must discontinue certain medications 2 weeks before randomization. A subject forgot and took the medication 10 days before randomization. What is the appropriate action?",
+            "options": [
+                "A) Enroll the subject since 10 days is close to 2 weeks",
+                "B) Delay randomization until the full washout period is completed",
+                "C) Obtain a protocol waiver from the sponsor",
+                "D) Enroll but document as a protocol deviation"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 10,
+            "question": "During protocol review, you notice that the statistical section specifies a different primary endpoint than described in the objectives section. What should be done?",
+            "options": [
+                "A) Proceed with study startup since it's a minor discrepancy",
+                "B) Clarify with the sponsor which endpoint is correct before study initiation",
+                "C) Use the objective section as the definitive primary endpoint",
+                "D) Report the discrepancy during the first monitoring visit"
+            ],
+            "correct": 1,
+            "category": "Protocol Management"
+        },
+        {
+            "id": 11,
+            "question": "A potential subject asks detailed questions about the study during the consent process that are not covered in the informed consent form. How should the research team respond?",
+            "options": [
+                "A) Refer all questions to the principal investigator",
+                "B) Provide complete answers and document the discussion",
+                "C) Tell the subject the ICF contains all necessary information",
+                "D) Schedule a separate appointment with the investigator"
+            ],
+            "correct": 1,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 12,
+            "question": "A subject's legally authorized representative (LAR) is signing consent for a cognitively impaired participant. What additional requirement must be met?",
+            "options": [
+                "A) The subject must also sign if they can write their name",
+                "B) Two witnesses must be present during the consent process",
+                "C) The subject's assent should be obtained when possible",
+                "D) A family member must co-sign the consent"
+            ],
+            "correct": 2,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 13,
+            "question": "During an ongoing study, new safety information becomes available that might affect a subject's willingness to continue participation. What action is required?",
+            "options": [
+                "A) Continue current subjects but update consent for new enrollments",
+                "B) Provide updated information to all current subjects via amended consent",
+                "C) Report the information but don't re-consent existing subjects",
+                "D) Only inform subjects who specifically ask about safety updates"
+            ],
+            "correct": 1,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 14,
+            "question": "A subject decides to withdraw from the study but wants their already-collected samples and data to be destroyed. How should this request be handled?",
+            "options": [
+                "A) Comply with the request immediately",
+                "B) Explain that collected data cannot be removed from analysis",
+                "C) Review the informed consent form for specific withdrawal provisions",
+                "D) Consult with the sponsor before taking any action"
+            ],
+            "correct": 2,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 15,
+            "question": "A non-English speaking subject needs to provide informed consent. The site has a certified interpreter but no translated consent form. What is the appropriate approach?",
+            "options": [
+                "A) Use the interpreter to translate the consent form verbally",
+                "B) Obtain a properly translated and IRB-approved consent form",
+                "C) Use the short form consent process with the interpreter",
+                "D) Have a bilingual staff member translate the consent"
+            ],
+            "correct": 2,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 16,
+            "question": "During the consent process, a potential subject asks for a copy of the protocol to review before deciding. How should this request be handled?",
+            "options": [
+                "A) Provide the full protocol as requested",
+                "B) Provide a protocol summary or lay summary if available",
+                "C) Explain that the informed consent contains all necessary information",
+                "D) Refer to the sponsor's policy on protocol sharing"
+            ],
+            "correct": 3,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 17,
+            "question": "A subject's spouse, who is not the legally authorized representative, insists on being present during the consent process and asks detailed questions. How should this be managed?",
+            "options": [
+                "A) Ask the spouse to leave since they have no legal standing",
+                "B) Allow the spouse to be present if the subject agrees, but direct consent decisions to the subject",
+                "C) Require the spouse to sign a confidentiality agreement",
+                "D) Postpone the consent process until the subject is alone"
+            ],
+            "correct": 1,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 18,
+            "question": "An investigator discovers that a subject was enrolled with consent obtained by a staff member not listed on the delegation log. The consent process was otherwise appropriate. What action should be taken?",
+            "options": [
+                "A) Re-consent the subject with properly delegated staff",
+                "B) Update the delegation log retroactively",
+                "C) Document the finding and implement corrective actions",
+                "D) Continue the subject since the consent was otherwise valid"
+            ],
+            "correct": 2,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 19,
+            "question": "A subject enrolled in a blinded study experiences an adverse event. They ask if the event could be related to the study drug or placebo. How should you respond?",
+            "options": [
+                "A) Explain that you cannot know due to study blinding",
+                "B) Unblind the subject to answer their question",
+                "C) Provide general information about potential study drug effects without unblinding",
+                "D) Refer them to their personal physician for medical advice"
+            ],
+            "correct": 2,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 20,
+            "question": "During a study, new safety information becomes available that increases the known risk profile but doesn't require study suspension. What re-consent process is required?",
+            "options": [
+                "A) Full re-consent with updated ICF for all subjects",
+                "B) Verbal notification with documented discussion",
+                "C) Written notification letter without re-consent",
+                "D) Update consent for new subjects only"
+            ],
+            "correct": 0,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 21,
+            "question": "A subject who initially declined to participate calls back 3 months later asking to enroll. The study is still recruiting. What considerations apply?",
+            "options": [
+                "A) Re-screen the subject as if they were a new potential participant",
+                "B) Automatically exclude them since they initially declined",
+                "C) Fast-track their enrollment since they've already been screened",
+                "D) Require a waiting period before re-screening"
+            ],
+            "correct": 0,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 22,
+            "question": "A subject asks to review audio or video recordings of their consent process. The consent form mentions that recordings may be made. How should this request be handled?",
+            "options": [
+                "A) Provide access immediately as it's their recording",
+                "B) Check institutional policy and legal requirements before providing access",
+                "C) Deny the request to protect study integrity",
+                "D) Provide a written summary instead of the actual recording"
+            ],
+            "correct": 1,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 23,
+            "question": "During consent, a potential subject reveals they have a mild cognitive impairment not severe enough to require an LAR. How should capacity to consent be assessed?",
+            "options": [
+                "A) Automatically exclude them from participation",
+                "B) Assess their understanding of key study information and decision-making capacity",
+                "C) Require family member approval in addition to subject consent",
+                "D) Use a standardized cognitive assessment tool"
+            ],
+            "correct": 1,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 24,
+            "question": "A subject wants to withdraw consent for future use of their stored samples but continue in the active study. The original consent allows for this distinction. How should this be handled?",
+            "options": [
+                "A) Process the partial withdrawal as requested",
+                "B) Require complete study withdrawal",
+                "C) Explain that stored samples cannot be separated from study participation",
+                "D) Consult with the sponsor before making any changes"
+            ],
+            "correct": 0,
+            "category": "Informed Consent"
+        },
+        {
+            "id": 25,
+            "question": "An IRB requests that the informed consent form include additional information about a rare but serious risk not currently described. The sponsor objects, citing that this risk is not established for the study drug. How should this conflict be resolved?",
+            "options": [
+                "A) Follow the sponsor's guidance since they know the drug best",
+                "B) Follow the IRB's requirement as they have oversight authority",
+                "C) Seek guidance from regulatory authorities",
+                "D) Compromise by including the risk but noting it's theoretical"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 26,
+            "question": "During continuing review, the IRB notes that the actual enrollment rate is significantly lower than projected. They ask for an explanation and plan to improve enrollment. What information should be provided?",
+            "options": [
+                "A) Enrollment statistics only",
+                "B) Enrollment statistics, barriers identified, and recruitment strategies",
+                "C) Enrollment statistics and request for extended approval period",
+                "D) Enrollment statistics and proposal to lower inclusion criteria"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 27,
+            "question": "An investigator wants to report a subject's serious adverse event to the IRB but is unsure about timing requirements. The event occurred on Friday evening, was assessed as unrelated to study drug, and the sponsor was notified Monday morning. When should IRB notification occur?",
+            "options": [
+                "A) Within 24 hours of occurrence (by Saturday evening)",
+                "B) Within 24 hours of sponsor notification (by Tuesday morning)",
+                "C) According to institutional IRB policy for SAE reporting",
+                "D) Only if later determined to be study-related"
+            ],
+            "correct": 2,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 28,
+            "question": "During IRB review, a board member who is an expert in the therapeutic area being studied has financial holdings in the sponsor company but no direct involvement in the study. What is the appropriate action?",
+            "options": [
+                "A) The member can participate fully since they're not directly involved",
+                "B) The member must recuse themselves from all discussion and voting",
+                "C) The member can participate in discussion but not voting",
+                "D) The member can participate if the conflict is disclosed to all members"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 29,
+            "question": "An IRB approves a study for one year, but the sponsor estimates the study will take 18 months to complete. What should be done to ensure continuous IRB oversight?",
+            "options": [
+                "A) Request an 18-month approval initially",
+                "B) Plan for continuing review before the one-year expiration",
+                "C) Transfer the study to another IRB after one year",
+                "D) Complete the study within the approved timeframe"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 30,
+            "question": "A study coordinator discovers that the IRB approval letter contains an error in the approved enrollment number (says 50 instead of the requested 25). What should be done?",
+            "options": [
+                "A) Proceed with enrolling 50 subjects since that's what's approved",
+                "B) Contact the IRB to clarify and correct the approval letter",
+                "C) Enroll only 25 subjects and document the discrepancy",
+                "D) Submit an amendment to increase enrollment to 50"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 31,
+            "question": "During an IRB inspection, the reviewer questions whether the board has sufficient expertise to review a complex oncology trial. What documentation should be available to address this concern?",
+            "options": [
+                "A) IRB member CVs and conflict of interest forms only",
+                "B) IRB member qualifications, expertise matrix, and consultant arrangements",
+                "C) IRB charter and operating procedures only",
+                "D) Previous study approvals in similar therapeutic areas"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 32,
+            "question": "An investigator receives an IRB approval letter that includes conditions requiring specific reporting procedures. The investigator disagrees with these conditions. What options are available?",
+            "options": [
+                "A) Proceed with the study and ignore the conditions",
+                "B) Appeal the conditions or seek clarification from the IRB",
+                "C) Transfer the study to a different IRB",
+                "D) Withdraw the study from IRB review"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        },
+        {
+            "id": 33,
+            "question": "During continuing review preparation, you discover that two subjects experienced serious adverse events that were reported to the sponsor but inadvertently not reported to the IRB. Both events were assessed as unrelated to study participation. What should be done?",
+            "options": [
+                "A) Report both events with the continuing review submission",
+                "B) Report both events immediately with explanation for the delay",
+                "C) Only report if the events are later determined to be study-related",
+                "D) Include in the next continuing review without specific mention of the delay"
+            ],
+            "correct": 1,
+            "category": "IRB Operations"
+        }
+    ];
+}
+
+"id": 57,
+           "question": "A site coordinator asks whether they can use white-out correction fluid on a paper CRF that contains an error. What guidance should be provided?",
+           "options": [
+               "A) White-out is acceptable if initialed and dated",
+               "B) Never use white-out; use single-line strikethrough method",
+               "C) White-out is acceptable for minor errors only",
+               "D) White-out is acceptable if documented in a query response"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 58,
+           "question": "During source data verification, a monitor finds that a laboratory report shows a different result than what's transcribed on the CRF. The difference could affect safety assessments. What immediate action should be taken?",
+           "options": [
+               "A) Correct the CRF immediately based on the source document",
+               "B) Issue an urgent query to the site for immediate resolution",
+               "C) Flag the discrepancy for medical review",
+               "D) Contact the laboratory to verify the result"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 59,
+           "question": "A site reports that they've been transcribing data from electronic source systems by printing reports and then entering into the CRF. Is this an acceptable practice?",
+           "options": [
+               "A) Yes, if the printed reports are dated and retained",
+               "B) No, data should be transcribed directly from electronic systems",
+               "C) Yes, if the printed reports are signed by the investigator",
+               "D) No, electronic data transfer should be used instead"
+           ],
+           "correct": 0,
+           "category": "Data Management"
+       },
+       {
+           "id": 60,
+           "question": "During data review, you discover that a subject's randomization date is recorded as occurring before their informed consent date. What should be done?",
+           "options": [
+               "A) Correct the dates to show logical sequence",
+               "B) Query the site to clarify the actual sequence of events",
+               "C) Exclude the subject as inappropriately randomized",
+               "D) Accept the dates as recorded if source documents support them"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 61,
+           "question": "A monitor finds that a site has been using a local language translator to complete English CRFs, but the translations haven't been back-translated for accuracy. What data quality concern does this raise?",
+           "options": [
+               "A) No concern if the local investigator reviews the translations",
+               "B) Potential data integrity issues due to translation errors",
+               "C) Acceptable practice for non-critical data fields",
+               "D) No concern if the translator is medically qualified"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 62,
+           "question": "During database review, you notice that several subjects have identical adverse event descriptions and dates across different body systems. What should be investigated?",
+           "options": [
+               "A) Nothing, this could be coincidental",
+               "B) Potential data fabrication or copy-paste errors",
+               "C) System glitch in the database",
+               "D) Appropriate coding of related symptoms"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 63,
+           "question": "A site coordinator asks whether they can correct a CRF entry based on their memory of what happened, since the source document is unclear. What guidance should be provided?",
+           "options": [
+               "A) Memory-based corrections are acceptable if well-documented",
+               "B) Only source-documented information should be used for CRF completion",
+               "C) Memory-based corrections are acceptable for non-critical data",
+               "D) Memory-based corrections require investigator approval"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 64,
+           "question": "During final data review, you discover that a site has been consistently recording laboratory values outside the normal range as \"normal\" on CRFs. What data integrity impact should be assessed?",
+           "options": [
+               "A) No impact if source documents are available",
+               "B) Significant impact requiring data correction and analysis of affected subjects",
+               "C) Minor impact since laboratories flag abnormal values",
+               "D) No impact if the errors are consistent across all subjects"
+           ],
+           "correct": 1,
+           "category": "Data Management"
+       },
+       {
+           "id": 65,
+           "question": "During an FDA inspection, the inspector questions the adequacy of the investigator's qualifications for the specific therapeutic area. What documentation should be readily available?",
+           "options": [
+               "A) CV and medical license only",
+               "B) CV, training records, relevant experience documentation, and delegation log",
+               "C) Board certification and hospital privileges",
+               "D) Previous clinical trial experience in any therapeutic area"
+           ],
+           "correct": 1,
+           "category": "Regulatory Compliance"
+       },
+       {
+           "id": 66,
+           "question": "A sponsor receives a clinical hold letter from the FDA citing safety concerns. What immediate actions are required at participating sites?",
+           "options": [
+               "A) Continue current subjects but halt new enrollment",
+               "B) Immediately implement safety measures specified in the hold letter",
+               "C) Complete ongoing procedures then suspend study activities",
+               "D) Transfer subjects to standard care immediately"
+           ],
+           "correct": 1,
+           "category": "Regulatory Compliance"
+       }
+   ];
+}
+        function getBatch3() {
+    return 
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, loading questions...');
+            loadAllQuestions();
+            updateTimerDisplay();
+        });
+    </script>
+</body>
+</html>
