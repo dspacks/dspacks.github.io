@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Week 4: IND Homework Packet (Interactive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Basic styling for tab buttons */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        /* Active tab button style */
+        .tab-button[aria-selected="true"] {
+            border-bottom-color: #4f46e5;
+            /* indigo-600 */
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* Hide tab panels by default */
+        .tab-panel[hidden] {
+            display: none;
+        }
+
+        /* Input field feedback */
+        .answer-correct {
+            border: 2px solid #22c55e;
+            /* green-500 */
+        }
+
+        .answer-wrong {
+            border: 2px solid #ef4444;
+            /* red-500 */
+        }
+
+        .correct-answer-display {
+            font-size: 0.875rem;
+            color: #16a34a;
+            /* green-600 */
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
+        <!-- Header -->
+        <header class="p-6 md:p-8 border-b border-gray-200 bg-gray-50">
+            <h1 class="text-2xl md:text-3xl font-bold text-indigo-700">Week 4: IND Homework Packet</h1>
+            <p class="text-lg text-gray-600">IND Regulation Mastery & Office Hours Materials</p>
+            <p class="text-sm text-gray-500 mt-1">Total Time Commitment: 3.5-4 hours</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 overflow-x-auto">
+            <div role="tablist" aria-label="Homework Assignments" class="flex flex-nowrap -mb-px px-4 md:px-6">
+                <button role="tab" aria-selected="true" aria-controls="tab-overview" id="btn-overview"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    Overview
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-hw1" id="btn-hw1"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    HW#1: Reading Guide
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-hw2" id="btn-hw2"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    HW#2: Decision Tree
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-hw3" id="btn-hw3"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    HW#3: Timelines (Scored)
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-hw4" id="btn-hw4"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    HW#4: Form Completion
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content Panels -->
+        <div class="p-6 md:p-8">
+
+            <!-- Tab 1: Overview -->
+            <div role="tabpanel" id="tab-overview" class="tab-panel space-y-6">
+                <section>
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-3">HOMEWORK PACKET INSTRUCTIONS</h2>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Overview</h3>
+                    <p>This week's homework reinforces IND regulation mastery through applied learning, realistic scenarios, and timeline practice. Total estimated time: <strong>3.5-4 hours</strong> (spread across the week).</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><strong>Completion deadline:</strong> By start of Week 5 class</li>
+                        <li><strong>Submission method:</strong> [Online portal / email to instructor]</li>
+                        <li><strong>Grading:</strong> Credit/no-credit (completion-based); optional detailed feedback available during office hours</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Tab 2: HW#1: Reading Guide -->
+            <div role="tabpanel" id="tab-hw1" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">HOMEWORK ASSIGNMENT #1: Reading Guide with Annotation</h2>
+                    <p class="text-gray-600">Estimated time: 45 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Assigned Reading:</h3>
+                    <ul class="list-disc list-inside ml-4">
+                        <li><strong>Primary:</strong> 21 CFR Part 312 (IND Regulations) - Sections 312.20-312.70 (focus on 312.50-312.70)</li>
+                        <li><strong>Secondary:</strong> ICH GCP E6(R3) Section 2.9 (Sponsor Oversight) and Section 4.8 (Safety Information)</li>
+                        <li><strong>Optional:</strong> FDA Guidance "Investigational New Drug (IND) Application" (10 pages)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Reading Guide with Annotation Prompts</h3>
+                    <p class="mb-4">As you read 21 CFR 312.50-312.70, type your notes addressing:</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="hw1-q1" class="block text-md font-medium text-gray-700">Annotation Prompt 1: Sponsor Primary Obligations (21 CFR 312.50)</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: What are the THREE primary responsibilities of sponsors per 312.50?</p>
+                            <textarea id="hw1-q1" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q2" class="block text-md font-medium text-gray-700">Annotation Prompt 2: Investigator Selection (21 CFR 312.53(a))</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: What specific steps must sponsors take to ensure investigator qualifications? Can this be fully delegated to a CRO?</p>
+                            <textarea id="hw1-q2" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q3" class="block text-md font-medium text-gray-700">Annotation Prompt 3: Form 1572 Commitments (21 CFR 312.53(c))</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: List the FOUR KEY commitments an investigator makes on Form 1572. Which can be delegated, and which cannot?</p>
+                            <textarea id="hw1-q3" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q4" class="block text-md font-medium text-gray-700">Annotation Prompt 4: Monitoring and Oversight (21 CFR 312.56)</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: Per 312.56, what is the standard for sponsor monitoring frequency? Is there a specific number of monitoring visits required?</p>
+                            <textarea id="hw1-q4" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q5" class="block text-md font-medium text-gray-700">Annotation Prompt 5: Record Retention (21 CFR 312.57(b))</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: How long must sponsors maintain IND records per 312.57(b)? From what date is the 2-year period calculated?</p>
+                            <textarea id="hw1-q5" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q6" class="block text-md font-medium text-gray-700">Annotation Prompt 6: Investigator Record Keeping (21 CFR 312.57(b), 312.62(b))</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: What is the same AND what is different between sponsor (312.57) and investigator (312.62) record retention requirements?</p>
+                            <textarea id="hw1-q6" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q7" class="block text-md font-medium text-gray-700">Annotation Prompt 7: Adverse Event Reporting Chain (21 CFR 312.64, 312.32)</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: Who reports to whom per 21 CFR 312.64? How does this differ from FDA reporting (312.32)?</p>
+                            <textarea id="hw1-q7" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw1-q8" class="block text-md font-medium text-gray-700">Annotation Prompt 8: CRO Accountability (21 CFR 312.50; ICH GCP E6(R3) 2.9)</label>
+                            <p class="text-sm text-gray-500 mb-1">Q: Per regulatory guidance, can a sponsor transfer regulatory accountability to a CRO? What's the distinction?</p>
+                            <textarea id="hw1-q8" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your notes..."></textarea>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tab 3: HW#2: Decision Tree -->
+            <div role="tabpanel" id="tab-hw2" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">HOMEWORK ASSIGNMENT #2: IND Safety Reporting Decision Tree Creation</h2>
+                    <p class="text-gray-600">Estimated time: 60 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Assignment Description</h3>
+                    <p>Create a VISUAL DECISION TREE flowchart that walks through the logic of determining safety reporting requirements per 21 CFR 312.32.</p>
+                    <h4 class="font-semibold mt-2">Requirements (must answer in sequence):</h4>
+                    <ul class="list-decimal list-inside ml-4">
+                        <li>Is it an adverse event?</li>
+                        <li>Is sponsor AWARE of it? (Start clock)</li>
+                        <li>Is event SERIOUS? (Hospitalization, disability, death, etc.)</li>
+                        <li>Is event LIFE-THREATENING/FATAL?</li>
+                        <li>Is event UNEXPECTED? (Compare to Investigator's Brochure)</li>
+                        <li>Is it a SUSPECTED ADVERSE REACTION? (Related)</li>
+                    </ul>
+                    <h4 class="font-semibold mt-2">Output Decision:</h4>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>7-DAY PHONE REPORT</li>
+                        <li>15-DAY WRITTEN REPORT</li>
+                        <li>ANNUAL REPORT ONLY</li>
+                        <li>NO EXPEDITED REPORT REQUIRED</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Example Scenarios to Test Your Tree:</h3>
+                    <ul class="list-disc list-inside ml-4 text-sm">
+                        <li><strong>Scenario 1:</strong> Expected serious adverse event → Output: <strong>ANNUAL REPORT ONLY</strong></li>
+                        <li><strong>Scenario 2:</strong> Unexpected, life-threatening, suspected related → Output: <strong>7-DAY PHONE REPORT</strong></li>
+                        <li><strong>Scenario 3:</strong> Serious, unexpected, unrelated to drug → Output: <strong>ANNUAL REPORT ONLY</strong></li>
+                    </ul>
+                </section>
+                <section>
+                    <label for="hw2-draft" class="block text-md font-medium text-gray-700">Draft Your Decision Tree (Text-based Outline)</label>
+                    <p class="text-sm text-gray-500 mb-1">Use if/then statements to draft your logic here.</p>
+                    <textarea id="hw2-draft" rows="15" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="START: Is it an adverse event?
+IF YES: Is sponsor aware?
+  IF YES: Is it serious?
+    IF YES: Is it life-threatening?
+..."></textarea>
+                </section>
+            </div>
+
+            <!-- Tab 4: HW#3: Timeline Scenarios -->
+            <div role="tabpanel" id="tab-hw3" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">HOMEWORK ASSIGNMENT #3: Timeline Calculation Practice (10 Scenarios)</h2>
+                    <p class="text-gray-600">Estimated time: 75 minutes</p>
+                </header>
+
+                <div class="sticky top-0 z-10 p-4 mb-4 bg-indigo-100 border border-indigo-300 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-indigo-800 text-center">Total Score: <span id="total-score-scenarios">0</span> / 10 Scenarios Correct</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Scenario 1 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 1: The Unexpected Cardiac Event</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> XYZ-101 (antihypertensive). IB lists "bradycardia (<50 bpm)". Event: Subject develops PVCs w/ chest discomfort. Sponsor aware March 15. Possibly related. No hospitalization.</p>
+                        <div class="space-y-2">
+                            <div>
+                                <label for="s1-q1" class="block text-sm font-medium">1. Is this event unexpected? Why?</label>
+                                <input type="text" id="s1-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s1-q2" class="block text-sm font-medium">2. Is this event serious per SAE definition?</label>
+                                <input type="text" id="s1-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s1-q3" class="block text-sm font-medium">3. What type of report is required?</label>
+                                <input type="text" id="s1-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s1-q4" class="block text-sm font-medium">4. If required, when is it due?</label>
+                                <input type="text" id="s1-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s1-q5" class="block text-sm font-medium">5. What citation supports your answer?</label>
+                                <input type="text" id="s1-q5" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s1" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 1</button>
+                        <div id="feedback-s1" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 2 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 2: The Life-Threatening Reaction</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> ABC-789 (antibiotic). IB lists "rash". Event: Anaphylaxis (life-threatening), O2 sat 91%. Sponsor learns April 8. Treated in ED, discharged after 4 hours. Suspected related.</p>
+                        <div class="space-y-2">
+                            <div>
+                                <label for="s2-q1" class="block text-sm font-medium">1. Is this event unexpected?</label>
+                                <input type="text" id="s2-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s2-q2" class="block text-sm font-medium">2. Is this event life-threatening?</label>
+                                <input type="text" id="s2-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s2-q3" class="block text-sm font-medium">3. What type of report is required?</label>
+                                <input type="text" id="s2-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s2-q4" class="block text-sm font-medium">4. What is the phone deadline?</label>
+                                <input type="text" id="s2-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s2-q5" class="block text-sm font-medium">5. What is the written report deadline?</label>
+                                <input type="text" id="s2-q5" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s2-q6" class="block text-sm font-medium">6. Citation?</label>
+                                <input type="text" id="s2-q6" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s2" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 2</button>
+                        <div id="feedback-s2" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 3 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 3: International Event with Delayed Notification</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> DEF-999 (oncology). London subject sepsis. US sponsor receives notification May 12. Classified: Serious, unexpected, suspected related.</p>
+                        <div class="space-y-2">
+                            <div>
+                                <label for="s3-q1" class="block text-sm font-medium">1. Does US sponsor have reporting obligations?</label>
+                                <input type="text" id="s3-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s3-q2" class="block text-sm font-medium">2. When does US reporting timeline START?</label>
+                                <input type="text" id="s3-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s3-q3" class="block text-sm font-medium">3. When is the 15-day report due?</label>
+                                <input type="text" id="s3-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="s3-q4" class="block text-sm font-medium">4. Citation?</label>
+                                <input type="text" id="s3-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s3" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 3</button>
+                        <div id="feedback-s3" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 4 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 4: The Emerging Safety Signal</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> GHI-555 (diabetes). IB lists "Elevated ALT in <2%". Phase 2: 15% have ALT elevations (3 subjects >3x ULN). Sponsor discovery: April 20. Trend is unexpected.</p>
+                        <div class="space-y-2">
+                             <div>
+                                <label for="s4-q1" class="block text-sm font-medium">1. Does each individual ALT case trigger a 15-day report?</label>
+                                <input type="text" id="s4-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s4-q2" class="block text-sm font-medium">2. What is the sponsor's obligation regarding this TREND?</label>
+                                <input type="text" id="s4-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s4-q3" class="block text-sm font-medium">3. What regulatory mechanism for reporting an emerging signal?</label>
+                                <input type="text" id="s4-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="s4-q4" class="block text-sm font-medium">4. Citation?</label>
+                                <input type="text" id="s4-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s4" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 4</button>
+                        <div id="feedback-s4" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 5 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 5: Follow-Up Report with Causality Change</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> Initial 15-day report (Jan 20) for possible sepsis. Follow-up data (Jan 28) shows positive blood culture for Staph. aureus. Causality reassessed as UNLIKELY related.</p>
+                        <div class="space-y-2">
+                            <div>
+                                <label for="s5-q1" class="block text-sm font-medium">1. Is a new/follow-up report required?</label>
+                                <input type="text" id="s5-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s5-q2" class="block text-sm font-medium">2. If so, when is it due?</label>
+                                <input type="text" id="s5-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s5-q3" class="block text-sm font-medium">3. How is it labeled/titled?</label>
+                                <input type="text" id="s5-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s5-q4" class="block text-sm font-medium">4. Citation?</label>
+                                <input type="text" id="s5-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s5" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 5</button>
+                        <div id="feedback-s5" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 6 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 6: Emergency Deviation and Reporting</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> Subject severe hypotension (SBP 78). Investigator immediately stops drug and gives IV fluids (emergency deviation). Outcome: Hospitalization overnight. Sponsor notified April 5. Serious, possibly related.</p>
+                         <div class="space-y-2">
+                            <div>
+                                <label for="s6-q1" class="block text-sm font-medium">1. Was the investigator's emergency deviation justified?</label>
+                                <input type="text" id="s6-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s6-q2" class="block text-sm font-medium">2. What must the investigator report to sponsor/IRB?</label>
+                                <input type="text" id="s6-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s6-q3" class="block text-sm font-medium">3. What is sponsor's reporting obligation to FDA (if any)?</label>
+                                <input type="text" id="s6-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s6-q4" class="block text-sm font-medium">4. What timeline applies?</label>
+                                <input type="text" id="s6-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="s6-q5" class="block text-sm font-medium">5. Citations?</label>
+                                <input type="text" id="s6-q5" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s6" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 6</button>
+                        <div id="feedback-s6" class="mt-2 space-y-1"></div>
+                    </div>
+
+                     <!-- Scenario 7 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 7: Expected Event with Unexpected Severity</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> JKL-333. IB lists "Dizziness... mild-to-moderate". Event: Subject severe vertigo w/ vomiting, dehydration, hospitalization. Sponsor learns Feb 14.</p>
+                         <div class="space-y-2">
+                            <div>
+                                <label for="s7-q1" class="block text-sm font-medium">1. Is this event EXPECTED or UNEXPECTED?</label>
+                                <input type="text" id="s7-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s7-q2" class="block text-sm font-medium">2. Is it SERIOUS?</label>
+                                <input type="text" id="s7-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s7-q3" class="block text-sm font-medium">3. What type of report is required?</label>
+                                <input type="text" id="s7-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s7-q4" class="block text-sm font-medium">4. When is it due?</label>
+                                <input type="text" id="s7-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="s7-q5" class="block text-sm font-medium">5. Citation?</label>
+                                <input type="text" id="s7-q5" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s7" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 7</button>
+                        <div id="feedback-s7" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 8 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 8: Unrelated Adverse Event</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> MNO-777 (anticoagulant). Subject develops appendicitis (unrelated). Hospitalized 2 days. Investigator decides not to report to sponsor as it's unrelated.</p>
+                         <div class="space-y-2">
+                            <div>
+                                <label for="s8-q1" class="block text-sm font-medium">1. Must investigators report unrelated adverse events to sponsors?</label>
+                                <input type="text" id="s8-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s8-q2" class="block text-sm font-medium">2. Does an unrelated hospitalization need to be communicated?</label>
+                                <input type="text" id="s8-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s8-q3" class="block text-sm font-medium">3. Does it require expedited reporting to FDA?</label>
+                                <input type="text" id="s8-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s8-q4" class="block text-sm font-medium">4. Citations?</label>
+                                <input type="text" id="s8-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s8" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 8</button>
+                        <div id="feedback-s8" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 9 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 9: Calculating Across Month/Year Boundaries</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> Serious, unexpected, suspected adverse reaction reported to sponsor on December 27.</p>
+                         <div class="space-y-2">
+                            <div>
+                                <label for="s9-q1" class="block text-sm font-medium">1. When is 15-day written report due?</label>
+                                <input type="text" id="s9-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s9-q2" class="block text-sm font-medium">2. Does crossing the new year matter?</label>
+                                <input type="text" id="s9-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s9-q3" class="block text-sm font-medium">3. Citation?</label>
+                                <input type="text" id="s9-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s9" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-7V00">Check Scenario 9</button>
+                        <div id="feedback-s9" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <!-- Scenario 10 -->
+                    <div class="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                        <h4 class="text-lg font-semibold text-indigo-700">SCENARIO 10: Multiple Serious Events</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-3"><strong>Facts:</strong> Sponsor aware of THREE events on March 15: A (Serious, unexpected, related), B (Fatal, unexpected, related), C (Serious, EXPECTED, related).</p>
+                         <div class="space-y-2">
+                            <div>
+                                <label for="s10-q1" class="block text-sm font-medium">1. Report for Event A? Due date?</label>
+                                <input type="text" id="s10-q1" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s10-q2" class="block text-sm font-medium">2. Report for Event B? Due date(s)?</label>
+                                <input type="text" id="s10-q2" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="s10-q3" class="block text-sm font-medium">3. Report for Event C? Due date?</label>
+                                <input type="text" id="s10-q3" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="s10-q4" class="block text-sm font-medium">4. Citation?</label>
+                                <input type="text" id="s10-q4" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <button data-scenario="s10" class="check-scenario-btn mt-3 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">Check Scenario 10</button>
+                        <div id="feedback-s10" class="mt-2 space-y-1"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab 5: HW#4: Form Completion -->
+            <div role="tabpanel" id="tab-hw4" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">HOMEWORK ASSIGNMENT #4: Form FDA-1571 and 1572 Blank Form Completion</h2>
+                    <p class="text-gray-600">Estimated time: 45 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download and Review:</h3>
+                    <ul class="list-disc list-inside ml-4">
+                        <li><a href="https://www.fda.gov/media/71088/download" target="_blank" class="text-indigo-600 hover:underline">Form FDA-1571 (IND Application Cover Sheet)</a></li>
+                        <li><a href="https://www.fda.gov/media/71086/download" target="_blank" class="text-indigo-600 hover:underline">Form FDA-1572 (Statement of Investigator)</a></li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Exercise Part A: Form FDA-1571</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="hw4-a1" class="block text-md font-medium text-gray-700">1. Complete the form (hypothetical info)</label>
+                            <p class="text-sm text-gray-500 mb-1">Enter notes on key fields: Sponsor contact, emergency contact, monitoring person, safety review person, clinical phase.</p>
+                            <textarea id="hw4-a1" rows="5" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Sponsor: MyPharma LLC..."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw4-a2" class="block text-md font-medium text-gray-700">2. Explain 3-4 key commitment statements</label>
+                            <p class="text-sm text-gray-500 mb-1">In your own words, what does each commitment mean?</p>
+                            <textarea id="hw4-a2" rows="5" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Commitment 1 means..."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Exercise Part B: Form FDA-1572</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="hw4-b1" class="block text-md font-medium text-gray-700">1. Analyze 3-4 commitment statements</label>
+                            <p class="text-sm text-gray-500 mb-1">For EACH, identify: What you're committing to, why it matters, and one example of a violation.</p>
+                            <textarea id="hw4-b1" rows="8" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Commitment 1 (Conducting the study per protocol):
+- What: I will follow the protocol exactly.
+- Why: Ensures data integrity and subject safety.
+- Violation: Enrolling a subject who doesn't meet inclusion criteria."></textarea>
+                        </div>
+                        <div>
+                            <label for="hw4-b2" class="block text-md font-medium text-gray-700">2. Financial Disclosure Reflection</label>
+                            <p class="text-sm text-gray-500 mb-1">What would require disclosure? What are consequences of false/incomplete disclosure?</p>
+                            <textarea id="hw4-b2" rows="5" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Disclosure is required if..."></textarea>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Tab Navigation ---
+            const tablist = document.querySelector('[role="tablist"]');
+            const tabs = tablist.querySelectorAll('[role="tab"]');
+            const panels = document.querySelectorAll('[role="tabpanel"]');
+
+            tablist.addEventListener('click', (e) => {
+                const clickedTab = e.target.closest('button[role="tab"]');
+                if (!clickedTab) return;
+
+                tabs.forEach(tab => tab.setAttribute('aria-selected', 'false'));
+                panels.forEach(panel => panel.setAttribute('hidden', true));
+
+                clickedTab.setAttribute('aria-selected', 'true');
+                const panelId = clickedTab.getAttribute('aria-controls');
+                document.getElementById(panelId)?.removeAttribute('hidden');
+            });
+
+            // --- HW#3 Scoring Logic ---
+
+            // Simplified keywords for checking.
+            const answerKey = {
+                's1-q1': ['unexpected', 'pvc', 'not listed', 'more serious'],
+                's1-q2': ['not serious', 'no hospitalization'],
+                's1-q3': ['no expedited report', 'annual report'],
+                's1-q4': ['annual report', 'not applicable', 'n/a'],
+                's1-q5': ['312.32(c)'],
+                
+                's2-q1': ['yes', 'unexpected', 'anaphylaxis not listed'],
+                's2-q2': ['yes', 'life-threatening'],
+                's2-q3': ['7-day', 'phone report'],
+                's2-q4': ['april 15'],
+                's2-q5': ['april 23', 'april 22'], // Allow 15 days from 8th (23rd) or 7+8 (22nd)
+                's2-q6': ['312.32(c)(1)(i)'],
+
+                's3-q1': ['yes'],
+                's3-q2': ['may 12', 'sponsor becomes aware'],
+                's3-q3': ['may 27'],
+                's3-q4': ['312.32(f)', '312.32(c)(2)'],
+
+                's4-q1': ['no'],
+                's4-q2': ['yes', 'trend', 'emerging signal'],
+                's4-q3': ['ind amendment', '1571'],
+                's4-q4': ['312.30(a)(1)', '312.56'],
+
+                's5-q1': ['yes', 'follow-up'],
+                's5-q2': ['february 12', 'feb 12', '15 days from jan 28'],
+                's5-q3': ['follow-up report'],
+                's5-q4': ['312.32(e)'],
+
+                's6-q1': ['yes', 'protect subject safety'],
+                's6-q2': ['adverse event', 'protocol deviation'],
+                's6-q3': ['15-day report', 'serious', 'unexpected'],
+                's6-q4': ['april 20', '15 days'],
+                's6-q5': ['312.60', '312.32(c)', '56.109(f)'],
+
+                's7-q1': ['unexpected', 'severity'],
+                's7-q2': ['yes', 'serious', 'hospitalization'],
+                's7-q3': ['15-day'],
+                's7-q4': ['february 29', 'feb 29', '15 days from feb 14'],
+                's7-q5': ['312.32(c)(2)'],
+
+                's8-q1': ['yes', 'all adverse events'],
+                's8-q2': ['yes', 'communicated'],
+                's8-q3': ['no', 'unrelated'],
+                's8-q4': ['312.64', '312.32(c)'],
+
+                's9-q1': ['january 11', 'jan 11'], // Dec 27 + 15 days = Jan 11 (Dec 27 is day 0)
+                's9-q2': ['no'],
+                's9-q3': ['312.32(c)(2)'],
+
+                's10-q1': ['15-day', 'march 30'],
+                's10-q2': ['7-day', 'phone', 'march 22', '15-day', 'written', 'march 30'],
+                's10-q3': ['no expedited', 'annual'],
+                's10-q4': ['312.32(c)']
+            };
+
+            // Full answers for display on error
+            const fullAnswerMap = {
+                's1-q1': 'UNEXPECTED (cardiac event not listed; more serious than bradycardia)',
+                's1-q2': 'NOT SERIOUS SAE (symptom resolved, no hospitalization)',
+                's1-q3': 'NO EXPEDITED REPORT (not serious)',
+                's1-q4': 'Include in annual report',
+                's1-q5': '21 CFR 312.32(c)',
+                
+                's2-q1': 'YES, UNEXPECTED (anaphylaxis not listed in IB)',
+                's2-q2': 'YES, LIFE-THREATENING',
+                's2-q3': '7-DAY PHONE REPORT',
+                's2-q4': 'April 15 (7 calendar days from April 8)',
+                's2-q5': 'April 23 (15 calendar days from April 8)',
+                's2-q6': '21 CFR 312.32(c)(1)(i)',
+
+                's3-q1': 'YES - 21 CFR 312.32(f) requires reporting foreign safety info',
+                's3-q2': 'May 12 (when US sponsor BECOMES AWARE)',
+                's3-q3': 'May 27 (15 calendar days from May 12)',
+                's3-q4': '21 CFR 312.32(f), 312.32(c)(2)',
+
+                's4-q1': 'NO - Individual expected events do not trigger expedited reports',
+                's4-q2': 'YES - The EMERGING TREND requires action',
+                's4-q3': 'Form 1571 IND AMENDMENT',
+                's4-q4': '21 CFR 312.30(a)(1), 312.56',
+
+                's5-q1': 'YES - Follow-up report due per 312.32(e)',
+                's5-q2': 'February 12 (15 calendar days from Jan 28)',
+                's5-q3': 'FOLLOW-UP REPORT',
+                's5-q4': '21 CFR 312.32(e)',
+
+                's6-q1': 'YES - Emergency deviations to protect subject safety are permitted (312.60)',
+                's6-q2': 'Immediately report to sponsor (AE + protocol deviation) and IRB (deviation)',
+                's6-q3': '15-DAY REPORT (Serious + Unexpected + Related)',
+                's6-q4': 'April 20 (15 days from April 5)',
+                's6-q5': '21 CFR 312.60, 312.32(c), 56.109(f)',
+
+                's7-q1': 'UNEXPECTED (severity is unexpected)',
+                's7-q2': 'YES, SERIOUS (hospitalization)',
+                's7-q3': '15-DAY REPORT',
+                's7-q4': 'February 29 (15 days from Feb 14)',
+                's7-q5': '21 CFR 312.32(c)(2)',
+
+                's8-q1': 'YES - Investigators should report ALL adverse events to sponsors (312.64)',
+                's8-q2': 'YES - It should be documented and communicated',
+                's8-q3': 'NO expedited FDA report (unrelated)',
+                's8-q4': '21 CFR 312.64, 312.32(c)',
+
+                's9-q1': 'January 11 (15 calendar days after Dec 27)',
+                's9-q2': 'NO, calendar days include all days',
+                's9-q3': '21 CFR 312.32(c)(2)',
+                
+                's10-q1': 'Event A: 15-day written report, due March 30',
+                's10-q2': 'Event B: 7-day phone (by March 22) AND 15-day written (by March 30)',
+                's10-q3': 'Event C: NO expedited report (annual report only)',
+                's10-q4': '21 CFR 312.32(c)'
+            };
+
+            const scoreEl = document.getElementById('total-score-scenarios');
+            const scenarioStatus = {}; // To track scores
+
+            document.querySelectorAll('.check-scenario-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const scenarioNum = button.dataset.scenario; // e.g., 's1'
+                    const inputs = document.querySelectorAll(`input[id^="${scenarioNum}-q"]`);
+                    const feedbackDiv = document.getElementById(`feedback-${scenarioNum}`);
+                    
+                    feedbackDiv.innerHTML = ''; // Clear previous feedback
+                    let allCorrect = true;
+
+                    inputs.forEach(input => {
+                        const id = input.id;
+                        const userVal = input.value.trim().toLowerCase();
+                        const keywords = answerKey[id] || [];
+                        
+                        // Check if all keywords are present in the user's answer
+                        const isCorrect = keywords.every(kw => userVal.includes(kw));
+
+                        input.classList.remove('answer-correct', 'answer-wrong');
+                        
+                        if (isCorrect) {
+                            input.classList.add('answer-correct');
+                        } else {
+                            input.classList.add('answer-wrong');
+                            allCorrect = false;
+                            // Show the correct answer
+                            const correctAnswer = fullAnswerMap[id] || 'Check answer key.';
+                            feedbackDiv.innerHTML += `<p class="text-sm text-red-700"><strong>${id.toUpperCase()}:</strong> <span class="correct-answer-display">${correctAnswer}</span></p>`;
+                        }
+                    });
+
+                    if (allCorrect) {
+                        feedbackDiv.innerHTML = '<p class="text-green-700 font-bold">Scenario Complete: All answers correct!</p>';
+                    }
+
+                    // Update total score
+                    scenarioStatus[scenarioNum] = allCorrect;
+                    const correctCount = Object.values(scenarioStatus).filter(status => status === true).length;
+                    scoreEl.textContent = `${correctCount} / 10 Scenarios Correct`;
+
+                    // Disable button after checking
+                    button.disabled = true;
+                    button.textContent = allCorrect ? 'Correct!' : 'Checked';
+                    button.classList.add(allCorrect ? 'bg-green-600' : 'bg-gray-500');
+                    button.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                });
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
+

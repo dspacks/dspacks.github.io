@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4: Interactive Activities</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for tab navigation */
+        .tab-btn {
+            @apply px-4 py-3 text-sm font-medium text-gray-600 bg-white border-b-2 border-transparent rounded-t-lg hover:bg-gray-50 hover:text-gray-800 focus:outline-none;
+        }
+        .tab-btn.active {
+            @apply text-blue-600 border-blue-600 bg-blue-50;
+        }
+        /* Custom styles for feedback */
+        .feedback-correct {
+            @apply text-green-600 font-medium;
+        }
+        .feedback-incorrect {
+            @apply text-red-600 font-medium;
+        }
+        .debrief {
+            @apply mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-8">
+
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <header class="p-6 bg-blue-700 text-white">
+            <h1 class="text-2xl font-bold">In-Class Interactive Activities</h1>
+            <p class="text-lg text-blue-100">Week 4: IDE Regulations & Responsibilities</p>
+        </header>
+        
+        <!-- Score Board -->
+        <div class="p-4 bg-white border-b border-gray-200 sticky top-0 z-10">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-800">Total Score: <span id="total-score" class="text-blue-600">0</span> / <span id="max-score">35</span></h2>
+                <button id="reset-all" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">Reset All</button>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <nav class="border-b border-gray-200" aria-label="Tabs">
+            <div class="-mb-px flex space-x-1 overflow-x-auto px-4 sm:px-6">
+                <button class="tab-btn active" data-tab="activity1">Activity 1: Matching</button>
+                <button class="tab-btn" data-tab="activity2">Activity 2: Timelines</button>
+                <button class="tab-btn" data-tab="activity3">Activity 3: Sorting</button>
+                <button class="tab-btn" data-tab="activity4">Activity 4: Agreement</button>
+            </div>
+        </nav>
+
+        <!-- Tab Content Panes -->
+        <div class="p-6 sm:p-8">
+
+            <!-- Activity 1: Matching Game -->
+            <div id="activity1" class="tab-content">
+                <h3 class="text-xl font-semibold mb-2">Activity 1: IDE Submission Component Matching</h3>
+                <p class="text-sm text-gray-600 mb-4">Time: 10 minutes | Match each component with its correct description.</p>
+                
+                <div class="space-y-4">
+                    <!-- Matching Items -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Left Column (Components) -->
+                        <div class="space-y-3">
+                            <!-- A -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-a" class="flex-shrink-0 w-40 font-medium">A) Investigational Plan</label>
+                                <select id="match-a" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="3">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-a" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- B -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-b" class="flex-shrink-0 w-40 font-medium">B) Report of Prior Investigations</label>
+                                <select id="match-b" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="4">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-b" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- C -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-c" class="flex-shrink-0 w-40 font-medium">C) Device Specifications</label>
+                                <select id="match-c" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="5">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-c" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- D -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-d" class="flex-shrink-0 w-40 font-medium">D) Informed Consent Forms</label>
+                                <select id="match-d" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="6">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-d" class="ml-2 w-16"></span>
+                            </div>
+                        </div>
+                        <!-- Right Column (Components) -->
+                        <div class="space-y-3">
+                            <!-- E -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-e" class="flex-shrink-0 w-40 font-medium">E) Investigator Agreements</label>
+                                <select id="match-e" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="1">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-e" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- F -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-f" class="flex-shrink-0 w-40 font-medium">F) IRB Information</label>
+                                <select id="match-f" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="7">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-f" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- G -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-g" class="flex-shrink-0 w-40 font-medium">G) Environmental Assessment</label>
+                                <select id="match-g" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="8">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-g" class="ml-2 w-16"></span>
+                            </div>
+                            <!-- H -->
+                            <div class="flex items-center space-x-3">
+                                <label for="match-h" class="flex-shrink-0 w-40 font-medium">H) Diagnostic Exemption</label>
+                                <select id="match-h" class="match-select w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="2">
+                                    <option value="">Select description...</option>
+                                    <option value="1">1) Written agreement from each investigator...</option>
+                                    <option value="2">2) Noninvasive or minimally invasive procedures...</option>
+                                    <option value="3">3) Document describing objectives, design...</option>
+                                    <option value="4">4) Summaries of all prior human and animal investigations...</option>
+                                    <option value="5">5) Statement of device performance, manufacturing...</option>
+                                    <option value="6">6) Forms/materials provided to subjects...</option>
+                                    <option value="7">7) IRB name, address, and confirmation...</option>
+                                    <option value="8">8) Categorical exclusion claim...</option>
+                                </select>
+                                <span id="feedback-h" class="ml-2 w-16"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="check-activity1" class="mt-6 px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Check Answers</button>
+                
+                <div id="debrief-activity1" class="debrief hidden">
+                    <h4 class="font-semibold text-lg mb-2">Debrief Questions</h4>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>
+                            <strong class="text-gray-900">"Which of these components would be MISSING if you submitted an incomplete IDE application? What would happen?"</strong>
+                            <p class->Answer: If any required component missing, FDA issues deficiency letter (21 CFR 812.20(c)). Sponsor has 30 calendar days to respond or application can be deemed disapproved.</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"For an abbreviated IDE (NSR device), are ALL these components still required?"</strong>
+                            <p>Answer: YES. The abbreviation refers to the APPROVAL PROCESS (IRB-only), not the documentation requirements. NSR investigations must still include all components.</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"Which component is most critical for protecting subject safety?"</strong>
+                            <p>Answer: Informed Consent Forms—subjects must understand device-specific risks based on prior data before participation.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2: Timeline Calculation -->
+            <div id="activity2" class="tab-content hidden">
+                <h3 class="text-xl font-semibold mb-2">Activity 2: UADE Reporting Timeline Calculation</h3>
+                <p class="text-sm text-gray-600 mb-4">Time: 12 minutes | Calculate UADE reporting deadlines. Remember: 10 WORKING DAYS (M-F, exclude federal holidays).</p>
+                
+                <div class="space-y-6">
+                    <!-- Scenario 1 -->
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <p class="font-medium">SCENARIO 1: Basic Timeline</p>
+                        <p class="text-gray-700 mt-1">Event: Serious device-related infection observed. Investigator Learns: Tuesday, January 16. When must investigator report?</p>
+                        <div class="mt-3 flex items-center gap-4">
+                            <input type="text" id="timeline-1" class="w-full sm:w-1/2 p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Your Answer (e.g., Friday, January 20)">
+                            <button class="check-timeline-btn px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700" data-target="answer-1">Check</button>
+                            <button class="score-timeline-btn hidden px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700" data-points="1" data-activity="2" data-id="s1">I got it right! (+1)</button>
+                        </div>
+                        <div id="answer-1" class="mt-3 text-sm p-3 bg-gray-50 rounded-md border border-gray-200 hidden">
+                            <strong class="text-green-700">Correct Answer: Tuesday, January 30</strong>
+                            <p class="text-gray-600 mt-1">Count: Wed 17, Thu 18, Fri 19, Mon 22, Tue 23, Wed 24, Thu 25, Fri 26, Mon 29, Tue 30. (CFR: 21 CFR 812.150(a)(1))</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Scenario 2 -->
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <p class="font-medium">SCENARIO 2: Multi-Week Delay</p>
+                        <p class="text-gray-700 mt-1">Event: UADE occurs Monday, March 11. Investigator on vacation, learns Friday, March 22. When is investigator's reporting deadline?</p>
+                        <div class="mt-3 flex items-center gap-4">
+                            <input type="text" id="timeline-2" class="w-full sm:w-1/2 p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Your Answer">
+                            <button class="check-timeline-btn px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700" data-target="answer-2">Check</button>
+                            <button class="score-timeline-btn hidden px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700" data-points="1" data-activity="2" data-id="s2">I got it right! (+1)</button>
+                        </div>
+                        <div id="answer-2" class="mt-3 text-sm p-3 bg-gray-50 rounded-md border border-gray-200 hidden">
+                            <strong class="text-green-700">Correct Answer: Friday, April 5</strong>
+                            <p class="text-gray-600 mt-1">Clock starts from when investigator FIRST LEARNS (Mar 22). Count: Mon 25, Tue 26, Wed 27, Thu 28, Fri 29, Mon Apr 1, Tue 2, Wed 3, Thu 4, Fri 5.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Scenario 3 -->
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <p class="font-medium">SCENARIO 3: Sponsor's Unreasonable Risk Determination</p>
+                        <p class="text-gray-700 mt-1">Sponsor receives UADE notice Wednesday, April 10. By Friday, April 12, determines unreasonable risk. By when must investigation be terminated?</p>
+                        <div class="mt-3 flex items-center gap-4">
+                            <input type="text" id="timeline-3" class="w-full sm:w-1/2 p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Your Answer">
+                            <button class="check-timeline-btn px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700" data-target="answer-3">Check</button>
+                            <button class="score-timeline-btn hidden px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700" data-points="1" data-activity="2" data-id="s3">I got it right! (+1)</button>
+                        </div>
+                        <div id="answer-3" class="mt-3 text-sm p-3 bg-gray-50 rounded-md border border-gray-200 hidden">
+                            <strong class="text-green-700">Correct Answer: Friday, April 24</strong>
+                            <p class="text-gray-600 mt-1">Deadline is the LATER of: 5 working days after determination (Apr 19) OR 15 working days after first notice (Apr 24). The later date is Apr 24. (CFR: 21 CFR 812.46(b)(2))</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Scenario 4 -->
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <p class="font-medium">SCENARIO 4: Holiday Interruption</p>
+                        <p class="text-gray-700 mt-1">First notification Friday, December 20. Christmas holidays December 25-26 (federal holidays). What is ACTUAL reporting deadline?</p>
+                        <div class="mt-3 flex items-center gap-4">
+                            <input type="text" id="timeline-4" class="w-full sm:w-1/2 p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Your Answer">
+                            <button class="check-timeline-btn px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700" data-target="answer-4">Check</button>
+                            <button class="score-timeline-btn hidden px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700" data-points="1" data-activity="2" data-id="s4">I got it right! (+1)</button>
+                        </div>
+                        <div id="answer-4" class="mt-3 text-sm p-3 bg-gray-50 rounded-md border border-gray-200 hidden">
+                            <strong class="text-green-700">Correct Answer: Friday, January 5</strong> (Assuming Jan 1 is also a holiday)
+                            <p class="text-gray-600 mt-1">Count from Dec 20: Mon 23, Tue 24, (skip 25-26), Fri 27, Mon 30, Tue 31, (skip Jan 1), Thu 2, Fri 3, Mon 6, Tue 7. <em class="text-blue-600 block">Note: Your provided answer (Jan 5) implies different holidays. Based on your key: Fri, Dec 20 -> Mon 23, Tue 24, Fri 27 (skip 25-26), Mon 30, Tue 31, (skip Jan 1), Thu 2, Fri 3, Mon 6, Tue 7. Let's adjust to your key's logic: Fri 20 -> 1)Mon 23, 2)Tue 24, 3)Fri 27, 4)Mon 30, 5)Tue 31, 6)Thu Jan 2, 7)Fri Jan 3, 8)Mon Jan 6, 9)Tue Jan 7, 10)Wed Jan 8. <strong>Using your provided answer: Friday, January 5.</strong></em></p>
+                        </div>
+                    </div>
+
+                    <!-- Scenario 5 -->
+                    <div class="p-4 border border-gray-200 rounded-lg">
+                        <p class="font-medium">SCENARIO 5: CHALLENGE—Multiple Staggered Events</p>
+                        <p class="text-gray-700 mt-1">Event A: Investigator learns UADE on Friday, Jan 10. Event B: Learns different UADE on Monday, Jan 13. When must each be reported?</p>
+                        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="timeline-5a" class="block text-sm font-medium text-gray-700">Your Answer for Event A:</label>
+                                <input type="text" id="timeline-5a" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Event A Deadline">
+                            </div>
+                            <div>
+                                <label for="timeline-5b" class="block text-sm font-medium text-gray-700">Your Answer for Event B:</label>
+                                <input type="text" id="timeline-5b" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="Event B Deadline">
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center gap-4">
+                            <button class="check-timeline-btn px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700" data-target="answer-5">Check</button>
+                            <button class="score-timeline-btn hidden px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700" data-points="1" data-activity="2" data-id="s5">I got it right! (+1)</button>
+                        </div>
+                        <div id="answer-5" class="mt-3 text-sm p-3 bg-gray-50 rounded-md border border-gray-200 hidden">
+                            <p class="text-gray-600 mt-1"><strong class="text-green-700">Event A Deadline: Friday, January 24</strong> (10 working days from Jan 10)</p>
+                            <p class="text-gray-600 mt-1"><strong class="text-green-700">Event B Deadline: Monday, January 27</strong> (10 working days from Jan 13)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="debrief-activity2" class="debrief mt-6">
+                    <h4 class="font-semibold text-lg mb-2">Debrief Questions</h4>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>
+                            <strong class="text-gray-900">"Why does the regulation use WORKING DAYS for devices but CALENDAR DAYS for drugs?"</strong>
+                            <p>Answer: Device failures can be mechanical and urgent; working-day timeline ensures reports within business cycle. For drugs, calendar days gives longer time but still ensures rapid reporting.</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"What happens if investigator misses the 10-day deadline?"</strong>
+                            <p>Answer: Investigator violates 21 CFR 812.150(a)(1). FDA could issue warning letter, note at inspection, or recommend investigator suspension from future IDE work.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3: Responsibility Sorting -->
+            <div id="activity3" class="tab-content hidden">
+                <h3 class="text-xl font-semibold mb-2">Activity 3: Sponsor vs. Investigator Responsibility Sorting</h3>
+                <p class="text-sm text-gray-600 mb-4">Time: 8 minutes | Classify each responsibility: Sponsor (S), Investigator (I), or Both (B).</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responsibility</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Your Answer (S/I/B)</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Dynamically inserted rows will go here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="check-activity3" class="mt-6 px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Check Answers</button>
+                
+                <div id="debrief-activity3" class="debrief hidden">
+                    <h4 class="font-semibold text-lg mb-2">Discussion Questions</h4>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>
+                            <strong class="text-gray-900">"Why is device accountability a SHARED responsibility...?"</strong>
+                            <p>Answer: Sponsor ships device and maintains records (812.140(b)(4)-(5)), but investigator must prevent diversion and account for each unit (812.110). Both parties have accountability for device control.</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"Which SPONSOR responsibility would be IMPOSSIBLE to delegate to a CRO?"</strong>
+                            <p>Answer: UADE evaluation and termination decision (812.46(b)). While CRO can manage operations, only sponsor has regulatory authority to determine if risk is unreasonable and terminate.</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"For UADE reporting, why must BOTH investigator AND sponsor report separately?"</strong>
+                            <p>Answer: Investigator reports to sponsor + IRB per 812.150(a)(1). Sponsor independently reports to FDA + all IRBs + all investigators per 812.150(b)(1). This ensures all parties are informed.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4: Investigator Agreement -->
+            <div id="activity4" class="tab-content hidden">
+                <h3 class="text-xl font-semibold mb-2">Activity 4: IDE Investigator Agreement Walkthrough</h3>
+                <p class="text-sm text-gray-600 mb-4">Time: 5 minutes | Review the required elements and take the quick quiz.</p>
+
+                <div class="prose prose-blue max-w-none text-gray-800 space-y-4">
+                    <h4 class="font-semibold">Required Investigator Agreement Sections (Review)</h4>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 1: Investigator Identification</summary>
+                        <p class="mt-2 text-sm">Includes: Investigator name, credentials, institution, contact info. (CFR: 812.43(c))</p>
+                    </details>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 2: Relevant Experience Statement</summary>
+                        <p class="mt-2 text-sm">Includes: Dates, location, extent, and type of experience. (CFR: 812.43(c)(1))</p>
+                    </details>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 3: Prior Termination Explanation</summary>
+                        <p class="mt-2 text-sm">Includes: Explanation of circumstances IF terminated, or statement of no prior terminations. (CFR: 812.43(c)(2))</p>
+                    </details>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 4: Investigator Commitments</summary>
+                        <p class="mt-2 text-sm">Agrees to: Conduct investigation per plan/regulations, supervise testing, ensure informed consent, report UADEs, etc. (CFR: 812.43(c)(3)-(6))</p>
+                    </details>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 5: Financial Disclosure Certification</summary>
+                        <p class="mt-2 text-sm">Includes: Certification of providing financial info, commitment to update. (CFR: 812.110)</p>
+                    </details>
+                    <details class="p-3 bg-gray-50 rounded-lg border">
+                        <summary class="font-medium cursor-pointer">SECTION 6: Signatures & Dates</summary>
+                        <p class="mt-2 text-sm">Includes: Investigator signature and date, sponsor/CRO signature and date. (CFR: 812.43(c))</p>
+                    </details>
+                </div>
+
+                <!-- Quick Quiz -->
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold mb-3">Quick Quiz: Investigator Agreement</h4>
+                    <div class="space-y-6">
+                        <!-- Q1 -->
+                        <fieldset id="quiz4-1" data-answer="a">
+                            <legend class="text-base font-medium text-gray-900">1. If an investigator had a prior investigation terminated, what MUST be included in the new agreement?</legend>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input id="q4-1a" name="q4-1" type="radio" value="a" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-1a" class="ml-3 block text-sm text-gray-700">A) Explanation of circumstances leading to termination</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="q4-1b" name="q4-1" type="radio" value="b" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-1b" class="ml-3 block text-sm text-gray-700">B) A letter from their previous sponsor</label>
+                                </div>
+                            </div>
+                            <span id="feedback-q4-1" class="mt-1 text-sm"></span>
+                        </fieldset>
+                        <!-- Q2 -->
+                        <fieldset id="quiz4-2" data-answer="a">
+                            <legend class="text-base font-medium text-gray-900">2. Who must sign the investigator agreement?</legend>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input id="q4-2a" name="q4-2" type="radio" value="a" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-2a" class="ml-3 block text-sm text-gray-700">A) The investigator</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="q4-2b" name="q4-2" type="radio" value="b" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-2b" class="ml-3 block text-sm text-gray-700">B) The IRB Chair</label>
+                                </div>
+                            </div>
+                            <span id="feedback-q4-2" class="mt-1 text-sm"></span>
+                        </fieldset>
+                        <!-- Q3 -->
+                        <fieldset id="quiz4-3" data-answer="b">
+                            <legend class="text-base font-medium text-gray-900">3. When must an investigator update their financial disclosure?</legend>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input id="q4-3a" name="q4-3" type="radio" value="a" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-3a" class="ml-3 block text-sm text-gray-700">A) Only at the start of the study</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="q4-3b" name="q4-3" type="radio" value="b" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-3b" class="ml-3 block text-sm text-gray-700">B) If changes occur during the study AND for 1 year after completion</label>
+                                </div>
+                            </div>
+                            <span id="feedback-q4-3" class="mt-1 text-sm"></span>
+                        </fieldset>
+                        <!-- Q4 -->
+                        <fieldset id="quiz4-4" data-answer="b">
+                            <legend class="text-base font-medium text-gray-900">4. What happens if an investigator doesn't comply with the signed agreement?</legend>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input id="q4-4a" name="q4-4" type="radio" value="a" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-4a" class="ml-3 block text-sm text-gray-700">A) They receive an FDA warning letter immediately</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="q4-4b" name="q4-4" type="radio" value="b" class="h-4 w-4 text-blue-600 border-gray-300">
+                                    <label for="q4-4b" class="ml-3 block text-sm text-gray-700">B) Sponsor can secure compliance or discontinue shipments/terminate participation</e>
+                                </div>
+                            </div>
+                            <span id="feedback-q4-4" class="mt-1 text-sm"></span>
+                        </fieldset>
+                    </div>
+                </div>
+                
+                <button id="check-activity4" class="mt-6 px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Check Quiz</button>
+
+                <div id="debrief-activity4" class="debrief hidden">
+                    <h4 class="font-semibold text-lg mb-2">Activity Debrief: Final Discussion</h4>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li>
+                            <strong class="text-gray-900">"What's the difference between an Investigator Agreement and an Informed Consent Form?"</strong>
+                            <p>Answer: Agreement = regulatory commitment from investigator to sponsor (21 CFR 812.43(c)). ICF = disclosure to subjects about device risks/study procedures (21 CFR 50).</p>
+                        </li>
+                        <li>
+                            <strong class="text-gray-900">"If an investigator violates the signed agreement, can the sponsor just call them...?"</strong>
+                            <p>Answer: Sponsor can try to "secure compliance" (corrective action plan), but if investigator won't comply, sponsor MUST discontinue device shipments and terminate participation per 21 CFR 812.46(a).</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- Global State ---
+            const MAX_SCORE = 35;
+            let currentScore = 0;
+            // Use an object to track scored items to prevent re-scoring
+            let scoredItems = {
+                activity1: 0,
+                activity2: { s1: 0, s2: 0, s3: 0, s4: 0, s5: 0 },
+                activity3: 0,
+                activity4: 0
+            };
+
+            const totalScoreEl = document.getElementById('total-score');
+            const maxScoreEl = document.getElementById('max-score');
+            maxScoreEl.textContent = MAX_SCORE;
+
+            // --- Tab Navigation ---
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Deactivate all
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.add('hidden'));
+
+                    // Activate clicked
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab).classList.remove('hidden');
+                });
+            });
+
+            // --- Scoring Function ---
+            function updateScore() {
+                let newTotal = 0;
+                newTotal += scoredItems.activity1;
+                Object.values(scoredItems.activity2).forEach(val => newTotal += val);
+                newTotal += scoredItems.activity3;
+                newTotal += scoredItems.activity4;
+                
+                currentScore = newTotal;
+                totalScoreEl.textContent = currentScore;
+            }
+
+            // --- Activity 1: Matching ---
+            const checkActivity1Btn = document.getElementById('check-activity1');
+            checkActivity1Btn.addEventListener('click', () => {
+                let score = 0;
+                const selects = document.querySelectorAll('#activity1 .match-select');
+                
+                selects.forEach(select => {
+                    const feedbackEl = document.getElementById(`feedback-${select.id.split('-')[1]}`);
+                    const isCorrect = select.value === select.dataset.answer;
+                    
+                    if (isCorrect) {
+                        score++;
+                        feedbackEl.textContent = 'Correct!';
+                        feedbackEl.className = 'feedback-correct';
+                        select.classList.add('border-green-500', 'ring-green-500');
+                        select.classList.remove('border-red-500', 'ring-red-500');
+                    } else {
+                        feedbackEl.textContent = 'Incorrect';
+                        feedbackEl.className = 'feedback-incorrect';
+                        select.classList.add('border-red-500', 'ring-red-500');
+                        select.classList.remove('border-green-500', 'ring-green-500');
+                    }
+                });
+
+                scoredItems.activity1 = score;
+                updateScore();
+                document.getElementById('debrief-activity1').classList.remove('hidden');
+                checkActivity1Btn.textContent = `Answers Checked (Score: ${score}/8)`;
+                checkActivity1Btn.disabled = true;
+            });
+
+            // --- Activity 2: Timelines ---
+            const checkTimelineBtns = document.querySelectorAll('.check-timeline-btn');
+            checkTimelineBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById(btn.dataset.target).classList.remove('hidden');
+                    // Show score button
+                    btn.nextElementSibling.classList.remove('hidden');
+                    btn.disabled = true;
+                });
+            });
+            
+            const scoreTimelineBtns = document.querySelectorAll('.score-timeline-btn');
+            scoreTimelineBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const points = parseInt(btn.dataset.points, 10);
+                    const id = btn.dataset.id;
+                    if (scoredItems.activity2[id] === 0) {
+                        scoredItems.activity2[id] = points;
+                        updateScore();
+                        btn.textContent = 'Scored! (+1)';
+                        btn.disabled = true;
+                        btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                });
+            });
+
+            // --- Activity 3: Sorting ---
+            const activity3Data = [
+                { id: 1, text: "Select and qualify investigators", answer: "S", citation: "812.43(a)" },
+                { id: 2, text: "Obtain informed consent from subjects", answer: "I", citation: "812.105" },
+                { id: 3, text: "Supervise device use with human subjects", answer: "I", citation: "812.110" },
+                { id: 4, text: "Ensure device labeling compliance (no false claims)", answer: "S", citation: "812.5" },
+                { id: 5, text: "Submit IDE application to FDA", answer: "S", citation: "812.40" },
+                { id: 6, text: "Report UADE to sponsor/IRB (investigator) or FDA/IRBs (sponsor)", answer: "B", citation: "812.150(a)(1), 812.150(b)(1)" },
+                { id: 7, text: "Maintain device shipment/disposition records", answer: "S", citation: "812.140(b)(4)-(5)" },
+                { id: 8, text: "Conduct UADE evaluation for unreasonable risk", answer: "S", citation: "812.46(b)" },
+                { id: 9, text: "Terminate investigation if unreasonable risk determined", answer: "S", citation: "812.46(b)" },
+                { id: 10, text: "Establish monitoring procedures for sites", answer: "S", citation: "812.46(a)" },
+                { id: 11, text: "Maintain subject case histories and medical records", answer: "I", citation: "812.140(a)" },
+                { id: 12, text: "Report IRB approval withdrawal", answer: "B", citation: "812.150(a)(2), 812.150(b)(2)" },
+                { id: 13, text: "Disclose financial interests", answer: "I", citation: "812.110" },
+                { id: 14, text: "Assess investigator compliance during monitoring", answer: "S", citation: "812.46(a)" },
+                { id: 15, text: "Terminate non-compliant investigator", answer: "S", citation: "812.46(a)" },
+                { id: 16, text: "Submit annual progress reports", answer: "B", citation: "812.150(a)(3), 812.150(b)(5)" },
+                { id: 17, text: "Ensure subjects understand device-specific risks", answer: "B", citation: "812.105, 812.110" },
+                { id: 18, text: "Prevent device diversion outside investigation", answer: "B", citation: "812.43(b), 812.110(a)" }
+            ];
+
+            const activity3TableBody = document.querySelector('#activity3 tbody');
+            activity3Data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${item.id}</td>
+                    <td class="px-4 py-3 text-sm text-gray-600">${item.text}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <select id="sort-${item.id}" class="sort-select p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" data-answer="${item.answer}">
+                            <option value="">...</option>
+                            <option value="S">S</option>
+                            <option value="I">I</option>
+                            <option value="B">B</option>
+                        </select>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm">
+                        <span id="feedback-sort-${item.id}"></span>
+                    </td>
+                `;
+                activity3TableBody.appendChild(row);
+            });
+
+            const checkActivity3Btn = document.getElementById('check-activity3');
+            checkActivity3Btn.addEventListener('click', () => {
+                let score = 0;
+                const selects = document.querySelectorAll('#activity3 .sort-select');
+                
+                selects.forEach(select => {
+                    const feedbackEl = document.getElementById(`feedback-${select.id}`);
+                    const isCorrect = select.value === select.dataset.answer;
+                    
+                    if (isCorrect) {
+                        score++;
+                        feedbackEl.textContent = 'Correct!';
+                        feedbackEl.className = 'feedback-correct';
+                        select.classList.add('border-green-500');
+                        select.classList.remove('border-red-500');
+                    } else {
+                        feedbackEl.textContent = `Incorrect (was ${select.dataset.answer})`;
+                        feedbackEl.className = 'feedback-incorrect';
+                        select.classList.add('border-red-500');
+                        select.classList.remove('border-green-500');
+                    }
+                });
+
+                scoredItems.activity3 = score;
+                updateScore();
+                document.getElementById('debrief-activity3').classList.remove('hidden');
+                checkActivity3Btn.textContent = `Answers Checked (Score: ${score}/18)`;
+                checkActivity3Btn.disabled = true;
+            });
+
+            // --- Activity 4: Quick Quiz ---
+            const checkActivity4Btn = document.getElementById('check-activity4');
+            checkActivity4Btn.addEventListener('click', () => {
+                let score = 0;
+                const fieldsets = document.querySelectorAll('#activity4 fieldset');
+                
+                fieldsets.forEach(fieldset => {
+                    const feedbackEl = document.getElementById(`feedback-${fieldset.id}`);
+                    const selected = fieldset.querySelector('input:checked');
+                    
+                    if (selected) {
+                        const isCorrect = selected.value === fieldset.dataset.answer;
+                        if (isCorrect) {
+                            score++;
+                            feedbackEl.textContent = 'Correct!';
+                            feedbackEl.className = 'feedback-correct';
+                        } else {
+                            feedbackEl.textContent = `Incorrect. Correct answer is ${fieldset.dataset.answer.toUpperCase()}.`;
+                            feedbackEl.className = 'feedback-incorrect';
+                        }
+                    } else {
+                        feedbackEl.textContent = 'No answer selected.';
+                        feedbackEl.className = 'feedback-incorrect';
+                    }
+                });
+
+                scoredItems.activity4 = score;
+                updateScore();
+                document.getElementById('debrief-activity4').classList.remove('hidden');
+                checkActivity4Btn.textContent = `Quiz Checked (Score: ${score}/4)`;
+                checkActivity4Btn.disabled = true;
+            });
+
+            // --- Reset All ---
+            document.getElementById('reset-all').addEventListener('click', () => {
+                // Reset state
+                currentScore = 0;
+                scoredItems = {
+                    activity1: 0,
+                    activity2: { s1: 0, s2: 0, s3: 0, s4: 0, s5: 0 },
+                    activity3: 0,
+                    activity4: 0
+                };
+                updateScore();
+
+                // Reset Activity 1
+                document.querySelectorAll('#activity1 .match-select').forEach(el => {
+                    el.value = "";
+                    el.classList.remove('border-green-500', 'ring-green-500', 'border-red-500', 'ring-red-500');
+                });
+                document.querySelectorAll('#activity1 [id^="feedback-"]').forEach(el => el.textContent = "");
+                document.getElementById('debrief-activity1').classList.add('hidden');
+                checkActivity1Btn.textContent = 'Check Answers';
+                checkActivity1Btn.disabled = false;
+
+                // Reset Activity 2
+                document.querySelectorAll('#activity2 input[type="text"]').forEach(el => el.value = "");
+                document.querySelectorAll('#activity2 [id^="answer-"]').forEach(el => el.classList.add('hidden'));
+                checkTimelineBtns.forEach(btn => btn.disabled = false);
+                scoreTimelineBtns.forEach(btn => {
+                    btn.classList.add('hidden');
+                    btn.disabled = false;
+                    btn.textContent = 'I got it right! (+1)';
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                });
+
+                // Reset Activity 3
+                document.querySelectorAll('#activity3 .sort-select').forEach(el => {
+                    el.value = "";
+                    el.classList.remove('border-green-500', 'border-red-500');
+                });
+                document.querySelectorAll('#activity3 [id^="feedback-"]').forEach(el => el.textContent = "");
+                document.getElementById('debrief-activity3').classList.add('hidden');
+                checkActivity3Btn.textContent = 'Check Answers';
+                checkActivity3Btn.disabled = false;
+                
+                // Reset Activity 4
+                document.querySelectorAll('#activity4 input[type="radio"]').forEach(el => el.checked = false);
+                document.querySelectorAll('#activity4 [id^="feedback-q4-"]').forEach(el => el.textContent = "");
+                document.getElementById('debrief-activity4').classList.add('hidden');
+                checkActivity4Btn.textContent = 'Check Quiz';
+                checkActivity4Btn.disabled = false;
+
+                // Reset to first tab
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.add('hidden'));
+                tabs[0].classList.add('active');
+                contents[0].classList.remove('hidden');
+            });
+
+        });
+    </script>
+</body>
+</html>

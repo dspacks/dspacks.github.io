@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDE Regulations Practice Exam</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .tab-buttons {
+            display: flex;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-button {
+            flex-grow: 1;
+            padding: 18px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            border-right: 1px solid #eee;
+        }
+        .tab-button:last-child {
+            border-right: none;
+        }
+        .tab-button:hover {
+            background-color: #f0f0f0;
+        }
+        .tab-button.active {
+            background-color: #fff;
+            color: #007bff;
+            box-shadow: inset 0 -3px 0 0 #007bff;
+        }
+        .tab-content {
+            padding: 25px 30px;
+            border-top: none;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-block {
+            margin-bottom: 28px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .question-block:last-child {
+            border-bottom: none;
+        }
+        .question-block p {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        .question-block label {
+            display: block;
+            margin: 8px 0 8px 5px;
+            padding: 12px 15px;
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .question-block label:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+        .question-block input[type="radio"] {
+            margin-right: 12px;
+            transform: translateY(1px);
+        }
+        
+        /* Feedback Styles */
+        .feedback {
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            display: none; /* Hidden by default */
+            border: 1px solid transparent;
+        }
+        .feedback-incorrect {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+        .label-correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            font-weight: 600;
+        }
+        .label-incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        #submit-btn-container {
+            padding: 20px 30px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+        #submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2em;
+            font-weight: 700;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+        #submit-btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        #results-container {
+            padding: 30px;
+            background-color: #e6f7ff;
+            border-top: 1px solid #b3e0ff;
+            text-align: center;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s;
+        }
+        #results-container h2 {
+            color: #0056b3;
+            margin-top: 0;
+        }
+        #results-container h3 {
+            color: #333;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        .analysis-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: inline-block;
+            max-width: 600px;
+            text-align: left;
+        }
+        .analysis-box p {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .analysis-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        
+        <div id="results-container">
+            </div>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="openTab(event, 'sectionA')">Section A: Application (1-15)</button>
+            <button class="tab-button" onclick="openTab(event, 'sectionB')">Section B: Risk (16-30)</button>
+            <button class="tab-button" onclick="openTab(event, 'sectionC')">Section C: Responsibilities (31-50)</button>
+        </div>
+
+        <form id="quiz-form">
+            <div id="sectionA" class="tab-content" style="display: block;">
+                <div class="question-block" data-question-id="q1">
+                    <p>1. A sponsor is preparing an IDE application for an investigational joint replacement device. Which of the following elements is specifically required under 21 CFR 812.20(a)?</p>
+                    <label><input type="radio" name="q1" value="A"> A) CEO biography and company financial statements</label>
+                    <label><input type="radio" name="q1" value="B"> B) Investigational plan, report of prior investigations, device specifications, investigator agreements, IRB information, and informed consent forms</label>
+                    <label><input type="radio" name="q1" value="C"> C) Proof of patent protection for the device design</label>
+                    <label><input type="radio" name="q1" value="D"> D) Marketing strategy and projected commercial timeline</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q2">
+                    <p>2. According to 21 CFR 812.25, the investigational plan must include all of the following EXCEPT:</p>
+                    <label><input type="radio" name="q2" value="A"> A) Study design and methodology</label>
+                    <label><input type="radio" name="q2" value="B"> B) Statistical considerations and sample size justification</label>
+                    <label><input type="radio" name="q2" value="C"> C) Detailed budget breakdown showing profit margin targets</label>
+                    <label><input type="radio" name="q2" value="D"> D) Monitoring procedures and safety oversight plans</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q3">
+                    <p>3. SCENARIO: A sponsor has three investigators participating in an IDE at different hospitals. Each hospital has 2 investigators. How many signed investigator agreements are required per 21 CFR 812.43(c)?</p>
+                    <label><input type="radio" name="q3" value="A"> A) 1 master agreement covering all sites</label>
+                    <label><input type="radio" name="q3" value="B"> B) 3 agreements (one per hospital)</label>
+                    <label><input type="radio" name="q3" value="C"> C) 6 agreements (one per individual investigator)</label>
+                    <label><input type="radio" name="q3" value="D"> D) Optional documentation for multi-site studies</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q4">
+                    <p>4. TIMELINE: An IDE application is submitted to FDA on January 15. FDA identifies missing information and sends a deficiency letter. Per 21 CFR 812.20(c), how many days does the sponsor have to respond?</p>
+                    <label><input type="radio" name="q4" value="A"> A) 10 calendar days</label>
+                    <label><input type="radio" name="q4" value="B"> B) 15 calendar days</label>
+                    <label><input type="radio" name="q4" value="C"> C) 30 calendar days</label>
+                    <label><input type="radio" name="q4" value="D"> D) 60 calendar days</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q5">
+                    <p>5. A sponsor is preparing the "Report of Prior Investigations" section for an IDE application. Which statement correctly describes what must be included per 21 CFR 812.27?</p>
+                    <label><input type="radio" name="q5" value="A"> A) Only successful studies with positive outcomes</label>
+                    <label><input type="radio" name="q5" value="B"> B) All prior investigations (successful or unsuccessful) including design, results, and adverse events</label>
+                    <label><input type="radio" name="q5" value="C"> C) Only studies using identical device design</label>
+                    <label><input type="radio" name="q5" value="D"> D) Animal studies only; human studies not required</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q6">
+                    <p>6. SCENARIO: A sponsor submits an IDE for an investigational diagnostic blood test. The application mentions that similar diagnostic tests exist but provides minimal information about them. Is this adequate per 21 CFR 812.20?</p>
+                    <label><input type="radio" name="q6" value="A"> A) Yes, mentioning competitors' devices is sufficient</label>
+                    <label><input type="radio" name="q6" value="B"> B) No, sponsor must summarize relevant prior investigations with specific details about design, results, and safety</label>
+                    <label><input type="radio" name="q6" value="C"> C) Prior investigations only needed if they showed adverse events</label>
+                    <label><input type="radio" name="q6" value="D"> D) Competitor devices don't need to be disclosed</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q7">
+                    <p>7. An IDE application for an SR device is submitted. The sponsor's risk classification indicates "Significant Risk" device status. What is the minimum approval requirement before study enrollment can begin per 21 CFR 812.42?</p>
+                    <label><input type="radio" name="q7" value="A"> A) IRB approval only</label>
+                    <label><input type="radio" name="q7" value="B"> B) FDA approval only</label>
+                    <label><input type="radio" name="q7" value="C"> C) Both FDA and IRB approval</label>
+                    <label><input type="radio" name="q7" value="D"> D) Neither approval required for SR devices</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q8">
+                    <p>8. SCENARIO: A sponsor receives an IDE approval letter from FDA with a notation: "Prior submissions to other FDA centers may be incorporated by reference." This relates to which section of 21 CFR 812.20?</p>
+                    <label><input type="radio" name="q8" value="A"> A) 812.20(a) - Required components</label>
+                    <label><input type="radio" name="q8" value="B"> B) 812.20(c) - FDA deficiency procedures</label>
+                    <label><input type="radio" name="q8" value="C"> C) 812.20(d) - Information previously submitted</label>
+                    <label><input type="radio" name="q8" value="D"> D) 812.20(e) - Pre-submission meetings</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q9">
+                    <p>9. A device manufacturer wants to modify the investigational device design 6 months into an IDE investigation. What regulatory requirement applies per 21 CFR 812.35?</p>
+                    <label><input type="radio" name="q9" value="A"> A) Can implement immediately; modifications don't require approval</label>
+                    <label><input type="radio" name="q9" value="B"> B) Must obtain prior approval via supplemental IDE application before implementation</label>
+                    <label><input type="radio" name="q9" value="C"> C) Can only modify after study completion</label>
+                    <label><input type="radio" name="q9" value="D"> D) Modifications prohibited during active investigation</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q10">
+                    <p>10. SCENARIO: During IDE application preparation, an investigator discloses they previously had a clinical investigation terminated at another company. How must the IDE application address this per 21 CFR 812.43(c)?</p>
+                    <label><input type="radio" name="q10" value="A"> A) Don't mention it; prior investigations at other companies aren't relevant</label>
+                    <label><input type="radio" name="q10" value="B"> B) Include explanation of circumstances that led to termination</label>
+                    <label><input type="radio" name="q10" value="C"> C) The investigator is ineligible and must be replaced</label>
+                    <label><input type="radio" name="q10" value="D"> D) FDA will disqualify the investigator automatically</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q11">
+                    <p>11. An IDE application for a diagnostic device includes: investigational plan, prior investigations report, device specifications, investigator agreements, IRB information, informed consent forms, and environmental assessment. Is this complete per 21 CFR 812.20?</p>
+                    <label><input type="radio" name="q11" value="A"> A) No, missing device quality/manufacturing information</label>
+                    <label><input type="radio" name="q11" value="B"> B) Yes, all required components are present</label>
+                    <label><input type="radio" name="q11" value="C"> C) No, missing financial disclosure forms</label>
+                    <label><input type="radio" name="q11" value="D"> D) No, missing FDA pre-approval letter</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q12">
+                    <p>12. SCENARIO: A sponsor determines a device qualifies as "nonsignificant risk" and prepares an abbreviated IDE. Must all components from 21 CFR 812.20 still be included?</p>
+                    <label><input type="radio" name="q12" value="A"> A) No, NSR devices only require device labeling and IRB approval</label>
+                    <label><input type="radio" name="q12" value="B"> B) Yes, abbreviated refers to APPROVAL PROCESS, not documentation requirements</label>
+                    <label><input type="radio" name="q12" value="C"> C) No, NSR devices waive most documentation requirements</label>
+                    <label><input type="radio" name="q12" value="D"> D) Only investigational plan required for NSR</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q13">
+                    <p>13. An IDE application must include copies of "all forms and informational materials to be provided to subjects to obtain informed consent" per 21 CFR 812.20(a)(11). Why is this requirement specifically important?</p>
+                    <label><input type="radio" name="q13" value="A"> A) FDA wants to approve marketing materials</label>
+                    <label><input type="radio" name="q13" value="B"> B) To ensure subjects receive device-specific risk information based on prior data</label>
+                    <label><input type="radio" name="q13" value="C"> C) Regulatory format compliance only</label>
+                    <label><input type="radio" name="q13" value="D"> D) Not actually a requirement; it's optional documentation</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q14">
+                    <p>14. CALCULATION: A sponsor submits an IDE application on March 1. FDA issues a deficiency letter on March 15. Assuming the sponsor has 30 calendar days to respond, what is the deadline?</p>
+                    <label><input type="radio" name="q14" value="A"> A) April 5</label>
+                    <label><input type="radio" name="q14" value="B"> B) April 14</label>
+                    <label><input type="radio" name="q14" value="C"> C) April 15</label>
+                    <label><input type="radio" name="q14" value="D"> D) April 30</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q15">
+                    <p>15. SCENARIO: A sponsor-investigator (physician who serves as both sponsor and investigator) submits an IDE for an investigational device. Which regulations apply per IDE requirements?</p>
+                    <label><input type="radio" name="q15" value="A"> A) Only Subpart C (Sponsor Responsibilities)</label>
+                    <label><input type="radio" name="q15" value="B"> B) Only Subpart E (Investigator Responsibilities)</label>
+                    <label><input type="radio" name="q15" value="C"> C) Both Subpart C AND Subpart E - sponsor-investigator must comply with both</label>
+                    <label><input type="radio" name="q15" value="D"> D) Regulations don't apply when one person holds both roles</label>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div id="sectionB" class="tab-content">
+                <div class="question-block" data-question-id="q16">
+                    <p>16. Per 21 CFR 812.3(m), which of the following BEST defines a Significant Risk device?</p>
+                    <label><input type="radio" name="q16" value="A"> A) Any device costing more than $5,000</label>
+                    <label><input type="radio" name="q16" value="B"> B) A device that is intended as an implant AND presents potential for serious risk</label>
+                    <label><input type="radio" name="q16" value="C"> C) A device used in a hospital setting</label>
+                    <label><input type="radio" name="q16" value="D"> D) Any device requiring FDA pre-market approval</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q17">
+                    <p>17. SCENARIO: A new wearable heart rate monitor is noninvasive (worn on wrist), introduces no energy, requires no invasive sampling, and provides data reviewed by the wearer before any health decisions. What is the likely risk classification?</p>
+                    <label><input type="radio" name="q17" value="A"> A) Significant Risk (all heart devices are SR)</label>
+                    <label><input type="radio" name="q17" value="B"> B) Nonsignificant Risk (meets NSR criteria)</label>
+                    <label><input type="radio" name="q17" value="C"> C) Exempt from IDE regulations</label>
+                    <label><input type="radio" name="q17" value="D"> D) Cannot be determined without clinical trial data</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q18">
+                    <p>18. A diagnostic blood test for early cancer detection is being investigated. The device is noninvasive, introduces no energy, and test results are confirmed by gold-standard pathology before treatment decisions. Does the diagnostic exemption apply per 21 CFR 812.2(c)(3)?</p>
+                    <label><input type="radio" name="q18" value="A"> A) No, diagnostic exemptions don't apply to cancer testing</label>
+                    <label><input type="radio" name="q18" value="B"> B) Yes, if all four diagnostic exemption criteria are met</label>
+                    <label><input type="radio" name="q18" value="C"> C) Only if device shows >95% accuracy</label>
+                    <label><input type="radio" name="q18" value="D"> D) No, exemption only applies to non-invasive devices</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q19">
+                    <p>19. SCENARIO: A temporary urinary catheter is being investigated. It's inserted through the urethra into the bladder (invasive) and removed after 48 hours. Is this SR or NSR?</p>
+                    <label><input type="radio" name="q19" value="A"> A) NSR because it's temporary</label>
+                    <label><input type="radio" name="q19" value="B"> B) SR because it's invasive and presents potential for serious infection/bleeding/perforation</label>
+                    <label><input type="radio" name="q19" value="C"> C) Exempt because it's temporary</label>
+                    <label><input type="radio" name="q19" value="D"> D) Depends on material composition</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q20">
+                    <p>20. A sponsor classifies a device as NSR and submits to an IRB. The IRB reviews and determines the device should actually be classified as SR based on risk analysis. What must sponsor do per 21 CFR 812.150(b)(9)?</p>
+                    <label><input type="radio" name="q20" value="A"> A) Accept IRB determination; it's final</label>
+                    <label><input type="radio" name="q20" value="B"> B) Notify FDA within 5 working days of disagreement</label>
+                    <label><input type="radio" name="q20" value="C"> C) Immediately upgrade to full SR approval</label>
+                    <label><input type="radio" name="q20" value="D"> D) Can ignore IRB disagreement and proceed as NSR</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q21">
+                    <p>21. SCENARIO: An investigator asks: "We're using strict patient selection to exclude high-risk subjects from the investigational device study. Does this make the device NSR?" Per 21 CFR 812.3(m), what's the correct answer?</p>
+                    <label><input type="radio" name="q21" value="A"> A) Yes, patient selection reduces risk to NSR level</label>
+                    <label><input type="radio" name="q21" value="B"> B) No, life-sustaining devices are SR regardless of subject selection</label>
+                    <label><input type="radio" name="q21" value="C"> C) Only if exclusion criteria reduce risk below "serious risk" threshold</label>
+                    <label><input type="radio" name="q21" value="D"> D) Patient selection doesn't affect inherent device risk classification</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q22">
+                    <p>22. A custom device (manufactured for individual patient per physician request) is being investigated to determine its safety and effectiveness for eventual commercial distribution. Is it exempt from IDE regulations per 21 CFR 812.2(c)(7)?</p>
+                    <label><input type="radio" name="q22" value="A"> A) Yes, all custom devices are exempt</label>
+                    <label><input type="radio" name="q22" value="B"> B) No, if being used to determine S/E for commercial distribution, IDE applies</label>
+                    <label><input type="radio" name="q22" value="C"> C) Only exempt if used for single patient only</label>
+                    <label><input type="radio" name="q22" value="D"> D) Exempt status depends on device cost</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q23">
+                    <p>23. TIMELINE: A sponsor initially classifies device as NSR. IRB receives notification on Monday, March 11, and disagrees, determining it's SR. Sponsor receives notice on Friday, March 15. When must sponsor notify FDA per 21 CFR 812.150(b)(9)?</p>
+                    <label><input type="radio" name="q23" value="A"> A) Monday, March 18 (same week)</label>
+                    <label><input type="radio" name="q23" value="B"> B) Friday, March 22 (exactly 5 calendar days)</label>
+                    <label><input type="radio" name="q23" value="C"> C) Friday, March 22 (5 working days: Mon 18, Tue 19, Wed 20, Thu 21, Fri 22)</label>
+                    <label><input type="radio" name="q23" value="D"> D) April 1 (2 weeks from receipt)</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q24">
+                    <p>24. SCENARIO: Six months into an NSR investigation, serious adverse events occur at a rate higher than expected from prior studies. Sponsor suspects device should be reclassified to SR. What should sponsor do?</p>
+                    <label><input type="radio" name="q24" value="A"> A) Continue as NSR; classification cannot change mid-study</label>
+                    <label><input type="radio" name="q24" value="B"> B) Request FDA reassessment of risk classification</label>
+                    <label><input type="radio" name="q24" value="C"> C) Immediately terminate investigation</label>
+                    <label><input type="radio" name="q24" value="D"> D) Only change classification at study completion</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q25">
+                    <p>25. An in vitro diagnostic (IVD) device for protein biomarker testing meets all four diagnostic exemption criteria (noninvasive, no energy, no significant-risk invasive sampling, diagnosis confirmed by established method). What regulatory requirements still apply?</p>
+                    <label><input type="radio" name="q25" value="A"> A) No requirements; fully exempt from FDA oversight</label>
+                    <label><input type="radio" name="q25" value="B"> B) IDE regulations completely waived</label>
+                    <label><input type="radio" name="q25" value="C"> C) Human subjects protection regulations (Parts 50, 56) and IRB review still required</label>
+                    <label><input type="radio" name="q25" value="D"> D) Only investigator training required</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q26">
+                    <p>26. SCENARIO: A life-sustaining dialysis filter is being investigated. Sponsor claims NSR based on "careful patient selection and strict monitoring protocols." Is this reasoning valid per IDE regulations?</p>
+                    <label><input type="radio" name="q26" value="A"> A) Yes, protocols reduce risk to NSR</label>
+                    <label><input type="radio" name="q26" value="B"> B) No, life-sustaining devices are SR due to inherent serious risk potential</label>
+                    <label><input type="radio" name="q26" value="C"> C) Depends on how many subjects enrolled</label>
+                    <label><input type="radio" name="q26" value="D"> D) Depends on whether device shows efficacy</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q27">
+                    <p>27. SCENARIO: COMPLEX - A device investigation was approved as NSR. During interim safety analysis, the data safety monitoring board identifies UADEs not previously anticipated. What should happen per IDE regulations?</p>
+                    <label><input type="radio" name="q27" value="A"> A) Continue as NSR; DSMB cannot change risk classification</label>
+                    <label><input type="radio" name="q27" value="B"> B) Sponsor reports UADEs per 10-day timeline AND may request FDA reassessment</label>
+                    <label><input type="radio" name="q27" value="C"> C) Study automatically terminates</label>
+                    <label><input type="radio" name="q27" value="D"> D) DSMB has authority to unilaterally reclassify to SR</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q28">
+                    <p>28. An investigational device presents potential for serious risk (meets SR definition), but the sponsor argues: "The potential benefit justifies the risk, so classify as NSR." Per 21 CFR 812.3(m), is this reasoning valid?</p>
+                    <label><input type="radio" name="q28" value="A"> A) Yes, benefit-risk analysis determines SR/NSR</label>
+                    <label><input type="radio" name="q28" value="B"> B) No, SR/NSR classification based solely on risk potential, not benefit</label>
+                    <label><input type="radio" name="q28" value="C"> C) Only FDA can make benefit-risk determinations</label>
+                    <label><input type="radio" name="q28" value="D"> D) Depends on indication for use</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q29">
+                    <p>29. FDA receives an NSR IDE notification from sponsor. During FDA review, agency determines risk classification is incorrect. Per 21 CFR 812.20(a), what can FDA do?</p>
+                    <label><input type="radio" name="q29" value="A"> A) Must accept NSR designation; cannot override</label>
+                    <label><input type="radio" name="q29" value="B"> B) Can notify sponsor that full IDE approval application is required</label>
+                    <label><input type="radio" name="q29" value="C"> C) Can only request additional data</label>
+                    <label><input type="radio" name="q29" value="D"> D) FDA has no authority to question NSR determination</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q30">
+                    <p>30. SCENARIO: INTEGRATION - A device meets diagnostic exemption criteria (#4 criteria met). IRB approves study. Does study require FDA IDE submission?</p>
+                    <label><input type="radio" name="q30" value="A"> A) Yes, all investigations require IDE submission</label>
+                    <label><input type="radio" name="q30" value="B"> B) No, diagnostic exemptions don't require IDE submission</label>
+                    <label><input type="radio" name="q30" value="C"> C) Only if study enrolls >100 subjects</label>
+                    <label><input type="radio" name="q30" value="D"> D) Yes, but only supplemental IDE submission needed</label>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+
+            <div id="sectionC" class="tab-content">
+                <div class="question-block" data-question-id="q31">
+                    <p>31. Per 21 CFR 812.40, sponsors are responsible for which of the following?</p>
+                    <label><input type="radio" name="q31" value="A"> A) Only device manufacturing</label>
+                    <label><input type="radio" name="q31" value="B"> B) Selecting qualified investigators, ensuring compliance, submitting IDE, obtaining approvals, monitoring investigations</label>
+                    <label><input type="radio" name="q31" value="C"> C) Only submitting IDE application</label>
+                    <label><input type="radio" name="q31" value="D"> D) Only device quality and labeling</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q32">
+                    <p>32. SCENARIO: An investigator fails to maintain proper case histories per protocol requirements. Sponsor discovers during monitoring visit. Per 21 CFR 812.46(a), sponsor's options are:</p>
+                    <label><input type="radio" name="q32" value="A"> A) Continue study; minor documentation gaps acceptable</label>
+                    <label><input type="radio" name="q32" value="B"> B) Either secure compliance OR discontinue shipments and terminate participation</label>
+                    <label><input type="radio" name="q32" value="C"> C) Only report to FDA; sponsor lacks enforcement authority</label>
+                    <label><input type="radio" name="q32" value="D"> D) Immediately terminate without discussion</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q33">
+                    <p>33. An IDE investigation involves 5 hospitals with different IRBs. A UADE occurs at Hospital #2. Per 21 CFR 812.150(b)(1), sponsor must report to:</p>
+                    <label><input type="radio" name="q33" value="A"> A) Only Hospital #2's IRB where event occurred</label>
+                    <label><input type="radio" name="q33" value="B"> B) FDA and Hospital #2's IRB only</label>
+                    <label><input type="radio" name="q33" value="C"> C) FDA, all 5 IRBs, and all participating investigators</label>
+                    <label><input type="radio" name="q33" value="D"> D) FDA only; IRBs will learn through FDA</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q34">
+                    <p>34. SCENARIO: A sponsor receives device shipment back from an investigator at study completion. The investigator provides disposal invoice showing devices were incinerated per protocol. What record must sponsor maintain per 21 CFR 812.140(b)?</p>
+                    <label><input type="radio" name="q34" value="A"> A) No record needed once devices returned</label>
+                    <label><input type="radio" name="q34" value="B"> B) Complete disposition record including batch/code, method of disposal, reason</label>
+                    <label><input type="radio" name="q34" value="C"> C) Only total number of devices</label>
+                    <label><input type="radio" name="q34" value="D"> D) Optional documentation</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q35">
+                    <p>35. An investigator provides financial disclosure at IDE enrollment indicating no conflicts. Six months later, investigator receives 2% equity stake in sponsor company. What must investigator do per 21 CFR 812.110?</p>
+                    <label><input type="radio" name="q35" value="A"> A) No obligation; disclosure is one-time at baseline</label>
+                    <label><input type="radio" name="q35" value="B"> B) Promptly update sponsor of relevant changes during investigation and 1 year post-completion</label>
+                    <label><input type="radio" name="q35" value="C"> C) Must immediately withdraw from study</label>
+                    <label><input type="radio" name="q35" value="D"> D) Only update if equity stake >5%</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q36">
+                    <p>36. TIMELINE: A sponsor receives UADE notice on Monday, March 11. Evaluates immediately. By Wednesday, March 13, determines unreasonable risk exists. What is the latest deadline to terminate per 21 CFR 812.46(b)?</p>
+                    <label><input type="radio" name="q36" value="A"> A) Thursday, March 14</label>
+                    <label><input type="radio" name="q36" value="B"> B) Friday, March 22 (5 working days)</label>
+                    <label><input type="radio" name="q36" value="C"> C) Friday, March 29 (15 working days from initial notice)</label>
+                    <label><input type="radio" name="q36" value="D"> D) April 11 (30 days for termination)</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q37">
+                    <p>37. SCENARIO: A sponsor discovers an investigator has been making promotional statements about the investigational device ("proven safe and effective") to potential subjects. Per 21 CFR 812.7, this violates regulations. Sponsor's obligation per 21 CFR 812.46(a) is:</p>
+                    <label><input type="radio" name="q37" value="A"> A) Report to FDA immediately</label>
+                    <label><input type="radio" name="q37" value="B"> B) Issue written warning</label>
+                    <label><input type="radio"name="q37" value="C"> C) Either secure compliance (stop promotion) OR discontinue shipments/terminate</label>
+                    <label><input type="radio" name="q37" value="D"> D) Only recommend voluntary discontinuation</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q38">
+                    <p>38. SCENARIO: Study completion occurs Friday, May 31. Investigator must submit final report to sponsor and IRB per 21 CFR 812.150(a)(6) by:</p>
+                    <label><input type="radio" name="q38" value="A"> A) Monday, June 3 (next business day)</label>
+                    <label><input type="radio" name="q38" value="B"> B) Monday, June 10 (1 week)</label>
+                    <label><input type="radio" name="q38" value="C"> C) Wednesday, August 31 (3 months)</label>
+                    <label><input type="radio" name="q38" value="D"> D) Friday, May 31 (within 24 hours)</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q39">
+                    <p>39. Per 21 CFR 812.140(b)(4), sponsor must maintain complete records of investigational device shipments including:</p>
+                    <label><input type="radio" name="q39" value="A"> A) Only total number shipped</label>
+                    <label><input type="radio" name="q39" value="B"> B) Name/address of investigator, device type/quantity, shipment date, batch/code</label>
+                    <label><input type="radio" name="q39" value="C"> C) Serial numbers only</label>
+                    <label><input type="radio" name="q39" value="D"> D) Only devices that caused adverse events</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q40">
+                    <p>40. SCENARIO: At study end, investigator has 15 unused device units remaining. Per 21 CFR 812.110(c), investigator must:</p>
+                    <label><input type="radio" name="q40" value="A"> A) Keep for personal training use</label>
+                    <label><input type="radio" name="q40" value="B"> B) Sell as surplus inventory</label>
+                    <label><input type="radio" name="q40" value="C"> C) Return to sponsor OR dispose as sponsor directs</label>
+                    <label><input type="radio" name="q40" value="D"> D) Destroy immediately</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q41">
+                    <p>41. A sponsor is required to monitor investigations per 21 CFR 812.46. Written monitoring procedures must cover:</p>
+                    <label><input type="radio" name="q41" value="A"> A) Only adverse events</label>
+                    <label><input type="radio" name="q41" value="B"> B) General aspects of clinical investigations in sufficient detail</label>
+                    <label><input type="radio" name="q41" value="C"> C) Only data quality at final analysis</label>
+                    <label><input type="radio" name="q41" value="D"> D) Monitoring only required for SR devices</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q42">
+                    <p>42. SCENARIO: COMPLEX - An IDE involves 3 sites. Investigator at Site 1 uses investigational device on subject without documented informed consent due to emergency. Investigator must report to sponsor and reviewing IRB per 21 CFR 812.150(a)(5) within:</p>
+                    <label><input type="radio" name="q42" value="A"> A) 24 hours</label>
+                    <label><input type="radio" name="q42" value="B"> B) 5 working days after the use</label>
+                    <label><input type="radio" name="q42" value="C"> C) 10 working days</label>
+                    <label><input type="radio" name="q42" value="D"> D) Next scheduled monitoring visit</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q43">
+                    <p>43. A sponsor is selecting monitors for an IDE investigation. Per 21 CFR 812.43(d), monitors must be:</p>
+                    <label><input type="radio" name="q43" value="A"> A) FDA-certified monitor specialists</label>
+                    <label><input type="radio" name="q43" value="B"> B) Qualified by training and experience per IDE regulations</label>
+                    <label><input type="radio" name="q43" value="C"> C) Employees of sponsor company only</label>
+                    <label><input type="radio" name="q43" value="D"> D) Same qualifications as principal investigator</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q44">
+                    <p>44. SCENARIO: A sponsor is preparing investigator agreements for a 5-site IDE. Which statement correctly describes financial disclosure requirements per 21 CFR 812.110?</p>
+                    <label><input type="radio" name="q44" value="A"> A) No financial disclosure needed for IDE investigations</label>
+                    <label><input type="radio" name="q44" value="B"> B) Investigators must provide "sufficient accurate financial information" to allow IDE applicant to certify/disclose per 21 CFR Part 54</label>
+                    <label><input type="radio" name="q44" value="C"> C) Only disclosure needed if investigator has >10% ownership</label>
+                    <label><input type="radio" name="q44" value="D"> D) Financial disclosure required only for SR device IDEs</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q45">
+                    <p>45. Per 21 CFR 812.150(b)(5), how often must sponsor submit progress reports to FDA for an SR IDE investigation?</p>
+                    <label><input type="radio" name="q45" value="A"> A) Monthly</label>
+                    <label><input type="radio" name="q45" value="B"> B) Quarterly</label>
+                    <label><input type="radio" name="q45" value="C"> C) At least yearly</label>
+                    <label><input type="radio" name="q45" value="D"> D) Only at study completion</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q46">
+                    <p>46. SCENARIO: A sponsor discovers multiple investigators are not complying with informed consent documentation requirements. Per 21 CFR 812.46(a), sponsor's appropriate action is:</p>
+                    <label><input type="radio" name="q46" value="A"> A) Document the violations and report at annual meeting</label>
+                    <label><input type="radio" name="q46" value="B"> B) Promptly secure compliance OR discontinue shipments and terminate participation</label>
+                    <label><input type="radio" name="q46" value="C"> C) Report to FDA but take no direct action</label>
+                    <label><input type="radio" name="q46" value="D"> D) Inform IRB only</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q47">
+                    <p>47. An IDE investigation is terminated early due to inadequate enrollment. Sponsor must notify all reviewing IRBs and participating investigators per 21 CFR 812.150(b)(7) within:</p>
+                    <label><input type="radio" name="q47" value="A"> A) 5 working days</label>
+                    <label><input type="radio" name="q47" value="B"> B) 30 working days</label>
+                    <label><input type="radio" name="q47" value="C"> C) 6 months</label>
+                    <label><input type="radio" name="q47" value="D"> D) Time period not specified for early termination</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q48">
+                    <p>48. SCENARIO: INTEGRATION - A sponsor receives a deficiency letter from FDA on Monday, January 8. Per 21 CFR 812.20(c), sponsor has 30 calendar days to respond. What is the deadline?</p>
+                    <label><input type="radio" name="q48" value="A"> A) Friday, January 19</label>
+                    <label><input type="radio" name="q48" value="B"> B) Monday, January 22</label>
+                    <label><input type="radio" name="q48" value="C"> C) Tuesday, February 7</label>
+                    <label><input type="radio" name="q48" value="D"> D) Friday, February 8</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q49">
+                    <p>49. A sponsor must maintain records relating to IDE investigations "in one location" per 21 CFR 812.140(b). Why is centralized record-keeping important per regulatory requirements?</p>
+                    <label><input type="radio" name="q49" value="A"> A) FDA efficiency only</label>
+                    <label><input type="radio" name="q49" value="B"> B) To facilitate FDA inspection, ensure data integrity, and enable quick access during adverse event investigations</label>
+                    <label><input type="radio" name="q49" value="C"> C) Optional best practice</label>
+                    <label><input type="radio" name="q49" value="D"> D) Only required for multi-site studies</label>
+                    <div class="feedback"></div>
+                </div>
+                <div class="question-block" data-question-id="q50">
+                    <p>50. SCENARIO: A sponsor-investigator (physician serving both roles) discovers a UADE at their study site. Must they report to FDA AND to IRB per IDE regulations?</p>
+                    <label><input type="radio" name="q50" value="A"> A) No, can report to either FDA or IRB</label>
+                    <label><input type="radio" name="q50" value="B"> B) Yes, both reports required per 21 CFR 812.150(a)(1) and 812.150(b)(1)</label>
+                    <label><input type="radio" name="q50" value="C"> C) Only report to IRB; FDA notification optional</label>
+                    <label><input type="radio" name="q50" value="D"> D) Only report to FDA for sponsor-investigators</label>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <div id="submit-btn-container">
+                <button type="button" id="submit-btn" onclick="submitQuiz()">Grade My Exam</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        // --- Answer Keys ---
+        const correctAnswers = {
+            q1: "B", q2: "C", q3: "C", q4: "C", q5: "B", q6: "B", q7: "C", q8: "C", q9: "B", q10: "B",
+            q11: "B", q12: "B", q13: "B", q14: "B", q15: "C", q16: "B", q17: "B", q18: "B", q19: "B", q20: "B",
+            q21: "B", q22: "B", q23: "C", q24: "B", q25: "C", q26: "B", q27: "B", q28: "B", q29: "B", q30: "B",
+            q31: "B", q32: "B", q33: "C", q34: "B", q35: "B", q36: "C", q37: "C", q38: "C", q39: "B", q40: "C",
+            q41: "B", q42: "B", q43: "B", q44: "B", q45: "C", q46: "B", q47: "B", q48: "B", q49: "B", q50: "B"
+        };
+
+        const explanations = {
+            q1: "21 CFR 812.20(a) - All listed elements are required except CEO biography and financial statements",
+            q2: "21 CFR 812.25 - Profit margin budgets not regulatory requirement",
+            q3: "21 CFR 812.43(c) - Each INDIVIDUAL investigator requires separate agreement",
+            q4: "21 CFR 812.20(c) - 30 calendar days standard response period for FDA requests",
+            q5: "21 CFR 812.27 - Complete reporting of all prior investigations required",
+            q6: "21 CFR 812.20, 812.27 - Summary of relevant prior investigations with specifics required",
+            q7: "21 CFR 812.42 - Both FDA and IRB approval required for SR devices",
+            q8: "21 CFR 812.20(d) - Information previously submitted can be incorporated by reference",
+            q9: "21 CFR 812.35(a) - Supplements require prior approval before implementation",
+            q10: "21 CFR 812.43(c) - Circumstances of termination must be explained",
+            q11: "21 CFR 812.20(a) - All 9 required components listed",
+            q12: "21 CFR 812.2(b), 812.20 - Abbreviated refers to approval, not documentation",
+            q13: "21 CFR 812.20(a)(11) - Ensures subjects informed of device-specific risks",
+            q14: "21 CFR 812.20(c) - March 15 + 30 calendar days = April 14",
+            q15: "21 CFR 812 Subparts C & E - Sponsor-investigator must comply with both",
+            q16: "21 CFR 812.3(m) - SR defined by implant/life-sustaining/substantial importance + serious risk",
+            q17: "21 CFR 812.3(m) - Meets NSR criteria; noninvasive monitoring device",
+            q18: "21 CFR 812.2(c)(3) - All 4 diagnostic exemption criteria met",
+            q19: "21 CFR 812.3(m) - Invasive device with serious risk potential = SR",
+            q20: "21 CFR 812.150(b)(9) - 5 working days to notify FDA of IRB disagreement",
+            q21: "21 CFR 812.3(m) - Patient selection doesn't change inherent risk classification (Note: Key says B, explanation for B refers to life-sustaining, but D is also plausible. Following key.)",
+            q22: "21 CFR 812.2(c)(7) - Custom device exception doesn't apply if used for commercial S/E determination",
+            q23: "21 CFR 812.150(b)(9) - 5 working days = Mon 18, Tue 19, Wed 20, Thu 21, Fri 22",
+            q24: "21 CFR 812.20(a), 812.46 - FDA can reassess if new data suggests greater risk",
+            q25: "21 CFR 812.2(c)(3) - Diagnostic exemption doesn't exempt human subjects protections",
+            q26: "21 CFR 812.3(m) - Life-sustaining devices inherently serious risk = SR",
+            q27: "21 CFR 812.150(a)(1), 812.46(b) - UADEs reported per 10-day timeline; FDA reassessment possible",
+            q28: "21 CFR 812.3(m) - Risk classification independent of benefit-risk analysis",
+            q29: "21 CFR 812.20(a) - FDA can require full IDE approval",
+            q30: "21 CFR 812.2(c)(3) - Diagnostic exemption = no IDE submission required",
+            q31: "21 CFR 812.40 - Comprehensive sponsor responsibilities listed",
+            q32: "21 CFR 812.46(a) - Two options: secure compliance or terminate",
+            q33: "21 CFR 812.150(b)(1) - All IRBs and investigators must be notified of UADE",
+            q34: "21 CFR 812.140(b)(5) - Complete disposition records required",
+            q35: "21 CFR 812.110 - Dynamic financial disclosure updates required",
+            q36: "21 CFR 812.46(b) - 15 working days absolute max from initial notice",
+            q37: "21 CFR 812.7, 812.46(a) - Sponsor must enforce compliance or terminate",
+            q38: "21 CFR 812.150(a)(6) - 3 months after completion/termination",
+            q39: "21 CFR 812.140(b)(4) - Complete shipment tracking required",
+            q40: "21 CFR 812.110(c) - Return or dispose as sponsor directs",
+            q41: "21 CFR 812.46 - Written procedures must cover general investigation aspects",
+            q42: "21 CFR 812.150(a)(5) - 5 working days for emergency consent waiver use",
+            q43: "21 CFR 812.43(d) - Qualified by training and experience",
+            q44: "21 CFR 812.110, Part 54 - Financial disclosure required for Part 54 compliance",
+            q45: "21 CFR 812.150(b)(5) - At least yearly for all SR investigations",
+            q46: "21 CFR 812.46(a) - Promptly secure compliance or discontinue/terminate",
+            q47: "21 CFR 812.150(b)(3) - 30 working days for withdrawal of FDA approval notice",
+            q48: "21 CFR 812.20(c) - Using provided answer key. (Note: User key and explanation text are contradictory. Following the key.)",
+            q49: "21 CFR 812.140(b) - Centralized records enable FDA inspection and AE investigation",
+            q50: "21 CFR 812.150(a)(1), 812.150(b)(1) - Both investigator and sponsor reporting obligations apply"
+        };
+
+
+        // --- Tab Functionality ---
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // --- Quiz Submission Functionality ---
+        function submitQuiz() {
+            let score = 0;
+            const totalQuestions = 50;
+            const questionBlocks = document.querySelectorAll('.question-block');
+            
+            let missedSectionA = [];
+            let missedSectionB = [];
+            let missedSectionC = [];
+
+            questionBlocks.forEach(block => {
+                const qId = block.dataset.questionId;
+                const correctAnswer = correctAnswers[qId];
+                const explanation = explanations[qId];
+                
+                const selectedOption = document.querySelector(`input[name="${qId}"]:checked`);
+                const feedbackDiv = block.querySelector('.feedback');
+                const allLabels = block.querySelectorAll('label');
+
+                let answeredCorrectly = false;
+
+                allLabels.forEach(label => {
+                    const input = label.querySelector('input');
+                    // Reset styles
+                    label.classList.remove('label-correct', 'label-incorrect');
+
+                    // Highlight the correct answer
+                    if (input.value === correctAnswer) {
+                        label.classList.add('label-correct');
+                    }
+                });
+
+                if (selectedOption) {
+                    if (selectedOption.value === correctAnswer) {
+                        score++;
+                        answeredCorrectly = true;
+                        feedbackDiv.style.display = 'none'; // No feedback needed if correct
+                    } else {
+                        // Highlight the user's incorrect choice
+                        selectedOption.parentElement.classList.add('label-incorrect');
+                        feedbackDiv.innerHTML = `<strong>Incorrect.</strong> The correct answer is ${correctAnswer}.<br><em>${explanation}</em>`;
+                        feedbackDiv.className = 'feedback feedback-incorrect';
+                        feedbackDiv.style.display = 'block';
+                    }
+                } else {
+                    // Unanswered
+                    feedbackDiv.innerHTML = `<strong>Unanswered.</strong> The correct answer is ${correctAnswer}.<br><em>${explanation}</em>`;
+                    feedbackDiv.className = 'feedback feedback-incorrect';
+                    feedbackDiv.style.display = 'block';
+                }
+                
+                if (!answeredCorrectly) {
+                    const qNum = parseInt(qId.substring(1));
+                    if (qNum <= 15) missedSectionA.push(qId);
+                    else if (qNum <= 30) missedSectionB.push(qId);
+                    else missedSectionC.push(qId);
+                }
+            });
+
+            // Calculate score and analysis
+            const percentage = (score / totalQuestions) * 100;
+            let analysisText = "";
+            let analysisTitle = "";
+
+            if (percentage >= 90) {
+                analysisTitle = "Mastery level (90-100%)";
+                analysisText = "<p>Ready for comprehensive exam.</p>";
+            } else if (percentage >= 80) {
+                analysisTitle = "Competent (80-89%)";
+                analysisText = "<p>Review weak areas before exam.</p>";
+            } else if (percentage >= 70) {
+                analysisTitle = "Developing (70-79%)";
+                analysisText = "<p>Recommend office hours review.</p>";
+            } else if (percentage >= 60) {
+                analysisTitle = "Concerning (60-69%)";
+                analysisText = "<p>Significant gaps; extensive review needed.</p>";
+            } else {
+                analysisTitle = "Inadequate preparation (<60%)";
+                analysisText = "<p>Restart core concepts.</p>";
+            }
+
+            let focusTopics = "<h3>High-Yield Topics to Focus On</h3><div class='analysis-box'><ul>";
+            if (missedSectionA.length > 3) { // 3 is ~20% of 15
+                 focusTopics += "<li>Review 21 CFR 812.20-812.27 (IDE Application requirements)</li>";
+            }
+            if (missedSectionB.length > 3) {
+                 focusTopics += "<li>Review 21 CFR 812.3(m) and 812.2(c)(3) (Risk determination)</li>";
+            }
+            if (missedSectionC.length > 4) { // 4 is 20% of 20
+                 focusTopics += "<li>Review 21 CFR 812.40-812.47 and 812.150 (Sponsor/investigator responsibilities, reporting)</li>";
+            }
+            if (focusTopics.endsWith("<ul>")) {
+                focusTopics += "<li>Great job! No specific weak areas identified based on this test.</li>";
+            }
+            focusTopics += "</ul></div>";
+
+
+            // Display results
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = `
+                <h2>Your Score: ${score} / ${totalQuestions} (${percentage.toFixed(0)}%)</h2>
+                <div class="analysis-box">
+                    <p>${analysisTitle}</p>
+                    ${analysisText}
+                </div>
+                ${(missedSectionA.length > 3 || missedSectionB.length > 3 || missedSectionC.length > 4) ? focusTopics : ''}
+            `;
+            resultsContainer.style.display = 'block';
+
+            // Disable button and scroll to top
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').innerText = "Exam Graded";
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

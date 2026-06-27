@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4 Homework Packet (Interactive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Basic styling for tab buttons */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        /* Active tab button style */
+        .tab-button[aria-selected="true"] {
+            border-bottom-color: #4f46e5;
+            /* indigo-600 */
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* Hide tab panels by default */
+        .tab-panel[hidden] {
+            display: none;
+        }
+
+        /* Custom checkbox styles */
+        .custom-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Input field feedback */
+        .answer-correct {
+            border: 2px solid #22c55e;
+            /* green-500 */
+        }
+
+        .answer-wrong {
+            border: 2px solid #ef4444;
+            /* red-500 */
+        }
+
+        .correct-answer-display {
+            font-size: 0.875rem;
+            color: #16a34a;
+            /* green-600 */
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
+        <!-- Header -->
+        <header class="p-6 md:p-8 border-b border-gray-200 bg-gray-50">
+            <h1 class="text-2xl md:text-3xl font-bold text-indigo-700">WEEK 4 HOMEWORK PACKET</h1>
+            <p class="text-lg text-gray-600">IDE Regulations & Responsibilities | Due Friday 5pm</p>
+            <p class="text-sm text-gray-500 mt-1">Total Time Commitment: 90 minutes</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 overflow-x-auto">
+            <div role="tablist" aria-label="Homework Assignments" class="flex flex-nowrap -mb-px px-4 md:px-6">
+                <button role="tab" aria-selected="true" aria-controls="tab-overview" id="btn-overview"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    Overview & Checklist
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a1" id="btn-a1"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A1: Reading
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a2" id="btn-a2"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A2: Practice Qs
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a3" id="btn-a3"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A3: Timelines
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a4" id="btn-a4"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A4: Forms
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a5" id="btn-a5"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A5: Decision Tree
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a6" id="btn-a6"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A6: Matrix
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a7" id="btn-a7"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A7: Reflection
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-a8" id="btn-a8"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    A8: Integration
+                </button>
+                <button role="tab" aria-selected="false" aria-controls="tab-study" id="btn-study"
+                    class="tab-button flex-shrink-0 whitespace-nowrap py-4 px-3 md:px-5 text-sm md:text-base text-gray-500 hover:text-indigo-600">
+                    Study Tips
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content Panels -->
+        <div class="p-6 md:p-8">
+
+            <!-- Tab 1: Overview & Checklist -->
+            <div role="tabpanel" id="tab-overview" class="tab-panel space-y-6">
+                <section>
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-3">WEEK 4 HOMEWORK CHECKLIST</h2>
+                    <ul class="space-y-2">
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 1 (Wed 5pm): ICH E6(R2) Guided Reading</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 2 (Thu 5pm): 50 Practice Questions</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 3 (Fri 2pm): 10 Timeline Calculations</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 4 (Fri 12pm): Form Completion Guide Study</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 5 (Fri 5pm): Decision Tree Creation (Optional)</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 6 (Fri 2pm): Responsibility Matrix (Optional)</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 7 (Fri 5pm): Common Errors Reflection</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Assignment 8 (Fri 2pm): Domain 1 Integration Prep</label></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Grading:</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Assignments 1-3, 7: Required (graded)</li>
+                        <li>Assignments 4-6, 8: Optional prep (recommended, not graded)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Late Policy:</h3>
+                    <p>Submit by Friday 5pm. Late submissions accepted through Monday 12pm with 10% deduction per day late.</p>
+                </section>
+                <section>
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-3">RESOURCES AVAILABLE</h2>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Course Materials:</h3>
+                    <ul class="list-disc list-inside">
+                        <li>IDE_Week4_Complete_Learning_Package.md</li>
+                        <li>IDE_Week4_Quiz_50_Complete.md</li>
+                        <li>01_PRACTICE_QUESTION_BANK_50.md</li>
+                        <li>02_IN_CLASS_ACTIVITIES_35min.md</li>
+                    </ul>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-4 mb-2">External Resources:</h3>
+                    <ul class="list-disc list-inside">
+                        <li><a href="https://www.ecfr.gov/current/title-21/chapter-I/subchapter-H/part-812" target="_blank" class="text-indigo-600 hover:underline">21 CFR 812 (IDE Regulations)</a></li>
+                        <li><a href="https://www.ich.org/page/efficacy" target="_blank" class="text-indigo-600 hover:underline">ICH E6(R2) (GCP)</a></li>
+                        <li><a href="https://www.fda.gov/medical-devices/investigational-device-exemption-ide/" target="_blank" class="text-indigo-600 hover:underline">FDA Guidance on IDE</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-3">FINAL REMINDERS</h2>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>✅ Quality Learning: These assignments build progressive understanding, not just test memorization.</li>
+                        <li>✅ Exam Preparation: Homework assignments directly align with exam question types and topics.</li>
+                        <li>✅ Office Hours: Instructors want you to succeed—use office hours if ANY assignment gives you trouble.</li>
+                        <li>✅ You Can Do This: Week 4 is complex, but you've already mastered Weeks 2-3. This material builds on that foundation!</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Tab 2: A1: ICH E6(R2) Guided Reading -->
+            <div role="tabpanel" id="tab-a1" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 1: ICH E6(R2) GUIDED READING</h2>
+                    <p class="text-gray-600">Due: Wednesday 5pm | Time: 20 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Reading Assignment</h3>
+                    <p>Read: ICH E6(R2) Good Clinical Practice Sections:</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>1.0-1.11: Glossary and GCP Principles</li>
+                        <li>2.0-2.11: Institutional Review Boards</li>
+                        <li>3.0-3.11: Sponsor Responsibilities</li>
+                    </ul>
+                    <p class="mt-2">Available at: <a href="https://www.ich.org/page/efficacy" target="_blank" class="text-indigo-600 hover:underline">https://www.ich.org/page/efficacy</a></p>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Annotation Prompts</h3>
+                    <p class="mb-4">As you read, type your answers to these questions. You can copy/paste your responses for submission.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="a1-q1" class="block text-md font-medium text-gray-700">Question 1: Where do IDE regulations align with ICH E6(R2) GCP principles?</label>
+                            <p class="text-sm text-gray-500 mb-1">Hint: Look for language about investigator qualifications, monitoring, record-keeping, safety reporting.</p>
+                            <textarea id="a1-q1" rows="4" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                        <div>
+                            <label for="a1-q2" class="block text-md font-medium text-gray-700">Question 2: What are the differences in IRB oversight between INDs and IDEs?</label>
+                            <p class="text-sm text-gray-500 mb-1">Hint: Compare Section 2 (IRBs) to 21 CFR 56; note timing of approval, continuing review frequency.</p>
+                            <textarea id="a1-q2" rows="4" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                        <div>
+                            <label for="a1-q3" class="block text-md font-medium text-gray-700">Question 3: Identify 3 sponsor responsibilities in ICH GCP that also appear in 21 CFR 812.40</label>
+                            <p class="text-sm text-gray-500 mb-1">Hint: Look at monitoring (5.17), safety reporting (4.11), investigator selection (3.2).</p>
+                            <textarea id="a1-q3" rows="4" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                        <div>
+                            <label for="a1-q4" class="block text-md font-medium text-gray-700">Question 4: Are there ICH GCP requirements NOT explicitly stated in 21 CFR 812?</label>
+                            <p class="text-sm text-gray-500 mb-1">Hint: Think about data integrity, GCP principles beyond minimum FDA requirements.</p>
+                            <textarea id="a1-q4" rows="4" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submission Format</h3>
+                    <p>Submit 1-page response (typed) with answers to 4 questions. Include ICH E6(R2) citations where applicable.</p>
+                </section>
+            </div>
+
+            <!-- Tab 3: A2: Practice Questions -->
+            <div role="tabpanel" id="tab-a2" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 2: PRACTICE QUESTIONS - 50 HOMEWORK SET</h2>
+                    <p class="text-gray-600">Due: Thursday 5pm | Time: 30 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Instructions</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Complete 50 questions from Practice Question Bank (FILE: 01_PRACTICE_QUESTION_BANK_50.md)</li>
+                        <li>Work WITHOUT reference materials first (30 min timed)</li>
+                        <li>Score yourself using Answer Key</li>
+                        <li>Identify sections &lt;80% accuracy for review</li>
+                    </ul>
+                </section>
+                <section class="p-4 border border-indigo-200 bg-indigo-50 rounded-lg">
+                    <h3 class="text-lg font-semibold text-indigo-800 mb-2">Interactive Score Sheet</h3>
+                    <p class="mb-3 text-indigo-700">Enter your score below to see your grade and feedback.</p>
+                    <div class="flex items-center space-x-3">
+                        <label for="a2-score-input" class="text-md font-medium text-gray-700">Number Correct (out of 50):</label>
+                        <input type="number" id="a2-score-input" min="0" max="50" class="w-24 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <button id="a2-score-button" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Calculate Grade
+                        </button>
+                    </div>
+                    <div id="a2-score-result" class="mt-4 p-4 rounded-md bg-white shadow-inner" style="display: none;">
+                        <!-- Score result will be injected here by JS -->
+                    </div>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submission:</h3>
+                    <p>Submit score sheet (# correct per section). No need to submit individual answers unless reviewing with instructor.</p>
+                </section>
+            </div>
+
+            <!-- Tab 4: A3: Timeline Calculation -->
+            <div role="tabpanel" id="tab-a3" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 3: TIMELINE CALCULATION PRACTICE</h2>
+                    <p class="text-gray-600">Due: Friday 2pm | Time: 15 minutes</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Instructions</h3>
+                    <p>Calculate UADE reporting deadlines, assuming no federal holidays unless stated. Use working day formula: count M-F only (exclude Sat, Sun).</p>
+                </section>
+                
+                <div class="space-y-4">
+                    <!-- Scenario 1 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 1: BASIC</p>
+                        <p class="text-sm text-gray-600">UADE learned by investigator: Monday, March 18. Calculate: Investigator deadline to report to sponsor/IRB. | CFR: 21 CFR 812.150(a)(1)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s1" class="sr-only">Answer 1</label>
+                            <input type="text" id="a3-s1" data-answer="monday, april 1" placeholder="Your Answer (e.g., Monday, April 1)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s1-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 2 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 2: WEEKEND INTERRUPTION</p>
+                        <p class="text-sm text-gray-600">Investigator learns of UADE Friday, April 25. Calculate: 10 working days forward (avoid weekend). | CFR: 21 CFR 812.150(a)(1)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s2" class="sr-only">Answer 2</label>
+                            <input type="text" id="a3-s2" data-answer="friday, may 9" placeholder="Your Answer (e.g., Friday, May 9)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s2-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 3 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 3: MULTI-SITE SPONSOR REPORTING</p>
+                        <p class="text-sm text-gray-600">Sponsor receives investigator's UADE report Thursday, May 16. Calculate: Sponsor deadline to report to FDA, all IRBs, all investigators. | CFR: 21 CFR 812.150(b)(1)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s3" class="sr-only">Answer 3</label>
+                            <input type="text" id="a3-s3" data-answer="thursday, may 30" placeholder="Your Answer (e.g., Thursday, May 30)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s3-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 4 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 4: UNREASONABLE RISK DETERMINATION</p>
+                        <p class="text-sm text-gray-600">Sponsor receives UADE notice: Monday, June 3. Sponsor evaluates and determines unreasonable risk: Wednesday, June 5. Calculate: LATEST termination deadline (5 working days). | CFR: 21 CFR 812.46(b)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s4" class="sr-only">Answer 4</label>
+                            <input type="text" id="a3-s4" data-answer="wednesday, june 12" placeholder="Your Answer (e.g., Wednesday, June 12)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s4-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 5 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 5: HOLIDAY COMPLICATION</p>
+                        <p class="text-sm text-gray-600">UADE notice received: Friday, December 20. Federal holidays: Christmas (Dec 25-26), New Year's Day (Jan 1). Calculate: Sponsor's reporting deadline (10 working days). | CFR: 21 CFR 812.150(b)(1)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s5" class="sr-only">Answer 5</label>
+                            <input type="text" id="a3-s5" data-answer="wednesday, january 8" placeholder="Your Answer (e.g., Wednesday, January 8)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s5-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 6 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 6: INVESTIGATOR LATE REPORTING</p>
+                        <p class="text-sm text-gray-600">Event occurs: Monday, March 11. Investigator doesn't report until: Friday, March 29. Question: Has investigator violated 812.150(a)(1)? When was deadline? | CFR: 21 CFR 812.150(a)(1)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s6" class="sr-only">Answer 6</label>
+                            <input type="text" id="a3-s6" data-answer="yes, monday, march 25" placeholder="Your Answer (e.g., Yes. Deadline was...)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s6-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 7 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 7: NSR→SR DISAGREEMENT</p>
+                        <p class="text-sm text-gray-600">IRB notifies sponsor of disagreement: Friday, March 15. Calculate: Sponsor deadline to notify FDA (5 working days). | CFR: 21 CFR 812.150(b)(9)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s7" class="sr-only">Answer 7</label>
+                            <input type="text" id="a3-s7" data-answer="friday, march 22" placeholder="Your Answer (e.g., Friday, March 22)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s7-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 8 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 8: WITHDRAWAL OF APPROVAL</p>
+                        <p class="text-sm text-gray-600">IRB sends notification: Tuesday, April 2. Calculate: Sponsor deadline to notify FDA, all other IRBs, all investigators (5 working days). | CFR: 21 CFR 812.150(b)(2)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s8" class="sr-only">Answer 8</label>
+                            <input type="text" id="a3-s8" data-answer="tuesday, april 9" placeholder="Your Answer (e.g., Tuesday, April 9)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s8-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 9 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 9: DEVICE RECALL/DISPOSITION</p>
+                        <p class="text-sm text-gray-600">Request made: Monday, September 8. Calculate: Deadline to notify FDA, IRBs of recall/disposition request (5 working days). | CFR: 21 CFR 812.150(b)(6)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s9" class="sr-only">Answer 9</label>
+                            <input type="text" id="a3-s9" data-answer="monday, september 15" placeholder="Your Answer (e.g., Monday, September 15)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s9-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                    <!-- Scenario 10 -->
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <p class="font-semibold">Scenario 10: INVESTIGATOR FINAL REPORT</p>
+                        <p class="text-sm text-gray-600">IDE investigation completed: Friday, May 31. Calculate: Deadline for investigator to submit final report to sponsor, IRB (3 months). | CFR: 21 CFR 812.150(a)(6)</p>
+                        <div class="mt-2 flex items-center">
+                            <label for="a3-s10" class="sr-only">Answer 10</label>
+                            <input type="text" id="a3-s10" data-answer="saturday, august 31" placeholder="Your Answer (e.g., Saturday, August 31)" class="a3-input w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm">
+                            <span id="a3-s10-feedback" class="ml-2"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center space-x-4">
+                    <button id="a3-check-answers" class="px-6 py-2 bg-green-600 text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        Check My Answers
+                    </button>
+                    <div id="a3-score-result" class="text-xl font-bold text-gray-800">
+                        <!-- Score will be injected here -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab 5: A4: Form Completion Guide -->
+            <div role="tabpanel" id="tab-a4" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 4: FORM COMPLETION GUIDE STUDY</h2>
+                    <p class="text-gray-600">Due: Friday 12pm | Time: 10 minutes (Review, no submission)</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Review Materials</h3>
+                    <p>Study the following form completion templates in your course materials:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                        <li>Document 1: IDE Application Investigational Plan Template</li>
+                        <li>Document 2: Prior Investigations Report Template</li>
+                        <li>Document 3: Investigator Agreement Template</li>
+                        <li>Document 4: Device Specifications Checklist</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Self-Assessment</h3>
+                    <p>After reviewing, check your understanding:</p>
+                    <ul class="space-y-2 mt-2">
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Can I explain the purpose of each section?</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Can I identify what information belongs in each section?</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Can I explain why each section matters for FDA review?</label></li>
+                    </ul>
+                    <p class="mt-2 text-sm text-gray-600">If "no" to any, mark for office hours review.</p>
+                </section>
+            </div>
+
+            <!-- Tab 6: A5: Decision Tree -->
+            <div role="tabpanel" id="tab-a5" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 5: DECISION TREE CREATION EXERCISE</h2>
+                    <p class="text-gray-600">Due: Friday 5pm | Time: 15 minutes (Optional but recommended)</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Instructions</h3>
+                    <p>Create a flowchart on paper or digital format showing decision logic using 21 CFR 812.3(m) criteria for "Is This Investigation IDE-Exempt, NSR, or SR?"</p>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Example Structure (you create the actual tree):</h3>
+                    <pre class="bg-gray-100 p-4 rounded-md text-sm">
+START: Is this a medical device investigation?
+├─ NO → Not IDE; use IND or other pathway
+└─ YES → Continue to next question
+
+Does device meet diagnostic exemption criteria (all 4)?
+├─ YES → Device is EXEMPT (but IRB review still required)
+└─ NO → Continue to next question
+... (and so on)
+                    </pre>
+                </section>
+                <section>
+                    <label for="a5-draft" class="block text-md font-medium text-gray-700">Draft your logic (optional):</label>
+                    <textarea id="a5-draft" rows="8" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="You can draft your decision tree logic here in text form."></textarea>
+                </section>
+            </div>
+
+            <!-- Tab 7: A6: Responsibility Matrix -->
+            <div role="tabpanel" id="tab-a6" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 6: RESPONSIBILITY MATRIX COMPLETION</h2>
+                    <p class="text-gray-600">Due: Friday 2pm | Time: 10 minutes (Optional resource)</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Task:</h3>
+                    <p>Build a two-column matrix. This is a great quick-reference for the exam.</p>
+                </section>
+                <section>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-3 text-left text-sm font-semibold text-gray-700 border-b">Responsibility Area</th>
+                                    <th class="p-3 text-left text-sm font-semibold text-gray-700 border-b">Sponsor (Per 812.40-47)</th>
+                                    <th class="p-3 text-left text-sm font-semibold text-gray-700 border-b">Investigator (Per 812.100-119)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">FDA/IRB Approval</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">Investigator Selection</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">Informed Consent</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">Monitoring</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">UADE Reporting</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border-b border-gray-200 align-top"><strong class="text-sm">Record Keeping</strong></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Sponsor responsibilities..."></textarea></td>
+                                    <td class="p-2 border-b border-gray-200"><textarea rows="2" class="w-full p-1 border border-gray-200 rounded-md text-sm" placeholder="Investigator responsibilities..."></textarea></td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tab 8: A7: Common Errors Reflection -->
+            <div role="tabpanel" id="tab-a7" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 7: COMMON ERRORS REFLECTION</h2>
+                    <p class="text-gray-600">Due: Friday 5pm | Time: 5 minutes (Typed paragraph)</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Prompt</h3>
+                    <p class="italic">"Based on learning from this week, what are 3 common mistakes exam takers make on IDE questions? How will YOU avoid these mistakes?"</p>
+                </section>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Examples of Common Errors (choose 3):</h3>
+                    <ul class="list-disc list-inside ml-4 text-sm text-gray-600">
+                        <li>Confusing IND 15-day reporting with IDE 10-day reporting</li>
+                        <li>Assuming NSR = "no regulation"</li>
+                        <li>Misunderstanding sponsor accountability</li>
+                        <li>Miscalculating working days</li>
+                        <li>Missing that multi-site means ALL IRBs must be notified of UADE</li>
+                    </ul>
+                </section>
+                <section>
+                    <label for="a7-reflection" class="block text-md font-medium text-gray-700">Your Reflection:</label>
+                    <p class="text-sm text-gray-500 mb-1">3-5 sentences per error. Include specific CFR citation for each.</p>
+                    <textarea id="a7-reflection" rows="10" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </section>
+            </div>
+
+            <!-- Tab 9: A8: Domain 1 Integration -->
+            <div role="tabpanel" id="tab-a8" class="tab-panel space-y-6" hidden>
+                <header>
+                    <h2 class="text-xl font-semibold text-indigo-700">ASSIGNMENT 8: DOMAIN 1 INTEGRATION PREP</h2>
+                    <p class="text-gray-600">Due: Friday 2pm | Time: 10 minutes (Preparation activity)</p>
+                </header>
+                <section>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Connect Week 4 to Weeks 2-3</h3>
+                    <p>Prepare for Week 5 Comprehensive Exam which will test INTEGRATED knowledge.</p>
+                </section>
+                <div class="space-y-4">
+                    <div>
+                        <label for="a8-q1" class="block text-md font-medium text-gray-700">Week 2 → Week 4 Connection:</label>
+                        <p class="text-sm text-gray-600 mb-1">How do 45 CFR 46 (General Protections) and 21 CFR 50 (Informed Consent) apply to IDE investigations?</p>
+                        <textarea id="a8-q1" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your Note:"></textarea>
+                    </div>
+                    <div>
+                        <label for="a8-q2" class="block text-md font-medium text-gray-700">Week 3 → Week 4 Connection:</label>
+                        <p class="text-sm text-gray-600 mb-1">How do ICH E6(R2) GCP principles apply to IDE sponsor/investigator responsibilities?</p>
+                        <textarea id="a8-q2" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your Note:"></textarea>
+                    </div>
+                    <div>
+                        <label for="a8-q3" class="block text-md font-medium text-gray-700">Week 2-4 Integration Question:</label>
+                        <p class="text-sm text-gray-600 mb-1">A device investigation violates GCP (inadequate investigator qualifications) AND IDE regulations (investigator doesn't maintain case histories). Who enforces which violation? What are consequences?</p>
+                        <textarea id="a8-q3" rows="4" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your Note:"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 10: Study Tips -->
+            <div role="tabpanel" id="tab-study" class="tab-panel space-y-6" hidden>
+                <section>
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-3">STUDY TIPS FOR SUCCESS</h2>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Before You Start</h3>
+                    <ul class="space-y-2">
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Gather materials: Course notes, IDE_Week4_Complete_Learning_Package, this packet</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Set timer for each assignment</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Eliminate distractions (phone away, quiet space)</label></li>
+                    </ul>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-4 mb-2">While Working</h3>
+                    <ul class="space-y-2">
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Don't reference materials for assignments 1-2 first attempt</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Use CFR citations; don't rely on memory alone</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Mark questions that give you trouble for office hours</label></li>
+                    </ul>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-4 mb-2">After Completing</h3>
+                    <ul class="space-y-2">
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Score using answer keys</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Identify patterns in wrong answers</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Plan targeted review for weak areas</label></li>
+                        <li><label class="flex items-center"><input type="checkbox" class="custom-checkbox">Prepare questions for office hours Friday 2-3pm</label></li>
+                    </ul>
+                </section>
+                <section class="p-4 border border-yellow-300 bg-yellow-50 rounded-lg">
+                    <h2 class="text-xl font-semibold text-yellow-800 mb-3">OFFICE HOURS PREP</h2>
+                    <p class="text-yellow-700">If you score <80% on assignments 2-3, PLEASE attend Friday office hours:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 text-yellow-700">
+                        <li><strong>Time:</strong> Friday 2-3pm (or email instructor)</li>
+                        <li><strong>Location:</strong> Virtual via Zoom link or in-person</li>
+                        <li><strong>Bring:</strong> Completed homework, list of unclear concepts, timeline scenarios you got wrong.</li>
+                    </ul>
+                    <h3 class="text-lg font-semibold text-yellow-800 mt-4 mb-2">Common Office Hours Questions:</h3>
+                    <ul class="list-disc list-inside ml-4 text-sm text-yellow-700">
+                        <li>"I keep miscalculating working days—can you show me the trick?"</li>
+                        <li>"I don't understand why investigator vs sponsor responsibilities differ"</li>
+                        <li>"Can you explain the difference between abbreviated IDE and exempt?"</li>
+                    </ul>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Tab Navigation ---
+            const tablist = document.querySelector('[role="tablist"]');
+            const tabs = tablist.querySelectorAll('[role="tab"]');
+            const panels = document.querySelectorAll('[role="tabpanel"]');
+
+            tablist.addEventListener('click', (e) => {
+                const clickedTab = e.target.closest('button[role="tab"]');
+                if (!clickedTab) return;
+
+                // Deactivate all tabs and hide all panels
+                tabs.forEach(tab => {
+                    tab.setAttribute('aria-selected', 'false');
+                    tab.classList.remove('text-indigo-600', 'font-semibold', 'border-indigo-600');
+                    tab.classList.add('text-gray-500');
+                });
+                panels.forEach(panel => {
+                    panel.setAttribute('hidden', true);
+                });
+
+                // Activate the clicked tab
+                clickedTab.setAttribute('aria-selected', 'true');
+                clickedTab.classList.add('text-indigo-600', 'font-semibold', 'border-indigo-600');
+                clickedTab.classList.remove('text-gray-500');
+
+
+                // Show the associated panel
+                const panelId = clickedTab.getAttribute('aria-controls');
+                const targetPanel = document.getElementById(panelId);
+                if (targetPanel) {
+                    targetPanel.removeAttribute('hidden');
+                }
+            });
+
+            // --- Assignment 2: Practice Question Scoring ---
+            const a2Button = document.getElementById('a2-score-button');
+            const a2Input = document.getElementById('a2-score-input');
+            const a2Result = document.getElementById('a2-score-result');
+
+            a2Button.addEventListener('click', () => {
+                const score = parseInt(a2Input.value);
+                if (isNaN(score) || score < 0 || score > 50) {
+                    a2Result.innerHTML = `<p class="text-red-600 font-semibold">Please enter a valid number between 0 and 50.</p>`;
+                    a2Result.style.display = 'block';
+                    return;
+                }
+
+                const percentage = (score / 50) * 100;
+                let feedback = '';
+                let colorClass = '';
+
+                if (percentage >= 80) {
+                    feedback = `<strong>${percentage.toFixed(0)}% (${score}/50):</strong> Full credit. Great job!`;
+                    colorClass = 'text-green-700';
+                } else if (percentage >= 70) {
+                    feedback = `<strong>${percentage.toFixed(0)}% (${score}/50):</strong> 80% credit. Please review your weak sections.`;
+                    colorClass = 'text-yellow-700';
+                } else {
+                    feedback = `<strong>${percentage.toFixed(0)}% (${score}/50):</strong> 50% credit. Mandatory office hours review is required.`;
+                    colorClass = 'text-red-700';
+                }
+
+                a2Result.innerHTML = `<p class="${colorClass} font-semibold">${feedback}</p>`;
+                a2Result.style.display = 'block';
+            });
+
+            // --- Assignment 3: Timeline Calculation Scoring ---
+            const a3Button = document.getElementById('a3-check-answers');
+            const a3Inputs = document.querySelectorAll('.a3-input');
+            const a3ScoreResult = document.getElementById('a3-score-result');
+
+            const a3Answers = {
+                'a3-s1': ['monday, april 1', 'april 1'],
+                'a3-s2': ['friday, may 9', 'may 9'],
+                'a3-s3': ['thursday, may 30', 'may 30'],
+                'a3-s4': ['wednesday, june 12', 'june 12'],
+                'a3-s5': ['wednesday, january 8', 'january 8', 'jan 8'],
+                'a3-s6': ['yes, monday, march 25', 'yes, march 25', 'yes. deadline was monday, march 25'],
+                'a3-s7': ['friday, march 22', 'march 22'],
+                'a3-s8': ['tuesday, april 9', 'april 9'],
+                'a3-s9': ['monday, september 15', 'september 15'],
+                'a3-s10': ['saturday, august 31', 'august 31', 'aug 31']
+            };
+
+            a3Button.addEventListener('click', () => {
+                let correctCount = 0;
+                
+                a3Inputs.forEach(input => {
+                    const id = input.id;
+                    const userAnswer = input.value.trim().toLowerCase().replace(/\./g, ''); // Clean user input
+                    const correctOptions = a3Answers[id];
+                    const feedbackEl = document.getElementById(`${id}-feedback`);
+                    
+                    // Reset styles
+                    input.classList.remove('answer-correct', 'answer-wrong');
+                    if (feedbackEl) feedbackEl.innerHTML = '';
+
+                    // Check if answer is in the list of correct options
+                    if (correctOptions.includes(userAnswer)) {
+                        correctCount++;
+                        input.classList.add('answer-correct');
+                    } else {
+                        // Special check for S6 to be more lenient
+                        if (id === 'a3-s6' && userAnswer.includes('yes') && (userAnswer.includes('march 25') || userAnswer.includes('mar 25'))) {
+                             correctCount++;
+                             input.classList.add('answer-correct');
+                        } else {
+                            input.classList.add('answer-wrong');
+                            if (feedbackEl) {
+                                feedbackEl.innerHTML = `<span class="correct-answer-display">Correct: ${a3Answers[id][0]}</span>`;
+                            }
+                        }
+                    }
+                });
+
+                a3ScoreResult.textContent = `Score: ${correctCount} / 10`;
+                if (correctCount < 8) {
+                    a3ScoreResult.classList.add('text-red-600');
+                    a3ScoreResult.classList.remove('text-green-600');
+                } else {
+                    a3ScoreResult.classList.add('text-green-600');
+                    a3ScoreResult.classList.remove('text-red-600');
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

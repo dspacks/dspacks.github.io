@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCRP Exam Flashcards</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the 3D flip effect */
+        .card-container {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-container.is-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+        }
+
+        .card-front {
+            background-color: white; /* bg-white */
+            border: 1px solid #e5e7eb; /* border border-gray-200 */
+        }
+
+        .card-back {
+            background-color: #f9fafb; /* bg-gray-50 */
+            border: 1px solid #e5e7eb; /* border border-gray-200 */
+            transform: rotateY(180deg);
+            /* Ensure text starts at the top for long answers */
+            align-items: flex-start; 
+        }
+
+        /* Style for the answer content on the back */
+        .card-back-content {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        /* Use Tailwind's 'prose' class for better answer formatting */
+        .prose ul {
+            list-style-type: disc;
+            margin-left: 1.5em;
+        }
+        .prose li {
+            margin-bottom: 0.25em;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl min-h-screen">
+        
+        <!-- Header -->
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold text-center text-blue-700">SOCRA CCRP Exam Prep</h1>
+            <p class="text-center text-gray-600">Interactive Flashcards (100 Cards)</p>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="app-container" class="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+
+            <!-- 1. Settings / Controls -->
+            <section id="settings-view" class="space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800 border-b pb-2">Start a New Study Session</h2>
+                
+                <!-- Deck Selector -->
+                <div>
+                    <label for="deck-selector" class="block text-sm font-medium text-gray-700 mb-1">1. Choose your deck:</label>
+                    <select id="deck-selector" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="all">All 100 Cards</option>
+                        <option value="priority">High-Priority Cards (41-85)</option>
+                        <option value="sec1">Section 1: IND Submission Components (1-20)</option>
+                        <option value="sec2">Section 2: IDE Submission Components (21-40)</option>
+                        <option value="sec3">Section 3: IND Safety Reporting Timelines (41-55)</option>
+                        <option value="sec4">Section 4: IDE Safety Reporting Timelines (56-70)</option>
+                        <option value="sec5">Section 5: Sponsor Responsibilities (71-85)</option>
+                        <option value="sec6">Section 6: Investigator Responsibilities (86-100)</option>
+                    </select>
+                </div>
+
+                <!-- Study Mode -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">2. Choose your study mode:</label>
+                    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
+                        <button id="start-review-all" class="flex-1 bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-200">
+                            Review All (Randomized)
+                        </button>
+                        <button id="start-focus-incorrect" class="flex-1 bg-yellow-500 text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-200" disabled>
+                            Focus on Incorrect (0)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Study Session View (Hidden by default) -->
+            <section id="study-view" class="hidden">
+                <!-- Header: Scoreboard & Exit -->
+                <div class="flex justify-between items-center mb-4 flex-wrap">
+                    <div class="flex space-x-4 text-sm sm:text-base">
+                        <span class="font-medium">Remaining: <span id="cards-remaining" class="text-blue-600">0</span></span>
+                        <span class="font-medium">Correct: <span id="score-correct" class="text-green-600">0</span></span>
+                        <span class="font-medium">Incorrect: <span id="score-incorrect" class="text-red-600">0</span></span>
+                        <span class="font-medium">Accuracy: <span id="score-accuracy" class="text-gray-700">--%</span></span>
+                    </div>
+                    <button id="exit-session" class="text-sm text-gray-500 hover:text-red-600">&times; End Session</button>
+                </div>
+
+                <!-- Flashcard -->
+                <div id="card-container" class="card-container h-80 sm:h-96 w-full cursor-pointer mb-4">
+                    <div id="card-inner" class="card-inner">
+                        <!-- Front of Card -->
+                        <div class="card-face card-front shadow-md">
+                            <p id="card-front-text" class="text-xl sm:text-2xl font-semibold text-center text-gray-800"></p>
+                        </div>
+                        <!-- Back of Card -->
+                        <div class="card-face card-back shadow-md">
+                            <div id="card-back-text" class="card-back-content prose prose-sm sm:prose-base max-w-none">
+                                <!-- Content will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-sm text-gray-500 mb-4">Click the card to flip it over.</p>
+
+                <!-- Answer Buttons (Hidden until card is flipped) -->
+                <div id="answer-buttons" class="hidden grid grid-cols-2 gap-4">
+                    <button id="answer-wrong" class="bg-red-500 text-white font-bold py-3 px-5 rounded-lg shadow-lg hover:bg-red-600 transition duration-200 text-lg">
+                        I got it wrong
+                    </button>
+                    <button id="answer-right" class="bg-green-500 text-white font-bold py-3 px-5 rounded-lg shadow-lg hover:bg-green-600 transition duration-200 text-lg">
+                        I got it right
+                    </button>
+                </div>
+            </section>
+            
+            <!-- 3. Session Summary (Hidden by default) -->
+            <section id="summary-view" class="hidden text-center p-6">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Session Complete!</h2>
+                <div class="text-lg space-y-2 mb-6">
+                    <p>Final Score: <span id="summary-correct" class="font-semibold text-green-600">0</span> Correct / <span id="summary-total" class="font-semibold">0</span> Total</p>
+                    <p>Accuracy: <span id="summary-accuracy" class="font-bold text-2xl">0%</span></p>
+                    <p>You had <span id="summary-incorrect" class="font-semibold text-red-600">0</span> incorrect answers.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="summary-review-incorrect" class="bg-yellow-500 text-white font-semibold py-3 px-6 rounded-lg shadow hover:bg-yellow-600 transition duration-200" disabled>
+                        Review Incorrect Pile
+                    </button>
+                    <button id="summary-return-home" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+                        Back to Main Menu
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        // This is all 100 cards, parsed from your text.
+        const allCards = [
+          { "id": 1, "section": 1, "priority": false, "front": "FDA Form 1571 - What is it?", "back": "The IND Application cover form submitted to FDA to request authorization to conduct clinical investigation of unapproved drug. Includes sponsor info, investigator info, drug name, indication, and routing designation." },
+          { "id": 2, "section": 1, "priority": false, "front": "How long is IND application valid after submission?", "back": "IND is deemed \"approved\" (active) if FDA does not place on clinical hold within 30 CALENDAR DAYS. After 30 days, Phase 1 may begin (unless clinical hold issued). IND remains active until terminated or marketed approval obtained." },
+          { "id": 3, "section": 1, "priority": false, "front": "Name the 12 required components of FDA 1571", "back": "<ul><li>Cover page/Table of contents</li><li>Introductory statement</li><li>Previous human experience</li><li>Chemistry, Manufacturing, Controls (CMC)</li><li>Pharmacology & toxicology</li><li>Protocol(s) & Investigator's Brochure</li><li>Case Report Forms</li><li>Safety reports & updates</li><li>Additional literature</li><li>Environmental assessment</li><li>Financial disclosure</li><li>Investigator qualifications (Form 1572)</li></ul>" },
+          { "id": 4, "section": 1, "priority": false, "front": "Clinical Hold - Definition", "back": "FDA directive prohibiting investigator enrollment of subjects in IND study. Study cannot proceed until clinical hold lifted. May be placed by FDA if IND deficient, safety risks unreasonable, investigator non-compliant, or monitoring inadequate." },
+          { "id": 5, "section": 1, "priority": false, "front": "IND Amendment - What triggers it?", "back": "Adding new study phase (Phase 2, 3), changing indication, changing formulation, changing manufacturer, or addressing CMC deficiencies." },
+          { "id": 6, "section": 1, "priority": false, "front": "Investigator's Brochure - What contains?", "back": "Comprehensive summary of all known info about drug: pharmacology, toxicology, prior human experience, known hazards, safety concerns, chemical properties, manufacturing info." },
+          { "id": 7, "section": 1, "priority": false, "front": "CMC deficiencies - Most common clinical hold reason?", "back": "Yes. Chemistry, Manufacturing, Controls deficiencies (inadequate stability data, manufacturing process not validated, analytical methods not validated) frequently trigger clinical hold. CMC must support safety/efficacy of drug." },
+          { "id": 8, "section": 1, "priority": false, "front": "30-Day Rule - Can clinical hold be issued after Day 30?", "back": "Yes. 30-day rule allows Phase 1 to begin if no clinical hold by Day 30. BUT FDA retains authority to place clinical hold at ANY TIME if new safety/scientific concerns arise." },
+          { "id": 9, "section": 1, "priority": false, "front": "Form 1572 - Required for whom?", "back": "EVERY proposed investigator. Each investigator must submit Form 1572 with IND application. IND cannot be approved if any investigator's 1572 missing." },
+          { "id": 10, "section": 1, "priority": false, "front": "Form 1572 mandatory certifications - Name 3", "back": "<ul><li>\"I will conduct per protocol\"</li><li>\"I will not deviate without IRB approval (except emergency)\"</li><li>\"I have qualifications to conduct\"</li><li>\"I will ensure informed consent\"</li><li>\"I will report adverse events per timeline\"</li><li>\"I will maintain accurate CRFs\"</li><li>\"I will comply with 21 CFR 312\"</li></ul>" },
+          { "id": 11, "section": 1, "priority": false, "front": "Record retention after marketing approval?", "back": "Minimum 2 YEARS post-approval. If no marketing approval, 1 year post-study termination. Records must be available for FDA inspection." },
+          { "id": 12, "section": 1, "priority": false, "front": "IND can be approved with incomplete investigator Form 1572?", "back": "NO. All investigators must have completed Form 1572 with FDA before IND approval. Missing 1572 = deficient IND = FDA may place clinical hold." },
+          { "id": 13, "section": 1, "priority": false, "front": "What does \"unapproved drug\" include?", "back": "Any drug not approved for marketed use, INCLUDING approved drugs studied for NEW indication, NEW route, NEW formulation, or NEW patient population." },
+          { "id": 14, "section": 1, "priority": false, "front": "Financial Disclosure Form - IND requirements", "back": "FDA 3454 or 3455 required from ALL investigators. Disclose compensation >$25K/year from sponsor, equity interest, royalty interest, consulting fees related to drug." },
+          { "id": 15, "section": 1, "priority": false, "front": "IND exempt from requirement - Give examples", "back": "Approved drug in FDA-approved indication/population; pharmacy compounding for individual patient; educational seminars; certain marketed biologics; emergency use (with FDA notice)." },
+          { "id": 16, "section": 1, "priority": false, "front": "Quality Overall Summary - Required in IND?", "back": "No. Quality Overall Summary is IDE requirement, not IND requirement. IND requires CMC (Chemistry, Manufacturing, Controls) section instead." },
+          { "id": 17, "section": 1, "priority": false, "front": "Pre-IND meeting - What is it?", "back": "Optional meeting with FDA BEFORE submitting IND. Sponsor requests; FDA responds within 21 days. Clarifies regulatory requirements and prevents submission deficiencies. (Different from formal IND meeting after submission.)" },
+          { "id": 18, "section": 1, "priority": false, "front": "Investigator's Brochure - When must it be updated?", "back": "Regularly (typically annually) or when new safety information emerges. Investigator must review current version. IND submission requires most current version." },
+          { "id": 19, "section": 1, "priority": false, "front": "FDA approval of IND vs. FDA approval of protocol", "back": "FDA approves IND (application for investigational authority). IRB approves protocol (study design). Both are necessary; FDA approval doesn't mean study is ethical (IRB decides that)." },
+          { "id": 20, "section": 1, "priority": false, "front": "Can sponsor submit single IND for multiple investigators at same institution?", "back": "Yes. Single IND covers all proposed investigators and sites. Each investigator submits individual Form 1572. IND serves as umbrella authorization for all investigators listed." },
+          { "id": 21, "section": 2, "priority": false, "front": "IDE - Definition", "back": "Investigational Device Exemption: Authorization to conduct clinical investigation of unapproved/uncleared device. Exempts device from full premarket approval requirements DURING investigation." },
+          { "id": 22, "section": 2, "priority": false, "front": "IDE application components - Name 8", "back": "<ul><li>Cover page</li><li>Study protocol</li><li>Investigator qualifications & CV</li><li>IRB approval documentation</li><li>Device description & specifications</li><li>Clinical background & rationale</li><li>Quality Overall Summary</li><li>Case Report Forms</li></ul>" },
+          { "id": 23, "section": 2, "priority": false, "front": "Pre-IDE meeting timeline", "back": "Sponsor requests meeting → FDA responds within 21 days → Meeting held within 75 days. Purpose: clarify IDE requirements, identify regulatory pathway, discuss statistics/safety monitoring." },
+          { "id": 24, "section": 2, "priority": false, "front": "IDE Review Committee - What reviews?", "back": "Device design specifications, manufacturing quality controls, device performance monitoring procedures, device tracking procedures, device safety assessment. (Different from IRB which reviews human subject protection.)" },
+          { "id": 25, "section": 2, "priority": false, "front": "IDE 30-day approval vs. IND 30-day rule - Difference?", "back": "Both 30 calendar days BUT different mechanisms. IND = \"deemed approved\" if no clinical hold by Day 30. IDE = FDA issues Acknowledgment Letter within 30 days; letter serves as approval." },
+          { "id": 26, "section": 2, "priority": false, "front": "Device classification impact on IDE", "back": "Class I (low risk) = fewer requirements; Class II (moderate risk) = standard IDE submission; Class III (high risk) = extensive IDE requirements. Classification determines IDE complexity." },
+          { "id": 27, "section": 2, "priority": false, "front": "IDE pathways - Name 3", "back": "<ul><li>PMA Track (Class III devices; eventual Premarket Approval)</li><li>510(k) Track (Class II devices; eventual 510(k) submission)</li><li>HDE Track (Humanitarian Device Exemption; rare disease)</li></ul>" },
+          { "id": 28, "section": 2, "priority": false, "front": "Predicate device - Why required in IDE 510(k) track?", "back": "Sponsor must identify FDA-approved/cleared device with similar intended use. IDE data will compare new device to predicate to support eventual 510(k) submission." },
+          { "id": 29, "section": 2, "priority": false, "front": "Device tracking - Required for which devices?", "back": "Required for devices with potential risk of serious harm if malfunctioning. Most Class II and III devices; some Class I exempt. Identification method: unique serial number per device." },
+          { "id": 30, "section": 2, "priority": false, "front": "Device tracking contents", "back": "Record of each device from manufacture through:<ul><li>Investigator receipt (date, serial #)</li><li>Subject implantation/use (subject ID, date)</li><li>Subject follow-up (dates, observations)</li><li>Device removal (if applicable)</li><li>Device return to sponsor</li></ul>" },
+          { "id": 31, "section": 2, "priority": false, "front": "IDE Review Committee vs. IRB - Comparison table", "back": "<b>IDE Rev. Committee vs. IRB</b><br><b>Reviews:</b> Device design/quality (IDE) vs. Subject protection (IRB)<br><b>Members:</b> Engineers/device experts (IDE) vs. Clinicians/non-scientists (IRB)<br><b>Authority:</b> Approves device (IDE) vs. Approves protocol (IRB)<br><b>Function:</b> Technical assessment (IDE) vs. Ethical oversight (IRB)" },
+          { "id": 32, "section": 2, "priority": false, "front": "IDE investigation can proceed with IRB approval only (no IDE Review Committee)?", "back": "NO. For most IDEs, BOTH IDE Review Committee AND IRB must approve. Rare exceptions if device very low risk. General rule: both committees required." },
+          { "id": 33, "section": 2, "priority": false, "front": "Manufacturing changes in IDE - Require FDA approval?", "back": "YES. IDE sponsor cannot change manufacturing process without IDE amendment + FDA approval. Manufacturing changes affect device quality/safety." },
+          { "id": 34, "section": 2, "priority": false, "front": "Quality Overall Summary - IDE requirement?", "back": "YES. IDE requires comprehensive Quality Overall Summary describing device specifications, manufacturing process, quality controls, process validation, performance standards." },
+          { "id": 35, "section": 2, "priority": false, "front": "Environmental assessment - Required in IDE?", "back": "Typically no (unless device presents environmental hazard). Most devices are categorically excluded. Similar to IND requirements." },
+          { "id": 36, "section": 2, "priority": false, "front": "Device description in IDE - What includes?", "back": "Technical specifications, device drawings/diagrams, materials/components, manufacturing process, quality control procedures, sterility assurance (if applicable), biocompatibility data." },
+          { "id": 37, "section": 2, "priority": false, "front": "IDE Review Committee approval - Does it allow human testing?", "back": "NO. IDE Review Committee approval is necessary BUT not sufficient. IRB approval also required (per 21 CFR 56). Both committees must approve before enrollment." },
+          { "id": 38, "section": 2, "priority": false, "front": "IDE approval letter vs. disapproval - Difference", "back": "Approval = FDA issues Acknowledgment Letter; investigation may proceed. Disapproval = FDA identifies major deficiencies; sponsor must revise IDE and resubmit." },
+          { "id": 39, "section": 2, "priority": false, "front": "Can IDE sponsor change device without approval?", "back": "NO. Device design/specifications changes require IDE amendment + FDA approval. Sponsor cannot unilaterally modify device during investigation." },
+          { "id": 40, "section": 2, "priority": false, "front": "Financial disclosure in IDE", "back": "IDE investigator must submit FDA 3454/3455 (same as IND). Disclose significant financial interests in IDE sponsor or device manufacturer." },
+          { "id": 41, "section": 3, "priority": true, "front": "IND 7-Day Report Trigger - All 3 criteria", "back": "<ul><li>SERIOUS (death, life-threatening, hospitalization, disability, birth defect)</li><li>UNEXPECTED (not in Investigator's Brochure)</li><li>POSSIBLY RELATED to drug</li></ul>" },
+          { "id": 42, "section": 3, "priority": true, "front": "IND 7-Day Report - Timeline", "back": "Within 7 CALENDAR DAYS of sponsor becoming aware. Includes telephone notification to FDA (within 24 hours preferred) + written follow-up within 7 days." },
+          { "id": 43, "section": 3, "priority": true, "front": "7-day report calculation - Event reported Monday, deadline?", "back": "Monday + 7 calendar days = following Monday. Count: Tue(1), Wed(2), Thu(3), Fri(4), Sat(5), Sun(6), Mon(7). CALENDAR DAYS, NOT BUSINESS DAYS." },
+          { "id": 44, "section": 3, "priority": true, "front": "IND 15-Day Report - When triggered?", "back": "<ul><li>Unexpected adverse events (serious or non-serious)</li><li>Expected serious adverse events</li><li>Pattern of adverse events suggesting new risk</li><li>Any adverse event not meeting 7-day criteria but still reportable</li></ul>" },
+          { "id": 45, "section": 3, "priority": true, "front": "IND 15-Day Report - Content", "back": "List of events, event descriptions, subject info, safety assessment, recommendation for study continuation/modification. Can be cumulative (multiple events in one report)." },
+          { "id": 46, "section": 3, "priority": true, "front": "IND annual report - Due when?", "back": "Within 60 CALENDAR DAYS of IND anniversary date. Content: comprehensive adverse event summary, new animal/lab data, CMC updates, literature review, regulatory actions, risk/benefit assessment." },
+          { "id": 47, "section": 3, "priority": true, "front": "Can sponsor consolidate 7-day reports into monthly reports?", "back": "NO. 7-day reporting timelines are MANDATORY. Cannot delay 7-day urgent events to monthly consolidation. Each serious, unexpected event requires separate 7-day report (or can be combined with other urgent events)." },
+          { "id": 48, "section": 3, "priority": true, "front": "Updated safety information (new animal data) - Timeline?", "back": "Typically 15-day report. If indicates serious new risk, may require immediate FDA notification (within 7 days). Must be included in annual IND report." },
+          { "id": 49, "section": 3, "priority": true, "front": "FDA 7-day serious, unexpected AE report deadline - Received or Sent?", "back": "RECEIVED by FDA. Sponsor must ensure FDA receives report within 7 calendar days. Use expedited mail/electronic submission to guarantee on-time receipt." },
+          { "id": 50, "section": 3, "priority": true, "front": "Serious adverse event reported Friday - Deadline?", "back": "Friday + 7 calendar days = following Friday. Count: Sat(1), Sun(2), Mon(3), Tue(4), Wed(5), Thu(6), Fri(7)." },
+          { "id": 51, "section": 3, "priority": true, "front": "Expected serious adverse event (consistent with IB) - Timeline?", "back": "15 CALENDAR DAYS (not 7-day), because \"expected\" removes urgency. Still must report but on slower timeline." },
+          { "id": 52, "section": 3, "priority": true, "front": "Non-serious unexpected adverse event (e.g., rash) - Timeline?", "back": "15 CALENDAR DAYS. Meets \"unexpected\" criterion but not \"serious\" criterion, so 15-day category applies." },
+          { "id": 53, "section": 3, "priority": true, "front": "Pattern of adverse events (e.g., fever in 4 subjects) - Timeline?", "back": "May trigger urgent 7-day or 15-day depending on whether pattern indicates serious unexpected risk. Pattern recognition signals emerging safety issue requiring FDA awareness." },
+          { "id": 54, "section": 3, "priority": true, "front": "Adverse event occurring in IND investigator; investigator reports to sponsor - Timeline sponsor-to-FDA?", "back": "DEPENDS on event classification. 7-day for serious, unexpected. 15-day for other reportable events. Investigator reports to sponsor; sponsor then reports to FDA." },
+          { "id": 55, "section": 3, "priority": true, "front": "Serious expected adverse event (in IB) occurring in IND subject - 7-day or 15-day?", "back": "15-day. Even though serious, it's EXPECTED (described in IB), so 7-day urgency not triggered. Still reported but on 15-day timeline." },
+          { "id": 56, "section": 4, "priority": true, "front": "IDE serious, unexpected AE - Reporting timeline", "back": "3 BUSINESS DAYS (NOT calendar days). This is the #1 TRICK QUESTION on CCRP exam. IDE = business days; IND = calendar days." },
+          { "id": 57, "section": 4, "priority": true, "front": "IDE 3-business-day timeline calculation - Thursday event, deadline?", "back": "Thursday (Day 1 business day) → Friday (Day 2) → Skip Sat/Sun (weekend) → Monday (Day 3). DEADLINE = MONDAY. Do NOT count weekend." },
+          { "id": 58, "section": 4, "priority": true, "front": "IDE serious, unexpected AE Friday - Deadline?", "back": "Friday (Day 1) → Monday (Day 2, skip Sat/Sun) → Tuesday (Day 3). DEADLINE = TUESDAY. Count ONLY weekdays (Mon-Fri)." },
+          { "id": 59, "section": 4, "priority": true, "front": "IDE device malfunction (could cause serious harm) - Timeline", "back": "5 CALENDAR DAYS. More urgent than 15-day but less urgent than 3-day (which is for actual serious adverse events). Counts every day including weekends." },
+          { "id": 60, "section": 4, "priority": true, "front": "IDE device malfunction (routine, low consequence) - Timeline", "back": "15 CALENDAR DAYS. Includes expected malfunctions, minor issues, or problems without serious injury potential." },
+          { "id": 61, "section": 4, "priority": true, "front": "IDE expected serious AE (consistent with known risks) - Timeline", "back": "15 CALENDAR DAYS (not 3-day). 3-day urgency only for UNEXPECTED serious events." },
+          { "id": 62, "section": 4, "priority": true, "front": "IDE annual report - Due when?", "back": "Within 60 CALENDAR DAYS of IDE anniversary date. Content: comprehensive list of adverse events/malfunctions, device performance analysis, manufacturing quality issues, regulatory actions, study completion status." },
+          { "id": 63, "section": 4, "priority": true, "front": "Difference between IND 7-day and IDE 3-day", "back": "IND = 7 CALENDAR DAYS (includes weekends). IDE = 3 BUSINESS DAYS (only Mon-Fri, excludes federal holidays). This distinction is HEAVILY tested." },
+          { "id": 64, "section": 4, "priority": true, "front": "Device malfunction (no adverse event but potential for serious harm) - Reportable?", "back": "YES. IDE requires reporting device malfunctions even if NO harm occurred, because malfunction indicates design/manufacturing problem potentially affecting other devices." },
+          { "id": 65, "section": 4, "priority": true, "front": "IDE serious AE occurred, but already reported as 7-day in prior IND-pathway study - Need to report in IDE?", "back": "YES. IDE has separate reporting requirements. Even if event was reported in prior IND study, IDE sponsor must report per 812.46 timelines (3-day or 15-day)." },
+          { "id": 66, "section": 4, "priority": true, "front": "IDE Review Committee and sponsor disagree on whether malfunction warrants recall - Who decides?", "back": "Ultimately SPONSOR decides (with FDA guidance). IDE Review Committee makes recommendation; sponsor can accept or defer to IDE Review Committee expertise. FDA may intervene if safety issue serious." },
+          { "id": 67, "section": 4, "priority": true, "front": "IDE sponsor telephone notification to FDA - Do written reports still required?", "back": "YES. Telephone (within 24 hours) is pre-notification; written report within specified timeline (3-day, 5-day, or 15-day depending on category) is required." },
+          { "id": 68, "section": 4, "priority": true, "front": "IDE safety report deadline - Received or Sent?", "back": "RECEIVED by FDA. Must ensure FDA receives within deadline. Use expedited submission (electronic preferred)." },
+          { "id": 69, "section": 4, "priority": true, "front": "IDE malfunction report timeline 5-day vs. 15-day - How to distinguish?", "back": "5-day = malfunction COULD cause serious harm IF it occurred in different manner or was undetected. 15-day = malfunction with no serious injury potential or routine/expected malfunction." },
+          { "id": 70, "section": 4, "priority": true, "front": "IDE device malfunction on Wednesday - 5-day deadline?", "back": "Wednesday + 5 calendar days = Monday of following week. Count: Thu(1), Fri(2), Sat(3), Sun(4), Mon(5)." },
+          { "id": 71, "section": 5, "priority": true, "front": "Sponsor CRO delegation - Sponsor still responsible?", "back": "YES. Even if CRO conducts monitoring/data management, sponsor retains ultimate responsibility. CRO is agent of sponsor. Sponsor must audit CRO regularly." },
+          { "id": 72, "section": 5, "priority": true, "front": "Sponsor IND safety monitoring - Responsibilities", "back": "<ul><li>Establish adverse event monitoring system</li><li>Implement safety tracking</li><li>Report events per 7/15/annual timelines</li><li>Assess whether clinical hold warranted</li><li>Maintain safety database</li></ul>" },
+          { "id": 73, "section": 5, "priority": true, "front": "Sponsor quality assurance (ICH E6(R3)) - Enhanced requirements", "back": "Enhanced QA/QC oversight, risk-based monitoring, increased investigator training documentation, data integrity/cybersecurity requirements, quarterly safety reviews for high-risk drugs." },
+          { "id": 74, "section": 5, "priority": true, "front": "IND sponsor drug accountability - What track?", "back": "Inventory control: received vs. dispensed. Secure storage. Return of unused drug. Prevent unauthorized access. Temperature monitoring. Expiration date management." },
+          { "id": 75, "section": 5, "priority": true, "front": "IDE sponsor device manufacturing quality - Responsibility?", "back": "YES. Must ensure manufacturing meets Quality System (QS) standards. Control manufacturing changes. Validate processes. Monitor supplier quality. Implement corrective actions if deficiencies." },
+          { "id": 76, "section": 5, "priority": true, "front": "IDE sponsor device tracking - Sponsor role?", "back": "Maintain master tracking log. Ensure investigator tracking compliance. Track each device by serial number. Ensure device retrieval at study end. Provide device location info for FDA/IDE Review Committee." },
+          { "id": 77, "section": 5, "priority": true, "front": "Sponsor IND investigator termination - When appropriate?", "back": "If investigator non-compliant with protocol/regulations, enrollment violations, adverse event reporting failures, drug accountability issues, financial disclosure violations. Sponsor must first attempt corrective action unless violation severe." },
+          { "id": 78, "section": 5, "priority": true, "front": "Sponsor CRO delegation - Written agreement required?", "back": "YES. Specify which functions delegated, CRO responsibilities, record retention location, audit procedures. Sponsor remains liable for CRO performance." },
+          { "id": 79, "section": 5, "priority": true, "front": "Sponsor research site QA - Sponsor responsibility if site has no QA program?", "back": "YES. Sponsor must provide training, establish QA procedures, monitor site compliance. Cannot assume site has adequate infrastructure." },
+          { "id": 80, "section": 5, "priority": true, "front": "Sponsor manufacturing change notification - Timeline?", "back": "Must be submitted IMMEDIATELY as IND or IDE amendment. Cannot continue use of modified drug/device without FDA approval." },
+          { "id": 81, "section": 5, "priority": true, "front": "Sponsor IND termination - Notification required?", "back": "YES. If terminates study (any reason), must notify FDA. Study termination for financial reasons requires explanation. Sponsor must ensure orderly study conclusion." },
+          { "id": 82, "section": 5, "priority": true, "front": "IDE sponsor device malfunction discovered - Action?", "back": "<ul><li>Identify all affected devices (device tracking)</li><li>Notify FDA and investigators</li><li>Submit IDE amendment</li><li>Implement corrective action</li><li>Determine if recall/device retrieval needed</li></ul>" },
+          { "id": 83, "section": 5, "priority": true, "front": "Sponsor Financial Disclosure (Form 3454/3455) - Who completes?", "back": "INVESTIGATOR completes and submits with IND/IDE application. Sponsor collects from investigators. Must be current at study initiation." },
+          { "id": 84, "section": 5, "priority": true, "front": "Sponsor adverse event pattern recognition - Obligation?", "back": "YES. Must proactively analyze adverse events for emerging patterns (cluster of similar events). Pattern may trigger urgent FDA notification even if individual events mild." },
+          { "id": 85, "section": 5, "priority": true, "front": "Sponsor Study Termination - Can continue without FDA notification?", "back": "NO. All study terminations must be reported to FDA via correspondence/amendment. FDA may request explanation if termination premature or lacks scientific justification." },
+          { "id": 86, "section": 6, "priority": false, "front": "Form 1572 - Investigator commitment (signing creates what)?", "back": "Legal commitment to comply with IND regulations, protocol, ICH E6(R3), informed consent procedures, adverse event reporting timelines, drug accountability, record maintenance. Violation can result in FDA debarment." },
+          { "id": 87, "section": 6, "priority": false, "front": "Investigator protocol deviation - When allowed without IRB approval?", "back": "ONLY in emergency (to protect subject health/safety). Non-emergency deviations require IRB approval FIRST. Emergency deviation must be reported to IRB/sponsor promptly after implementation." },
+          { "id": 88, "section": 6, "priority": false, "front": "Investigator informed consent - Must be obtained when?", "back": "BEFORE subject participates in ANY study procedure. Using IRB-approved consent form. Must be voluntary and documented (signed form)." },
+          { "id": 89, "section": 6, "priority": false, "front": "Investigator adverse event reporting to sponsor - Timeline", "back": "Serious AE: immediately or within 24 hours. Other reportable AE: per protocol timeline (typically 5-7 days). Investigator reports to sponsor; sponsor then reports to FDA." },
+          { "id": 90, "section": 6, "priority": false, "front": "Investigator CRF accuracy - Standards", "back": "Complete all fields, legible, accurate entries, use specified units/terminology, contemporaneous documentation, sign/date each page, proper correction procedures (single line-through with initials/date)." },
+          { "id": 91, "section": 6, "priority": false, "front": "Investigator drug accountability - Drug use tracking", "back": "Receive only from sponsor. Dispense only to enrolled subjects. Maintain dispensing log (amount, date, subject). Account for all drug (used + returned + waste). Return unused drug at study end." },
+          { "id": 92, "section": 6, "priority": false, "front": "Investigator re-consent obligation - When required?", "back": "If new safety information emerges materially affecting risk/benefit assessment. Must provide updated informed consent addressing new risk; obtain subject signature." },
+          { "id": 93, "section": 6, "priority": false, "front": "Investigator subject safety monitoring - Obligation", "back": "Monitor subject during investigation. Assess adverse events. Implement stopping rules. Withdraw subjects if safety concerns. Maintain subject safety throughout and after study." },
+          { "id": 94, "section": 6, "priority": false, "front": "IDE investigator device accountability - Tracking requirement", "back": "Track each device by SERIAL NUMBER. Record receipt, implantation/use (with subject ID), follow-up observations, device removal (if applicable). Maintain tracking log for FDA/sponsor." },
+          { "id": 95, "section": 6, "priority": false, "front": "IDE investigator device malfunction reporting - When?", "back": "IMMEDIATELY if device fails/malfunction observed. Provide description, dates, potential consequences, subject outcome. Investigator does NOT report directly to FDA; reports to IDE sponsor, who reports to FDA." },
+          { "id": 96, "section": 6, "priority": false, "front": "Investigator storage of investigational drug - Requirements", "back": "Secure storage (locked cabinet). Temperature monitoring/recording. Expiration date management. Security procedures preventing unauthorized access. Documentation of storage conditions." },
+          { "id": 97, "section": 6, "priority": false, "front": "Investigator financial disclosure - Update required when?", "back": "If financial status changes during study (new financial interest in sponsor, compensation, equity interest). Updated disclosure must be submitted promptly." },
+          { "id": 98, "section": 6, "priority": false, "front": "Investigator adverse event pattern - Obligation?", "back": "Monitor for potential adverse event patterns (multiple subjects with similar events). Report patterns to sponsor immediately. Pattern may indicate emerging safety signal requiring urgent FDA notification." },
+          { "id": 99, "section": 6, "priority": false, "front": "Investigator record retention - Duration?", "back": "Minimum 2 years after study completion (IND) or as per sponsor requirements (typically 2 years post-study termination for IDE). Records must be available for FDA inspection." },
+          { "id": 100, "section": 6, "priority": false, "front": "Investigator weekend/after-hours adverse event - Report when?", "back": "IMMEDIATELY (within 24 hours) for serious AE, regardless of day/time. Investigator must have 24/7 contact procedure. Cannot wait until business hours for serious events." }
+        ];
+
+        // --- APP STATE ---
+        let state = {
+            currentDeck: [],
+            incorrectPile: [],
+            currentIndex: 0,
+            score: { correct: 0, incorrect: 0 },
+            isFlipped: false
+        };
+
+        // --- DOM Elements ---
+        const settingsView = document.getElementById('settings-view');
+        const studyView = document.getElementById('study-view');
+        const summaryView = document.getElementById('summary-view');
+
+        const deckSelector = document.getElementById('deck-selector');
+        const startReviewAllBtn = document.getElementById('start-review-all');
+        const startFocusIncorrectBtn = document.getElementById('start-focus-incorrect');
+        
+        const cardsRemainingEl = document.getElementById('cards-remaining');
+        const scoreCorrectEl = document.getElementById('score-correct');
+        const scoreIncorrectEl = document.getElementById('score-incorrect');
+        const scoreAccuracyEl = document.getElementById('score-accuracy');
+        const exitSessionBtn = document.getElementById('exit-session');
+
+        const cardContainer = document.getElementById('card-container');
+        const cardInner = document.getElementById('card-inner');
+        const cardFrontText = document.getElementById('card-front-text');
+        const cardBackText = document.getElementById('card-back-text');
+        const answerButtons = document.getElementById('answer-buttons');
+        const answerWrongBtn = document.getElementById('answer-wrong');
+        const answerRightBtn = document.getElementById('answer-right');
+
+        const summaryCorrectEl = document.getElementById('summary-correct');
+        const summaryTotalEl = document.getElementById('summary-total');
+        const summaryAccuracyEl = document.getElementById('summary-accuracy');
+        const summaryIncorrectEl = document.getElementById('summary-incorrect');
+        const summaryReviewIncorrectBtn = document.getElementById('summary-review-incorrect');
+        const summaryReturnHomeBtn = document.getElementById('summary-return-home');
+
+
+        // --- FUNCTIONS ---
+
+        /**
+         * Fisher-Yates shuffle algorithm
+         */
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        /**
+         * Get the deck of cards based on the user's selection
+         */
+        function getDeck(selection) {
+            switch (selection) {
+                case 'all':
+                    return [...allCards];
+                case 'priority':
+                    return allCards.filter(card => card.priority);
+                case 'sec1':
+                    return allCards.filter(card => card.section === 1);
+                case 'sec2':
+                    return allCards.filter(card => card.section === 2);
+                case 'sec3':
+                    return allCards.filter(card => card.section === 3);
+                case 'sec4':
+                    return allCards.filter(card => card.section === 4);
+                case 'sec5':
+                    return allCards.filter(card => card.section === 5);
+                case 'sec6':
+                    return allCards.filter(card => card.section === 6);
+                default:
+                    return [...allCards];
+            }
+        }
+
+        /**
+         * Start a new study session
+         */
+        function startSession(mode) {
+            if (mode === 'review-all') {
+                const selection = deckSelector.value;
+                state.currentDeck = shuffle(getDeck(selection));
+                // Clear the incorrect pile for a new "Review All" session
+                state.incorrectPile = [];
+            } else if (mode === 'focus-incorrect') {
+                if (state.incorrectPile.length === 0) return; // Don't start if pile is empty
+                state.currentDeck = shuffle([...state.incorrectPile]);
+                // Clear the pile *after* copying it, so it can be repopulated
+                state.incorrectPile = [];
+            }
+
+            if (state.currentDeck.length === 0) {
+                alert("No cards in this deck to study!");
+                return;
+            }
+
+            // Reset state
+            state.currentIndex = 0;
+            state.score = { correct: 0, incorrect: 0 };
+            state.isFlipped = false;
+
+            // Show study view
+            settingsView.classList.add('hidden');
+            summaryView.classList.add('hidden');
+            studyView.classList.remove('hidden');
+
+            displayCurrentCard();
+            updateScoreboard();
+        }
+
+        /**
+         * Display the current card
+         */
+        function displayCurrentCard() {
+            if (state.currentIndex >= state.currentDeck.length) {
+                showSummary();
+                return;
+            }
+
+            const card = state.currentDeck[state.currentIndex];
+            cardFrontText.textContent = `Card ${card.id}: ${card.front}`;
+            cardBackText.innerHTML = card.back;
+
+            // Reset card flip state
+            state.isFlipped = false;
+            cardContainer.classList.remove('is-flipped');
+            answerButtons.classList.add('hidden');
+        }
+
+        /**
+         * Flip the card over
+         */
+        function flipCard() {
+            state.isFlipped = !state.isFlipped;
+            cardContainer.classList.toggle('is-flipped');
+            if (state.isFlipped) {
+                answerButtons.classList.remove('hidden');
+            } else {
+                answerButtons.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Handle the user's answer (right or wrong)
+         */
+        function handleAnswer(isCorrect) {
+            const currentCard = state.currentDeck[state.currentIndex];
+
+            if (isCorrect) {
+                state.score.correct++;
+            } else {
+                state.score.incorrect++;
+                // Add to incorrect pile if it's not already there from this session
+                if (!state.incorrectPile.find(card => card.id === currentCard.id)) {
+                    state.incorrectPile.push(currentCard);
+                }
+            }
+
+            updateScoreboard();
+
+            // Move to the next card
+            state.currentIndex++;
+            displayCurrentCard();
+        }
+
+        /**
+         * Update the scoreboard display
+         */
+        function updateScoreboard() {
+            const totalAnswered = state.score.correct + state.score.incorrect;
+            const totalInDeck = state.currentDeck.length;
+            const accuracy = totalAnswered > 0 ? Math.round((state.score.correct / totalAnswered) * 100) : 0;
+
+            cardsRemainingEl.textContent = totalInDeck - state.currentIndex;
+            scoreCorrectEl.textContent = state.score.correct;
+            scoreIncorrectEl.textContent = state.score.incorrect;
+            scoreAccuracyEl.textContent = `${accuracy}%`;
+        }
+
+        /**
+         * Show the session summary view
+         */
+        function showSummary() {
+            const total = state.currentDeck.length;
+            const accuracy = total > 0 ? Math.round((state.score.correct / total) * 100) : 0;
+
+            summaryCorrectEl.textContent = state.score.correct;
+            summaryTotalEl.textContent = total;
+            summaryAccuracyEl.textContent = `${accuracy}%`;
+            summaryIncorrectEl.textContent = state.score.incorrect;
+
+            // Enable or disable the "Review Incorrect" button
+            if (state.incorrectPile.length > 0) {
+                summaryReviewIncorrectBtn.disabled = false;
+                summaryReviewIncorrectBtn.textContent = `Review ${state.incorrectPile.length} Incorrect Cards`;
+                summaryReviewIncorrectBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                summaryReviewIncorrectBtn.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+            } else {
+                summaryReviewIncorrectBtn.disabled = true;
+                summaryReviewIncorrectBtn.textContent = 'No Incorrect Cards!';
+                summaryReviewIncorrectBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                summaryReviewIncorrectBtn.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+            }
+
+            // Update the main menu button as well
+            updateIncorrectPileButton();
+
+            // Show summary view
+            studyView.classList.add('hidden');
+            summaryView.classList.remove('hidden');
+        }
+
+        /**
+         * Return to the main settings view
+         */
+        function returnToHome() {
+            summaryView.classList.add('hidden');
+            studyView.classList.add('hidden');
+            settingsView.classList.remove('hidden');
+        }
+
+        /**
+         * Update the "Focus on Incorrect" button on the main menu
+         */
+        function updateIncorrectPileButton() {
+            const count = state.incorrectPile.length;
+            if (count > 0) {
+                startFocusIncorrectBtn.disabled = false;
+                startFocusIncorrectBtn.textContent = `Focus on Incorrect (${count})`;
+                startFocusIncorrectBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                startFocusIncorrectBtn.disabled = true;
+                startFocusIncorrectBtn.textContent = `Focus on Incorrect (0)`;
+                startFocusIncorrectBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+
+        // --- EVENT LISTENERS ---
+        
+        // Settings View
+        startReviewAllBtn.addEventListener('click', () => startSession('review-all'));
+        startFocusIncorrectBtn.addEventListener('click', () => startSession('focus-incorrect'));
+
+        // Study View
+        cardContainer.addEventListener('click', flipCard);
+        answerWrongBtn.addEventListener('click', () => handleAnswer(false));
+        answerRightBtn.addEventListener('click', () => handleAnswer(true));
+        exitSessionBtn.addEventListener('click', returnToHome);
+
+        // Summary View
+        summaryReviewIncorrectBtn.addEventListener('click', () => startSession('focus-incorrect'));
+        summaryReturnHomeBtn.addEventListener('click', returnToHome);
+        
+        // Initial setup
+        updateIncorrectPileButton();
+
+    </script>
+</body>
+
+</html>
