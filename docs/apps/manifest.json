@@ -1,5 +1,5 @@
 [
-  {"slug":"sectograph","name":"Sectograph Watch Face","description":"A 24-hour circular calendar watchface for Pebble/Rebble watches — designed to turn your day into a glanceable visual schedule.","tags":"watchface,pebble,rebble,calendar,productivity,health-tech","date":"2026-06-23"}
+  {"slug":"sectograph","name":"Sector Graph Watch Face","description":"Sector Graph is a 24-hour circular calendar watchface for Pebble/Rebble watches — designed to turn your day into a glanceable visual schedule.","tags":"watchface,pebble,rebble,calendar,productivity,health-tech","date":"2026-06-23"}
 ,
   {"slug":"time-since","name":"Time Since Calculator","description":"A simple tool that calculates how long ago a given date was — in years, months, days, hours, and minutes.","tags":"tool,utility,gemini","date":"2026-06-18"}
 ]
